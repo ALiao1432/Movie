@@ -1,48 +1,78 @@
 package study.ian.movie;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.TextView;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import study.ian.movie.fragment.FragmentDiscover;
+import study.ian.movie.fragment.FragmentMovies;
+import study.ian.movie.fragment.FragmentPeople;
+import study.ian.movie.fragment.FragmentTvShows;
+import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TestService;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
 
+    private FragmentDiscover fragmentDiscover = new FragmentDiscover();
+    private FragmentMovies fragmentMovies = new FragmentMovies();
+    private FragmentTvShows fragmentTvShows = new FragmentTvShows();
+    private FragmentPeople fragmentPeople = new FragmentPeople();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+
+    private BottomNavigationView bottomNavView;
+    private Fragment activeFragment;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.item_discover:
+                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentDiscover).commit();
+                        activeFragment = fragmentDiscover;
+                        return true;
+                    case R.id.item_movies:
+                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentMovies).commit();
+                        activeFragment = fragmentMovies;
+                        return true;
+                    case R.id.item_tv_shows:
+                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentTvShows).commit();
+                        activeFragment = fragmentTvShows;
+                        return true;
+                    case R.id.item_people:
+                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentPeople).commit();
+                        activeFragment = fragmentPeople;
+                        return true;
+                    default:
+                        break;
+                }
+                return false;
+            };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView text = findViewById(R.id.text);
+        findViews();
+        setFragmentManager();
+        setBottomNavView();
+    }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TestService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+    private void findViews() {
+        bottomNavView = findViewById(R.id.bottomNavigation);
+    }
 
-        retrofit.create(TestService.class).getTodoList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        responses -> {
-                            StringBuilder sb = new StringBuilder();
-                            responses.forEach(todo -> sb.append(todo.getTitle() + "\n"));
-                            text.setText(sb.toString());
-                        },
-                        throwable -> {
-                            text.setText("something is error : " + throwable);
-                            Log.d(TAG, "onCreate : " + throwable);
-                        }
-                );
+    private void setFragmentManager() {
+        fragmentManager.beginTransaction().add(R.id.frameLayout, fragmentPeople).hide(fragmentPeople).commit();
+        fragmentManager.beginTransaction().add(R.id.frameLayout, fragmentTvShows).hide(fragmentTvShows).commit();
+        fragmentManager.beginTransaction().add(R.id.frameLayout, fragmentMovies).hide(fragmentMovies).commit();
+        fragmentManager.beginTransaction().add(R.id.frameLayout, fragmentDiscover).commit();
+        activeFragment = fragmentDiscover;
+    }
+
+    private void setBottomNavView() {
+        bottomNavView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
 }
