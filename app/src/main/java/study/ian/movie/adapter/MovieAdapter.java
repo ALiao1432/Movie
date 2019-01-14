@@ -16,30 +16,36 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import study.ian.movie.R;
-import study.ian.movie.model.movie.Movie;
 import study.ian.movie.model.movie.Result;
 import study.ian.movie.service.ServiceBuilder;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
     private final String TAG = "MovieAdapter";
-    private final int COLOR_INDEX = 1;
 
     private Context context;
-    private Movie movie;
+    private List<Result> resultList = new ArrayList<>();
     private Palette palette;
 
-    public MovieAdapter(Context context, Movie movie) {
+    public MovieAdapter(Context context) {
         this.context = context;
-        this.movie = movie;
+    }
+
+    public void addResults(List<Result> rList) {
+        resultList.addAll(rList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,12 +57,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     @Override
     public void onBindViewHolder(@NonNull MovieHolder movieHolder, int i) {
-        Result movieResult = movie.getResults().get(i);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
 
         Glide.with(context)
                 .asBitmap()
-                .load(ServiceBuilder.POSTER_BASE_URL + movieResult.getPoster_path())
-                .apply(new RequestOptions().centerCrop())
+                .load(ServiceBuilder.POSTER_BASE_URL + resultList.get(i).getPoster_path())
+                .apply(requestOptions)
+                .transition(new BitmapTransitionOptions().crossFade(250))
                 .addListener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -68,7 +77,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
                         // generate palette asynchronously
                         Palette.from(resource).generate(p -> {
                             palette = p;
-                            final Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                            final Palette.Swatch swatch = palette.getVibrantSwatch();
 
                             if (swatch != null) {
                                 movieHolder.layout.setBackgroundColor(swatch.getRgb());
@@ -81,13 +90,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
                 })
                 .into(movieHolder.posterImage);
 
-        movieHolder.titleText.setText(movieResult.getTitle());
-        movieHolder.releaseDateText.setText(movieResult.getRelease_date());
+        movieHolder.titleText.setText(resultList.get(i).getTitle());
+        movieHolder.releaseDateText.setText(resultList.get(i).getRelease_date());
     }
 
     @Override
     public int getItemCount() {
-        return movie.getResults().size();
+        return resultList.size();
     }
 
     class MovieHolder extends RecyclerView.ViewHolder {

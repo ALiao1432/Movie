@@ -12,27 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jakewharton.rxbinding3.view.RxView;
-import com.jakewharton.rxbinding3.view.ViewScrollChangeEvent;
-import com.jakewharton.rxbinding3.widget.RxAdapterView;
-
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
 import study.ian.movie.adapter.MovieAdapter;
+import study.ian.movie.model.movie.Movie;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 
 public class FragmentMovies extends Fragment {
 
     private final String TAG = "FragmentMovies";
+    private final int VISIBLE_THRESHOLD = 4;
 
     private RecyclerView recyclerView;
-    private Disposable serviceDisposable;
+    private MovieAdapter movieAdapter;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private MovieService movieService = ServiceBuilder.getService(MovieService.class);
+    private int currentPage = 0;
+    private boolean isLoading = false;
 
     @Nullable
     @Override
@@ -42,28 +43,12 @@ public class FragmentMovies extends Fragment {
         findViews(view);
         setViews();
 
-        serviceDisposable = ServiceBuilder.getService(MovieService.class)
-                .getPage(ServiceBuilder.API_KEY, 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movie -> recyclerView.setAdapter(new MovieAdapter(getContext(), movie)),
-                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable)
-                );
-
-//        Observable.interval(500, TimeUnit.MILLISECONDS)
-//                .map(l -> recyclerView.computeVerticalScrollOffset())
-//                .subscribe(offset -> {
-//                    if (recyclerView.getChildAt(0) != null) {
-//                        Log.d(TAG, "onCreateView: offset : " + offset + ", height : " + recyclerView.getChildAt(0).getHeight());
-//                    }
-//                });
         return view;
     }
 
     @Override
     public void onDestroyView() {
-        serviceDisposable.dispose();
+        compositeDisposable.clear();
         super.onDestroyView();
     }
 
@@ -72,12 +57,46 @@ public class FragmentMovies extends Fragment {
     }
 
     private void setViews() {
-        GridLayoutManager layoutManager;
-
-        layoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
 
-        recyclerView.setLayoutManager(layoutManager);
+        movieAdapter = new MovieAdapter(getContext());
 
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(movieAdapter);
+        // setup load more listener
+        recyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            int totalItemCount = layoutManager.getItemCount();
+
+            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount) {
+                loadMorePage();
+            }
+        });
+
+        if (currentPage == 0) {
+            loadMorePage();
+        }
+    }
+
+    private void loadMorePage() {
+        Log.d(TAG, "loadMorePage: ");
+        currentPage++;
+        isLoading = true;
+        subscribeForData(movieService.getPage(ServiceBuilder.API_KEY, "popularity.desc", currentPage, true, false));
+    }
+
+    private void subscribeForData(Observable<Movie> observable) {
+        Disposable disposable = observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movie -> {
+                            movieAdapter.addResults(movie.getResults());
+                            isLoading = false;
+                        },
+                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable)
+                );
+
+        compositeDisposable.add(disposable);
     }
 }

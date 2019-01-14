@@ -10,8 +10,6 @@ import study.ian.movie.fragment.FragmentDiscover;
 import study.ian.movie.fragment.FragmentMovies;
 import study.ian.movie.fragment.FragmentPeople;
 import study.ian.movie.fragment.FragmentTvShows;
-import study.ian.movie.service.ServiceBuilder;
-import study.ian.movie.service.TestService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         findViews();
         setFragmentManager();
         setBottomNavView();
+
+        // for test
+        bottomNavView.setSelectedItemId(R.id.item_movies);
     }
 
     private void findViews() {

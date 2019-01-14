@@ -6,15 +6,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
 
-    public final static String API_BASE_URL = "https://api.themoviedb.org/";
+    private final static String API_BASE_URL = "https://api.themoviedb.org/";
     public final static String POSTER_BASE_URL = "https://image.tmdb.org/t/p/w1280";
     public final static String API_KEY = "281abc6eb92e0bb92d58167a5f0e5e9a";
 
-    private static Retrofit retrofit = new Retrofit.Builder()
+    private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
+
+    private ServiceBuilder() {
+    }
 
     public static <T> T getService(Class<T> tClass) {
         return retrofit.create(tClass);
