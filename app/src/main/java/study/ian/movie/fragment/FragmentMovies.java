@@ -26,7 +26,7 @@ import study.ian.movie.service.ServiceBuilder;
 public class FragmentMovies extends Fragment {
 
     private final String TAG = "FragmentMovies";
-    private final int VISIBLE_THRESHOLD = 4;
+    private final int VISIBLE_THRESHOLD = 10;
 
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
@@ -80,7 +80,6 @@ public class FragmentMovies extends Fragment {
     }
 
     private void loadMorePage() {
-        Log.d(TAG, "loadMorePage: ");
         currentPage++;
         isLoading = true;
         subscribeForData(movieService.getPage(ServiceBuilder.API_KEY, "popularity.desc", currentPage, true, false));
@@ -94,6 +93,7 @@ public class FragmentMovies extends Fragment {
                             movieAdapter.addResults(movie.getResults());
                             isLoading = false;
                         },
+                        // TODO: 2019-01-15 retry when network is not work out...
                         throwable -> Log.d(TAG, "onCreateView: t : " + throwable)
                 );
 

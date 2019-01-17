@@ -16,13 +16,13 @@ public class Result {
     private boolean video;
 
     @SerializedName("vote_average")
-    private Double vote_average;
+    private double vote_average;
 
     @SerializedName("title")
     private String title;
 
     @SerializedName("popularity")
-    private Double popularity;
+    private double popularity;
 
     @SerializedName("poster_path")
     private String poster_path;
@@ -72,7 +72,7 @@ public class Result {
         this.video = video;
     }
 
-    public Double getVote_average() {
+    public double getVote_average() {
         return vote_average;
     }
 
@@ -88,7 +88,7 @@ public class Result {
         this.title = title;
     }
 
-    public Double getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 

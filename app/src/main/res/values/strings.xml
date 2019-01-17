@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Movie</string>
 
-    <!-- string for bottomNavigationView -->
+    <!-- for bottomNavigationView -->
     <string name="string_discover">Discover</string>
     <string name="string_movies">Movies</string>
     <string name="string_tv_shows">Tv Shows</string>
     <string name="string_people">People</string>
 
-
+    <!-- for holder_movie -->
+    <string name="string_holder_movie_image">Movie poster</string>
 </resources>

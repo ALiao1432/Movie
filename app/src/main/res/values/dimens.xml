@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- for holder_movie -->
+    <dimen name="holder_movie_layout_margin">6dp</dimen>
+    <dimen name="holder_movie_title_margin">6dp</dimen>
+    <dimen name="holder_movie_release_date_margin">2dp</dimen>
+    <dimen name="holder_movie_layout_corner_radius">8dp</dimen>
+    <dimen name="holder_movie_title_size">16sp</dimen>
+    <dimen name="holder_movie_release_date_size">12sp</dimen>
+
+    <!-- for MovieDetailActivity -->
+    <dimen name="backdrop_poster_height">300dp</dimen>
+</resources>

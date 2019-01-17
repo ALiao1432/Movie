@@ -1,13 +1,10 @@
 package study.ian.movie.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
+import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.disposables.Disposable;
+import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
 import study.ian.movie.model.movie.Result;
+import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
@@ -37,7 +34,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     private Context context;
     private List<Result> resultList = new ArrayList<>();
-    private Palette palette;
 
     public MovieAdapter(Context context) {
         this.context = context;
@@ -56,42 +52,34 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieHolder movieHolder, int i) {
+    public void onBindViewHolder(@NonNull MovieHolder holder, int i) {
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-
         Glide.with(context)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + resultList.get(i).getPoster_path())
                 .apply(requestOptions)
                 .transition(new BitmapTransitionOptions().crossFade(250))
-                .addListener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
+                .into(holder.posterImage);
 
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        // generate palette asynchronously
-                        Palette.from(resource).generate(p -> {
-                            palette = p;
-                            final Palette.Swatch swatch = palette.getVibrantSwatch();
+        holder.titleText.setText(resultList.get(i).getTitle());
+        holder.releaseDateText.setText(resultList.get(i).getRelease_date());
 
-                            if (swatch != null) {
-                                movieHolder.layout.setBackgroundColor(swatch.getRgb());
-                                movieHolder.titleText.setTextColor(swatch.getTitleTextColor());
-                                movieHolder.releaseDateText.setTextColor(swatch.getBodyTextColor());
-                            }
-                        });
-                        return false;
-                    }
-                })
-                .into(movieHolder.posterImage);
+        holder.clickDisposable = RxView.clicks(holder.cardView)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS) // only react to first click and skip the clicks within 1500ms
+                .subscribe(unit -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(MovieService.KEY_ID, resultList.get(i).getId());
+                    intent.setClass(context, MovieDetailActivity.class);
+                    context.startActivity(intent);
+                });
+    }
 
-        movieHolder.titleText.setText(resultList.get(i).getTitle());
-        movieHolder.releaseDateText.setText(resultList.get(i).getRelease_date());
+    @Override
+    public void onViewRecycled(@NonNull MovieHolder holder) {
+        holder.clickDisposable.dispose();
+        super.onViewRecycled(holder);
     }
 
     @Override
@@ -101,15 +89,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     class MovieHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout layout;
+        private CardView cardView;
         private ImageView posterImage;
         private TextView titleText;
         private TextView releaseDateText;
+        private Disposable clickDisposable;
 
         MovieHolder(@NonNull View itemView) {
             super(itemView);
 
-            layout = itemView.findViewById(R.id.layout_movie_holder);
+            cardView = itemView.findViewById(R.id.holder_movie_card);
             posterImage = itemView.findViewById(R.id.holder_movie_image);
             titleText = itemView.findViewById(R.id.text_movie_title);
             releaseDateText = itemView.findViewById(R.id.text_release_date);

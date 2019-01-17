@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_movie_holder"
+    android:id="@+id/holder_movie_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp">
+    android:layout_margin="@dimen/holder_movie_layout_margin"
+    app:cardCornerRadius="@dimen/holder_movie_layout_corner_radius">
 
-    <ImageView
-        android:id="@+id/holder_movie_image"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="307dp"
-        app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="match_parent"
+        android:background="@color/holderBackground">
 
-    <TextView
-        android:id="@+id/text_movie_title"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:background="@android:color/transparent"
-        android:singleLine="true"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/holder_movie_image"
-        tools:text="text_movie_title" />
+        <ImageView
+            android:id="@+id/holder_movie_image"
+            android:layout_width="match_parent"
+            android:layout_height="307dp"
+            android:contentDescription="@string/string_holder_movie_image"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/text_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/text_movie_title"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/text_movie_title"
-        app:layout_constraintTop_toBottomOf="@+id/text_movie_title"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="text_release_date" />
+        <TextView
+            android:id="@+id/text_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/holder_movie_title_margin"
+            android:background="@android:color/transparent"
+            android:singleLine="true"
+            android:textColor="@color/holderMoverTitle"
+            android:textSize="@dimen/holder_movie_title_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/holder_movie_image"
+            tools:text="text_movie_title" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/holder_movie_release_date_margin"
+            android:background="@android:color/transparent"
+            android:textColor="@color/holderMoverReleaseDate"
+            android:textSize="@dimen/holder_movie_release_date_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/text_movie_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/text_movie_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_movie_title"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="text_release_date" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>
+
 

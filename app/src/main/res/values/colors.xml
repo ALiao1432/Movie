@@ -2,8 +2,14 @@
 <resources>
     <color name="colorPrimary">#00796b</color>
     <color name="colorPrimaryDark">#081c24</color>
+    <color name="colorPrimaryLight">#08729c</color>
     <color name="colorAccent">#009688</color>
 
     <color name="navIconSelectedColor">#00796b</color>
     <color name="navIconUnselectedColor">#b4b4b4</color>
+
+    <!-- for holder_movie -->
+    <color name="holderBackground">#0d2e3b</color>
+    <color name="holderMoverTitle">#b4b4b4</color>
+    <color name="holderMoverReleaseDate">#a4a4a4</color>
 </resources>
