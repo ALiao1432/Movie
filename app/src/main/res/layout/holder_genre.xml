@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/genre_btn_shape_padding"
+    tools:ignore="RtlSymmetry">
+
+    <Button
+        android:id="@+id/genreBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/genre_btn_height"
+        android:background="@drawable/genre_btn_shape"
+        android:foreground="?android:selectableItemBackground"
+        android:minWidth="0dp"
+        android:textColor="@color/genreBtnText"
+        android:textSize="@dimen/genre_btn_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="GenreText_GenreText" />
+
+</android.support.constraint.ConstraintLayout>

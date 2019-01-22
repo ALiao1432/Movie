@@ -8,6 +8,7 @@ public class ServiceBuilder {
 
     private final static String API_BASE_URL = "https://api.themoviedb.org/";
     public final static String POSTER_BASE_URL = "https://image.tmdb.org/t/p/w1280";
+    public final static String BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w1400_and_h450_face";
     public final static String API_KEY = "281abc6eb92e0bb92d58167a5f0e5e9a";
 
     private static final Retrofit retrofit = new Retrofit.Builder()

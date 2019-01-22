@@ -99,9 +99,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
             super(itemView);
 
             cardView = itemView.findViewById(R.id.holder_movie_card);
-            posterImage = itemView.findViewById(R.id.holder_movie_image);
-            titleText = itemView.findViewById(R.id.text_movie_title);
-            releaseDateText = itemView.findViewById(R.id.text_release_date);
+            posterImage = itemView.findViewById(R.id.holderMovieImage);
+            titleText = itemView.findViewById(R.id.movieTitleText);
+            releaseDateText = itemView.findViewById(R.id.releaseDateText);
         }
     }
 }

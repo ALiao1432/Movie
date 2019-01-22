@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="@dimen/genre_btn_shape_radius" />
+
+    <stroke
+        android:width="@dimen/genre_btn_stroke_width"
+        android:color="@color/genreBtnBackground" />
+
+    <!--<solid android:color="@color/genreBtnBackground" />-->
+
+    <padding
+        android:left="@dimen/genre_btn_shape_padding"
+        android:right="@dimen/genre_btn_shape_padding" />
+</shape>

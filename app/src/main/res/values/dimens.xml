@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- for holder_movie -->
+    <!-- holder_movie.xml -->
     <dimen name="holder_movie_layout_margin">6dp</dimen>
     <dimen name="holder_movie_title_margin">6dp</dimen>
     <dimen name="holder_movie_release_date_margin">2dp</dimen>
     <dimen name="holder_movie_layout_corner_radius">8dp</dimen>
-    <dimen name="holder_movie_title_size">16sp</dimen>
-    <dimen name="holder_movie_release_date_size">12sp</dimen>
+    <dimen name="holder_movie_title_text_size">16sp</dimen>
+    <dimen name="holder_movie_release_date_text_size">12sp</dimen>
 
-    <!-- for MovieDetailActivity -->
-    <dimen name="backdrop_poster_height">300dp</dimen>
+    <!-- MovieDetailActivity.xml -->
+    <dimen name="backdrop_height">240dp</dimen>
+    <dimen name="movie_poster_width">100dp</dimen>
+    <dimen name="movie_poster_height">150dp</dimen>
+    <dimen name="movie_title_text_size">36sp</dimen>
+    <dimen name="movie_runtime_text_size">16sp</dimen>
+    <dimen name="movie_release_date_text_size">16sp</dimen>
+    <dimen name="movie_overview_title_text_size">24sp</dimen>
+    <dimen name="movie_overview_content_text_size">16sp</dimen>
+    <dimen name="movie_info_margin">16dp</dimen>
+
+    <!-- genre_btn_shape.xml -->
+    <dimen name="genre_btn_height">28dp</dimen>
+    <dimen name="genre_btn_shape_padding">12dp</dimen>
+    <dimen name="genre_btn_shape_radius">30dp</dimen>
+    <dimen name="genre_btn_stroke_width">2dp</dimen>
+    <dimen name="genre_btn_text_size">12sp</dimen>
 </resources>

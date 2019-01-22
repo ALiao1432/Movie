@@ -3,49 +3,82 @@ package study.ian.movie;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.view.GradientImageView;
+import study.ian.movie.view.UserScoreView;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private final String TAG = "MovieDetailActivity";
+
+    private GradientImageView backdropImage;
+    private TextView titleText;
+    private TextView runTimeText;
+    private TextView releaseDateText;
+    private TextView overviewText;
+    private UserScoreView userScoreView;
+    private RecyclerView genreRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        TextView textView = findViewById(R.id.textView);
+        int movieId = getIntent().getIntExtra(MovieService.KEY_ID, 0);
 
+        findViews();
+        setViews(movieId);
+    }
 
-        toolbar.setTitle("this is toolbar title");
-        toolbar.setSubtitle("subtitle this is");
-        toolbar.setLogo(R.drawable.ic_movie);
-        setSupportActionBar(toolbar);
+    private void findViews() {
+        backdropImage = findViewById(R.id.detailBackdropImage);
+        titleText = findViewById(R.id.detailTitleText);
+        runTimeText = findViewById(R.id.detailRunTimeText);
+        releaseDateText = findViewById(R.id.detailReleaseDateText);
+        overviewText = findViewById(R.id.overviewContentText);
+        userScoreView = findViewById(R.id.detailScoreView);
+        genreRecyclerView = findViewById(R.id.recyclerViewGenres);
+    }
 
-        int id = getIntent().getIntExtra(MovieService.KEY_ID, 0);
+    private void setViews(int movieId) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        genreRecyclerView.setLayoutManager(linearLayoutManager);
+
         ServiceBuilder.getService(MovieService.class)
-                .getDetail(id, ServiceBuilder.API_KEY)
+                .getDetail(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         detail -> {
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = 0; i < 4; i++) {
-                                sb.append(detail.toString());
-                            }
-                            textView.setText(sb.toString());
+                            loadBackdropImage(detail.getBackdrop_path());
+                            titleText.setText(detail.getTitle());
+                            runTimeText.setText(detail.getRuntime() + " mins");
+                            releaseDateText.setText(detail.getRelease_date());
+                            overviewText.setText(detail.getOverview());
+                            genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                         },
                         throwable -> Log.d(TAG, "onCreate: error : " + throwable)
                 );
+    }
+
+    private void loadBackdropImage(String imagePath) {
+        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        Glide.with(this)
+                .load(ServiceBuilder.BACKDROP_BASE_URL + imagePath)
+                .apply(requestOptions)
+                .into(backdropImage);
     }
 }

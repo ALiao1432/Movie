@@ -14,10 +14,10 @@
         android:background="@color/holderBackground">
 
         <ImageView
-            android:id="@+id/holder_movie_image"
+            android:id="@+id/holderMovieImage"
             android:layout_width="match_parent"
             android:layout_height="307dp"
-            android:contentDescription="@string/string_holder_movie_image"
+            android:contentDescription="@string/string_holder_movie_image_description"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,33 +25,33 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/text_movie_title"
+            android:id="@+id/movieTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/holder_movie_title_margin"
             android:background="@android:color/transparent"
             android:singleLine="true"
             android:textColor="@color/holderMoverTitle"
-            android:textSize="@dimen/holder_movie_title_size"
+            android:textSize="@dimen/holder_movie_title_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/holder_movie_image"
+            app:layout_constraintTop_toBottomOf="@+id/holderMovieImage"
             tools:text="text_movie_title" />
 
         <TextView
-            android:id="@+id/text_release_date"
+            android:id="@+id/releaseDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/holder_movie_release_date_margin"
             android:background="@android:color/transparent"
             android:textColor="@color/holderMoverReleaseDate"
-            android:textSize="@dimen/holder_movie_release_date_size"
+            android:textSize="@dimen/holder_movie_release_date_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/text_movie_title"
+            app:layout_constraintEnd_toEndOf="@+id/movieTitleText"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/text_movie_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_movie_title"
+            app:layout_constraintStart_toStartOf="@+id/movieTitleText"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitleText"
             app:layout_constraintVertical_bias="0.0"
             tools:text="text_release_date" />
     </android.support.constraint.ConstraintLayout>

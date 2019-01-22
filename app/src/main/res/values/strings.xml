@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">Movie</string>
 
-    <!-- for bottomNavigationView -->
+    <!-- bottomNavigationView -->
     <string name="string_discover">Discover</string>
     <string name="string_movies">Movies</string>
     <string name="string_tv_shows">Tv Shows</string>
     <string name="string_people">People</string>
 
-    <!-- for holder_movie -->
-    <string name="string_holder_movie_image">Movie poster</string>
+    <!-- holder_movie -->
+    <string name="string_holder_movie_image_description">Movie poster</string>
+
+    <!-- activity_detail_movie.xml -->
+    <string name="string_overview">Overview</string>
 </resources>

@@ -28,7 +28,7 @@ public class FragmentMovies extends Fragment {
     private final String TAG = "FragmentMovies";
     private final int VISIBLE_THRESHOLD = 10;
 
-    private RecyclerView recyclerView;
+    private RecyclerView movieRecyclerView;
     private MovieAdapter movieAdapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MovieService movieService = ServiceBuilder.getService(MovieService.class);
@@ -53,7 +53,7 @@ public class FragmentMovies extends Fragment {
     }
 
     private void findViews(View parent) {
-        recyclerView = parent.findViewById(R.id.recyclerViewMovie);
+        movieRecyclerView = parent.findViewById(R.id.recyclerViewMovie);
     }
 
     private void setViews() {
@@ -62,10 +62,10 @@ public class FragmentMovies extends Fragment {
 
         movieAdapter = new MovieAdapter(getContext());
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(movieAdapter);
+        movieRecyclerView.setLayoutManager(layoutManager);
+        movieRecyclerView.setAdapter(movieAdapter);
         // setup load more listener
-        recyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        movieRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             int totalItemCount = layoutManager.getItemCount();
 
