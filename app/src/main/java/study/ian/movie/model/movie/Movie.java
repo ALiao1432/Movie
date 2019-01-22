@@ -1,7 +1,5 @@
 package study.ian.movie.model.movie;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -18,7 +16,7 @@ public class Movie {
     private int total_pages;
 
     @SerializedName("results")
-    private List<Result> results = null;
+    private List<DetailResult> detailResults = null;
 
     public int getPage() {
         return page;
@@ -44,11 +42,11 @@ public class Movie {
         this.total_pages = total_pages;
     }
 
-    public List<Result> getResults() {
-        return results;
+    public List<DetailResult> getDetailResults() {
+        return detailResults;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setDetailResults(List<DetailResult> detailResults) {
+        this.detailResults = detailResults;
     }
 }

@@ -1,7 +1,9 @@
 package study.ian.movie.adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.disposables.Disposable;
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
-import study.ian.movie.model.movie.Result;
+import study.ian.movie.model.movie.DetailResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 
@@ -33,14 +35,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     private final String TAG = "MovieAdapter";
 
     private Context context;
-    private List<Result> resultList = new ArrayList<>();
+    private List<DetailResult> detailResultList = new ArrayList<>();
 
     public MovieAdapter(Context context) {
         this.context = context;
     }
 
-    public void addResults(List<Result> rList) {
-        resultList.addAll(rList);
+    public void addResults(List<DetailResult> rList) {
+        detailResultList.addAll(rList);
         notifyDataSetChanged();
     }
 
@@ -58,19 +60,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(context)
                 .asBitmap()
-                .load(ServiceBuilder.POSTER_BASE_URL + resultList.get(i).getPoster_path())
+                .load(ServiceBuilder.POSTER_BASE_URL + detailResultList.get(i).getPoster_path())
                 .apply(requestOptions)
                 .transition(new BitmapTransitionOptions().crossFade(250))
                 .into(holder.posterImage);
 
-        holder.titleText.setText(resultList.get(i).getTitle());
-        holder.releaseDateText.setText(resultList.get(i).getRelease_date());
+        holder.titleText.setText(detailResultList.get(i).getTitle());
+        holder.releaseDateText.setText(detailResultList.get(i).getRelease_date());
 
         holder.clickDisposable = RxView.clicks(holder.cardView)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS) // only react to first click and skip the clicks within 1500ms
                 .subscribe(unit -> {
                     Intent intent = new Intent();
-                    intent.putExtra(MovieService.KEY_ID, resultList.get(i).getId());
+                    intent.putExtra(MovieService.KEY_ID, detailResultList.get(i).getId());
                     intent.setClass(context, MovieDetailActivity.class);
                     context.startActivity(intent);
                 });
@@ -84,7 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     @Override
     public int getItemCount() {
-        return resultList.size();
+        return detailResultList.size();
     }
 
     class MovieHolder extends RecyclerView.ViewHolder {

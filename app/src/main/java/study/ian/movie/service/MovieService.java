@@ -4,8 +4,9 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import study.ian.movie.model.detail.Detail;
+import study.ian.movie.model.movie.detail.Detail;
 import study.ian.movie.model.movie.Movie;
+import study.ian.movie.model.movie.detail.Video;
 
 public interface MovieService {
 
@@ -22,6 +23,12 @@ public interface MovieService {
 
     @GET("/3/movie/{id}?language=en-US")
     Observable<Detail> getDetail(
+            @Path("id") int id,
+            @Query("api_key") String api_key
+    );
+
+    @GET("/3/movie/{id}/videos?language=en-US")
+    Observable<Video> getVideos(
             @Path("id") int id,
             @Query("api_key") String api_key
     );

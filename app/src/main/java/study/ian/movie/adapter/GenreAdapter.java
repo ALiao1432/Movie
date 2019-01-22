@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.disposables.Disposable;
 import study.ian.movie.R;
-import study.ian.movie.model.detail.Genre;
+import study.ian.movie.model.movie.detail.Genre;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder> {
 

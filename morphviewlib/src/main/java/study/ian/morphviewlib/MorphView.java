@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 public class MorphView extends AppCompatImageView {
@@ -23,13 +22,6 @@ public class MorphView extends AppCompatImageView {
     private ValueAnimator pointAnimator;
     private int currentId;
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        setMeasuredDimension(W_SIZE, H_SIZE);
-    }
-
     @SuppressWarnings("ClickableViewAccessibility")
     public MorphView(Context context, @Nullable AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -42,7 +34,7 @@ public class MorphView extends AppCompatImageView {
 
     private void initPaint() {
         paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(W_SIZE / 10);
         paint.setStrokeCap(Paint.Cap.ROUND);
     }
@@ -64,6 +56,11 @@ public class MorphView extends AppCompatImageView {
     private void initPath(int id) {
         path = svgData.getPath(id, this);
         currentId = id;
+    }
+
+    public void addPath(int id) {
+        path.addPath(svgData.getPath(id, this));
+        postInvalidate();
     }
 
     public void performAnimation(int toId) {
@@ -107,6 +104,9 @@ public class MorphView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        canvas.save();
+        canvas.translate((getWidth() - W_SIZE) * .5f, (getHeight() - H_SIZE) * .5f);
         canvas.drawPath(path, paint);
+        canvas.restore();
     }
 }

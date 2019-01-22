@@ -1,5 +1,8 @@
 package study.ian.movie;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +13,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.jakewharton.rxbinding3.view.RxView;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.Unit;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
@@ -30,6 +40,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView overviewText;
     private UserScoreView userScoreView;
     private RecyclerView genreRecyclerView;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +51,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         findViews();
         setViews(movieId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+
+        super.onDestroy();
     }
 
     private void findViews() {
@@ -57,21 +75,38 @@ public class MovieDetailActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         genreRecyclerView.setLayoutManager(linearLayoutManager);
 
-        ServiceBuilder.getService(MovieService.class)
+        Disposable detailDisposable = ServiceBuilder.getService(MovieService.class)
                 .getDetail(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        detail -> {
-                            loadBackdropImage(detail.getBackdrop_path());
-                            titleText.setText(detail.getTitle());
-                            runTimeText.setText(detail.getRuntime() + " mins");
-                            releaseDateText.setText(detail.getRelease_date());
-                            overviewText.setText(detail.getOverview());
-                            genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
-                        },
-                        throwable -> Log.d(TAG, "onCreate: error : " + throwable)
-                );
+                .doOnNext(detail -> {
+                    loadBackdropImage(detail.getBackdrop_path());
+                    titleText.setText(detail.getTitle());
+                    runTimeText.setText(detail.getRuntime() + " mins");
+                    releaseDateText.setText(detail.getRelease_date());
+                    overviewText.setText(detail.getOverview());
+                    genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
+                })
+                .doOnError(throwable -> Log.d(TAG, "onCreate: error : " + throwable))
+                .subscribe();
+
+        Observable<Unit> clickObservable = RxView.clicks(backdropImage)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS);
+
+        Disposable videoDisposable = ServiceBuilder.getService(MovieService.class)
+                .getVideos(movieId, ServiceBuilder.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> Log.d(TAG, "setViews: get video error : " + throwable))
+                .concatMap(video -> clickObservable.map(unit -> video))
+                .subscribe(video -> watchYoutubeVideo(this, video.getResults().get(0).getKey()));
+
+        compositeDisposable.add(detailDisposable);
+        compositeDisposable.add(videoDisposable);
+    }
+
+    private void watchYoutubeVideo(Context context, String id) {
+        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + id)));
     }
 
     private void loadBackdropImage(String imagePath) {

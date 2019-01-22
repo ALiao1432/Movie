@@ -11,9 +11,10 @@ import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.R;
 
-public class GradientImageView extends android.support.v7.widget.AppCompatImageView {
+public class GradientImageView extends MorphView {
 
     private final String TAG = "GradientImageView";
 
@@ -47,6 +48,9 @@ public class GradientImageView extends android.support.v7.widget.AppCompatImageV
                 );
                 paint.setShader(linearGradient);
                 gradientPath.addRect(0, height * GRADIENT_HEIGHT_RATIO, width, height, Path.Direction.CW);
+
+                setCurrentId(R.drawable.vd_play);
+                setPaintColor(0x9fffffff);
             }
         });
     }
