@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/holderCreditCard"
+    android:layout_width="@dimen/holder_credit_width"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/holder_credit_layout_margin"
+    android:layout_marginRight="@dimen/holder_credit_layout_margin"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/foreground_ripple"
+    app:cardCornerRadius="@dimen/holder_credit_layout_corner_radius">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/holderBackground">
+
+        <ImageView
+            android:id="@+id/holderCreditImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/holder_credit_image_height"
+            android:contentDescription="@string/string_holder_credit_image_description"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/creditNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/holder_credit_char_text_margin"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:textColor="@color/holderCreditName"
+            android:textSize="@dimen/holder_credit_text_size"
+            app:layout_constraintTop_toBottomOf="@id/holderCreditImage" />
+
+        <TextView
+            android:id="@+id/charNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/holder_credit_char_text_margin"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:textColor="@color/holderCharName"
+            android:textSize="@dimen/holder_char_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/creditNameText" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

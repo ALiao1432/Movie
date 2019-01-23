@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/genre_btn_height"
         android:background="@drawable/genre_btn_shape"
-        android:foreground="?android:selectableItemBackground"
+        android:foreground="@drawable/foreground_ripple"
         android:minWidth="0dp"
         android:textColor="@color/genreBtnText"
         android:textSize="@dimen/genre_btn_text_size"

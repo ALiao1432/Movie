@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -23,11 +25,13 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
+import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
+import study.ian.movie.model.movie.video.VideoResult;
 import study.ian.movie.service.MovieService;
+import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.view.GradientImageView;
-import study.ian.movie.view.UserScoreView;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -38,8 +42,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView runTimeText;
     private TextView releaseDateText;
     private TextView overviewText;
-    private UserScoreView userScoreView;
     private RecyclerView genreRecyclerView;
+    private RecyclerView creditRecyclerView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -66,15 +70,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         runTimeText = findViewById(R.id.detailRunTimeText);
         releaseDateText = findViewById(R.id.detailReleaseDateText);
         overviewText = findViewById(R.id.overviewContentText);
-        userScoreView = findViewById(R.id.detailScoreView);
         genreRecyclerView = findViewById(R.id.recyclerViewGenres);
+        creditRecyclerView = findViewById(R.id.recyclerViewCredits);
     }
 
     private void setViews(int movieId) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        genreRecyclerView.setLayoutManager(linearLayoutManager);
+        initRecyclerViews();
 
+        // get detail
         Disposable detailDisposable = ServiceBuilder.getService(MovieService.class)
                 .getDetail(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
@@ -87,22 +90,66 @@ public class MovieDetailActivity extends AppCompatActivity {
                     overviewText.setText(detail.getOverview());
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
-                .doOnError(throwable -> Log.d(TAG, "onCreate: error : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "onCreate: get detail error : " + throwable))
                 .subscribe();
 
+        // get video
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
-
         Disposable videoDisposable = ServiceBuilder.getService(MovieService.class)
-                .getVideos(movieId, ServiceBuilder.API_KEY)
+                .getVideo(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> Log.d(TAG, "setViews: get video error : " + throwable))
                 .concatMap(video -> clickObservable.map(unit -> video))
-                .subscribe(video -> watchYoutubeVideo(this, video.getResults().get(0).getKey()));
+                .doOnNext(video -> {
+                    for (VideoResult result : video.getResults()) {
+                        if (result.getSite().equals("YouTube")) {
+                            watchYoutubeVideo(this, result.getKey());
+                            break;
+                        }
+                    }
+                })
+                .doOnError(throwable -> Log.d(TAG, "setViews: click backdropImage error : " + throwable))
+                .subscribe();
+
+        // get credit
+        Disposable creditDisposable = ServiceBuilder.getService(PeopleService.class)
+                .getCredit(movieId, ServiceBuilder.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)),
+                        throwable -> Log.d(TAG, "setViews: get credit error : " + throwable)
+                );
+
+        // get keyword
+        Disposable keywordDisposable = ServiceBuilder.getService(MovieService.class)
+                .getKeyword(movieId, ServiceBuilder.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(keyword -> Log.d(TAG, "setViews: "))
+                .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
+                .subscribe();
 
         compositeDisposable.add(detailDisposable);
         compositeDisposable.add(videoDisposable);
+        compositeDisposable.add(creditDisposable);
+    }
+
+    private void initRecyclerViews() {
+        SnapHelper helper = new LinearSnapHelper();
+        helper.attachToRecyclerView(genreRecyclerView);
+        helper.attachToRecyclerView(creditRecyclerView);
+
+        LinearLayoutManager genreLayoutManager = new LinearLayoutManager(this);
+        genreLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        LinearLayoutManager creditLayoutManager = new LinearLayoutManager(this);
+        creditLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        genreRecyclerView.setLayoutManager(genreLayoutManager);
+        creditRecyclerView.setLayoutManager(creditLayoutManager);
     }
 
     private void watchYoutubeVideo(Context context, String id) {

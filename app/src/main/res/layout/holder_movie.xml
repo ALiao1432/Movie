@@ -5,7 +5,9 @@
     android:id="@+id/holder_movie_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/holder_movie_layout_margin"
+    android:layout_marginStart="@dimen/holder_movie_layout_margin"
+    android:layout_marginTop="@dimen/holder_movie_layout_margin"
+    android:layout_marginEnd="@dimen/holder_movie_layout_margin"
     app:cardCornerRadius="@dimen/holder_movie_layout_corner_radius">
 
     <android.support.constraint.ConstraintLayout
@@ -16,8 +18,9 @@
         <ImageView
             android:id="@+id/holderMovieImage"
             android:layout_width="match_parent"
-            android:layout_height="307dp"
+            android:layout_height="@dimen/holder_movie_movie_image_height"
             android:contentDescription="@string/string_holder_movie_image_description"
+            android:foreground="@drawable/foreground_ripple"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +34,7 @@
             android:layout_marginStart="@dimen/holder_movie_title_margin"
             android:background="@android:color/transparent"
             android:singleLine="true"
-            android:textColor="@color/holderMoverTitle"
+            android:textColor="@color/holderMovieTitle"
             android:textSize="@dimen/holder_movie_title_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -43,17 +46,19 @@
             android:id="@+id/releaseDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/holder_movie_release_date_margin"
+            android:layout_marginTop="@dimen/holder_movie_release_date_margin"
+            android:layout_marginBottom="@dimen/holder_movie_release_date_margin"
             android:background="@android:color/transparent"
-            android:textColor="@color/holderMoverReleaseDate"
+            android:textColor="@color/holderMovieReleaseDate"
             android:textSize="@dimen/holder_movie_release_date_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/movieTitleText"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/movieTitleText"
             app:layout_constraintTop_toBottomOf="@+id/movieTitleText"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="text_release_date" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

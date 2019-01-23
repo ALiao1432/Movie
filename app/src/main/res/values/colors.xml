@@ -6,11 +6,12 @@
     <color name="colorAccent">#009688</color>
     <color name="navIconSelected">#00796b</color>
     <color name="navIconUnselected">#b4b4b4</color>
+    <color name="ripple">#3f000000</color>
 
     <!-- holder_movie.xml -->
     <color name="holderBackground">#0d2e3b</color>
-    <color name="holderMoverTitle">#b4b4b4</color>
-    <color name="holderMoverReleaseDate">#a4a4a4</color>
+    <color name="holderMovieTitle">#E2E2E2</color>
+    <color name="holderMovieReleaseDate">#a4a4a4</color>
 
     <!-- Movie_DetailActivity.xml -->
     <color name="releaseDate">#b4b4b4</color>
@@ -20,4 +21,8 @@
     <!-- genre_btn_shape.xml -->
     <color name="genreBtnBackground">#00796b</color>
     <color name="genreBtnText">#b4b4b4</color>
+
+    <!-- holder_credit.xml -->
+    <color name="holderCreditName">#E2E2E2</color>
+    <color name="holderCharName">#b4b4b4</color>
 </resources>
