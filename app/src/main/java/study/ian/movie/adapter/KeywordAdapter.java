@@ -42,9 +42,10 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
         KeywordResult keywordResult = keyword.getKeywords().get(i);
         keywordHolder.keywordBtn.setText(keywordResult.getName());
 
-        keywordHolder.clickDisposable = RxView.clicks(keywordHolder.keywordBtn)
+        RxView.clicks(keywordHolder.keywordBtn)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                .subscribe(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()));
+                .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()))
+                .subscribe();
     }
 
     @Override
@@ -52,16 +53,8 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
         return keyword.getKeywords().size();
     }
 
-    @Override
-    public void onViewRecycled(@NonNull KeywordHolder holder) {
-        holder.clickDisposable.dispose();
-
-        super.onViewRecycled(holder);
-    }
-
     class KeywordHolder extends RecyclerView.ViewHolder {
 
-        private Disposable clickDisposable;
         private Button keywordBtn;
 
         KeywordHolder(@NonNull View itemView) {

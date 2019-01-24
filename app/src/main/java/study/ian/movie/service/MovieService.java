@@ -44,6 +44,7 @@ public interface MovieService {
     @GET("/3/movie/{id}/recommendations")
     Observable<Recommend> getRecommend(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("page") int page
     );
 }

@@ -32,7 +32,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
     @NonNull
     @Override
     public CreditHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.holder_credit, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.holder_detail_card, viewGroup, false);
         return new CreditHolder(view);
     }
 
@@ -68,10 +68,10 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
         CreditHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardView = itemView.findViewById(R.id.holderCreditCard);
-            creditImage = itemView.findViewById(R.id.holderCreditImage);
-            creditText = itemView.findViewById(R.id.creditNameText);
-            charText = itemView.findViewById(R.id.charNameText);
+            cardView = itemView.findViewById(R.id.holderDetailCard);
+            creditImage = itemView.findViewById(R.id.holderDetailImage);
+            creditText = itemView.findViewById(R.id.detailMainText);
+            charText = itemView.findViewById(R.id.detailSubText);
         }
     }
 }

@@ -16,16 +16,8 @@ public class Video {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<VideoResult> getResults() {
         return results;
-    }
-
-    public void setResults(List<VideoResult> results) {
-        this.results = results;
     }
 
     @Override

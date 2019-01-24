@@ -42,15 +42,10 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
         Genre genre = genreList.get(i);
 
         genreHolder.genreBtn.setText(genre.getName());
-        genreHolder.clickDisposable = RxView.clicks(genreHolder.genreBtn)
+        RxView.clicks(genreHolder.genreBtn)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                .subscribe(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()));
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull GenreHolder holder) {
-        holder.clickDisposable.dispose();
-        super.onViewRecycled(holder);
+                .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()))
+                .subscribe();
     }
 
     @Override
@@ -60,10 +55,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
 
     class GenreHolder extends RecyclerView.ViewHolder {
 
-        private Disposable clickDisposable;
         private Button genreBtn;
 
-        public GenreHolder(@NonNull View itemView) {
+        GenreHolder(@NonNull View itemView) {
             super(itemView);
 
             genreBtn = itemView.findViewById(R.id.genreBtn);

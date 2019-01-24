@@ -30,9 +30,9 @@ public class FragmentMovies extends Fragment {
 
     private RecyclerView movieRecyclerView;
     private MovieAdapter movieAdapter;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MovieService movieService = ServiceBuilder.getService(MovieService.class);
     private int currentPage = 0;
+    private int totalPages = 0;
     private boolean isLoading = false;
 
     @Nullable
@@ -44,12 +44,6 @@ public class FragmentMovies extends Fragment {
         setViews();
 
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        compositeDisposable.clear();
-        super.onDestroyView();
     }
 
     private void findViews(View parent) {
@@ -69,7 +63,7 @@ public class FragmentMovies extends Fragment {
             int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             int totalItemCount = layoutManager.getItemCount();
 
-            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount) {
+            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
                 loadMorePage();
             }
         });
@@ -86,17 +80,16 @@ public class FragmentMovies extends Fragment {
     }
 
     private void subscribeForData(Observable<Movie> observable) {
-        Disposable disposable = observable.subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movie -> {
-                            movieAdapter.addResults(movie.getMovieResults());
-                            isLoading = false;
-                        },
+                .doOnNext(movie -> {
+                    movieAdapter.addResults(movie.getMovieResults());
+                    totalPages = movie.getTotal_pages();
+                    isLoading = false;
+                })
+                .doOnError(
                         // TODO: 2019-01-15 retry when network is not work out...
-                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable)
-                );
-
-        compositeDisposable.add(disposable);
+                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
+                .subscribe();
     }
 }

@@ -16,15 +16,7 @@ public class Keyword {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<KeywordResult> getKeywords() {
         return keywords;
-    }
-
-    public void setKeywords(List<KeywordResult> keywords) {
-        this.keywords = keywords;
     }
 }

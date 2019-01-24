@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -21,13 +20,13 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
+import study.ian.movie.adapter.RecommendAdapter;
+import study.ian.movie.model.movie.recommend.Recommend;
 import study.ian.movie.model.movie.video.VideoResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
@@ -37,6 +36,7 @@ import study.ian.movie.view.GradientImageView;
 public class MovieDetailActivity extends AppCompatActivity {
 
     private final String TAG = "MovieDetailActivity";
+    private final int VISIBLE_THRESHOLD = 10;
 
     private GradientImageView backdropImage;
     private TextView titleText;
@@ -46,24 +46,22 @@ public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView genreRecyclerView;
     private RecyclerView creditRecyclerView;
     private RecyclerView keywordRecyclerView;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private RecyclerView recommendRecyclerView;
+    private RecommendAdapter recommendAdapter;
+    private boolean isRecommendLoading = false;
+    private int currentRecommendPage = 0;
+    private int totalRecommendPages = 0;
+    private int movieId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
 
-        int movieId = getIntent().getIntExtra(MovieService.KEY_ID, 0);
+        movieId = getIntent().getIntExtra(MovieService.KEY_ID, 0);
 
         findViews();
         setViews(movieId);
-    }
-
-    @Override
-    protected void onDestroy() {
-        compositeDisposable.clear();
-
-        super.onDestroy();
     }
 
     private void findViews() {
@@ -75,13 +73,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         genreRecyclerView = findViewById(R.id.recyclerViewGenres);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
         keywordRecyclerView = findViewById(R.id.recyclerViewKeywords);
+        recommendRecyclerView = findViewById(R.id.recyclerViewRecommend);
     }
 
     private void setViews(int movieId) {
         initRecyclerViews();
 
         // get detail
-        Disposable detailDisposable = ServiceBuilder.getService(MovieService.class)
+        ServiceBuilder.getService(MovieService.class)
                 .getDetail(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -99,7 +98,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         // get video
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
-        Disposable videoDisposable = ServiceBuilder.getService(MovieService.class)
+        ServiceBuilder.getService(MovieService.class)
                 .getVideo(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -120,40 +119,32 @@ public class MovieDetailActivity extends AppCompatActivity {
                     } else {
                         watchYoutubeVideo(this, key);
                     }
-
-//                    key.equals("") ? backdropImage.setClickable(false) : watchYoutubeVideo(this, key);
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: click backdropImage error : " + throwable))
                 .subscribe();
 
         // get credit
-        Disposable creditDisposable = ServiceBuilder.getService(PeopleService.class)
+        ServiceBuilder.getService(PeopleService.class)
                 .getCredit(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)),
-                        throwable -> Log.d(TAG, "setViews: get credit error : " + throwable)
-                );
+                .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
+                .doOnError(throwable -> Log.d(TAG, "setViews: get credit error : " + throwable))
+                .subscribe();
 
         // get keyword
-        Disposable keywordDisposable = ServiceBuilder.getService(MovieService.class)
+        ServiceBuilder.getService(MovieService.class)
                 .getKeyword(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(keyword -> keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
                 .subscribe();
-
-        compositeDisposable.add(detailDisposable);
-        compositeDisposable.add(videoDisposable);
-        compositeDisposable.add(creditDisposable);
-        compositeDisposable.add(keywordDisposable);
     }
 
     private void initRecyclerViews() {
-        SnapHelper helper = new LinearSnapHelper();
-        helper.attachToRecyclerView(creditRecyclerView);
+        new LinearSnapHelper().attachToRecyclerView(creditRecyclerView);
+        new LinearSnapHelper().attachToRecyclerView(recommendRecyclerView);
 
         LinearLayoutManager creditLayoutManager = new LinearLayoutManager(this);
         creditLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -164,9 +155,48 @@ public class MovieDetailActivity extends AppCompatActivity {
         LinearLayoutManager keywordLayoutManager = new LinearLayoutManager(this);
         keywordLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+        LinearLayoutManager recommendLayoutManager = new LinearLayoutManager(this);
+        recommendLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        recommendAdapter = new RecommendAdapter(this);
+        recommendRecyclerView.setAdapter(recommendAdapter);
+
         genreRecyclerView.setLayoutManager(genreLayoutManager);
         creditRecyclerView.setLayoutManager(creditLayoutManager);
         keywordRecyclerView.setLayoutManager(keywordLayoutManager);
+        recommendRecyclerView.setLayoutManager(recommendLayoutManager);
+
+        // setup load more listener
+        recommendRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            int lastVisibleItem = recommendLayoutManager.findLastVisibleItemPosition();
+            int totalItemCount = recommendLayoutManager.getItemCount();
+
+            if (!isRecommendLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
+                currentRecommendPage++;
+                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage));
+            }
+        });
+
+        if (currentRecommendPage == 0) {
+            currentRecommendPage++;
+            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage));
+        }
+    }
+
+    private <T> void loadMorePage(Observable<T> observable) {
+        isRecommendLoading = true;
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(o -> {
+                    if (o instanceof Recommend) {
+                        recommendAdapter.addResults(((Recommend) o).getResults());
+                        totalRecommendPages = ((Recommend) o).getTotal_pages();
+                        isRecommendLoading = false;
+                    }
+                })
+                .doOnError(throwable -> Log.d(TAG, "loadMorePage: error : " + throwable))
+                .subscribe();
     }
 
     private void watchYoutubeVideo(Context context, String id) {

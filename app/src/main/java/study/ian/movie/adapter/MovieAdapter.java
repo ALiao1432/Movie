@@ -66,20 +66,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         holder.titleText.setText(movieResultList.get(i).getTitle());
         holder.releaseDateText.setText(movieResultList.get(i).getRelease_date());
 
-        holder.clickDisposable = RxView.clicks(holder.cardView)
+        RxView.clicks(holder.cardView)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS) // only react to first click and skip the clicks within 1500ms
-                .subscribe(unit -> {
+                .doOnNext(unit -> {
                     Intent intent = new Intent();
                     intent.putExtra(MovieService.KEY_ID, movieResultList.get(i).getId());
                     intent.setClass(context, MovieDetailActivity.class);
                     context.startActivity(intent);
-                });
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull MovieHolder holder) {
-        holder.clickDisposable.dispose();
-        super.onViewRecycled(holder);
+                })
+                .subscribe();
     }
 
     @Override
@@ -93,7 +88,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         private ImageView posterImage;
         private TextView titleText;
         private TextView releaseDateText;
-        private Disposable clickDisposable;
 
         MovieHolder(@NonNull View itemView) {
             super(itemView);

@@ -22,7 +22,7 @@
     <color name="genreBtnBackground">#00796b</color>
     <color name="genreKeywordBtnText">#b4b4b4</color>
 
-    <!-- holder_credit.xml -->
-    <color name="holderCreditName">#E2E2E2</color>
-    <color name="holderCharName">#b4b4b4</color>
+    <!-- holder_detail_card.xml -->
+    <color name="holderMainText">#E2E2E2</color>
+    <color name="holderSubText">#b4b4b4</color>
 </resources>

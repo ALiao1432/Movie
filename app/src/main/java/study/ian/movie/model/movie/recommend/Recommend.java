@@ -22,31 +22,25 @@ public class Recommend {
         return page;
     }
 
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     public List<RecommendResult> getResults() {
         return results;
-    }
-
-    public void setResults(List<RecommendResult> results) {
-        this.results = results;
     }
 
     public int getTotal_pages() {
         return total_pages;
     }
 
-    public void setTotal_pages(int total_pages) {
-        this.total_pages = total_pages;
-    }
-
     public int getTotal_results() {
         return total_results;
     }
 
-    public void setTotal_results(int total_results) {
-        this.total_results = total_results;
+    @Override
+    public String toString() {
+        return "Recommend{" +
+                "page=" + page +
+                ", results=" + results +
+                ", total_pages=" + total_pages +
+                ", total_results=" + total_results +
+                '}';
     }
 }
