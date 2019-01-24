@@ -7,6 +7,7 @@ import retrofit2.http.Query;
 import study.ian.movie.model.movie.detail.Detail;
 import study.ian.movie.model.movie.Movie;
 import study.ian.movie.model.movie.keyword.Keyword;
+import study.ian.movie.model.movie.recommend.Recommend;
 import study.ian.movie.model.movie.video.Video;
 
 public interface MovieService {
@@ -36,6 +37,12 @@ public interface MovieService {
 
     @GET("/3/movie/{id}/keywords")
     Observable<Keyword> getKeyword(
+            @Path("id") int id,
+            @Query("api_key") String api_key
+    );
+
+    @GET("/3/movie/{id}/recommendations")
+    Observable<Recommend> getRecommend(
             @Path("id") int id,
             @Query("api_key") String api_key
     );

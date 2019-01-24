@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.Shader;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
@@ -25,11 +26,12 @@ public class GradientImageView extends MorphView {
     private final float GRADIENT_HEIGHT_RATIO = .75F;
     private float width;
     private float height;
-    private boolean hasTrailer = true;
+    private boolean hasTrailer = false;
 
     public GradientImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        setPaintColor(0x9fffffff);
         this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -38,19 +40,15 @@ public class GradientImageView extends MorphView {
                 width = getWidth();
                 height = getHeight();
                 linearGradient = new LinearGradient(
-                        width * .5f,
-                        height * GRADIENT_HEIGHT_RATIO,
-                        width * .5f,
-                        height,
-                        0x0,
-                        ContextCompat.getColor(context, R.color.colorPrimaryDark),
+                        width * .5f, height * GRADIENT_HEIGHT_RATIO,
+                        width * .5f, height,
+                        0x0, ContextCompat.getColor(context, R.color.colorPrimaryDark),
                         Shader.TileMode.CLAMP
                 );
                 paint.setShader(linearGradient);
                 gradientPath.addRect(0, height * GRADIENT_HEIGHT_RATIO, width, height, Path.Direction.CW);
 
-                setCurrentId(R.drawable.vd_play);
-                setPaintColor(0x9fffffff);
+                setCurrentId(R.drawable.vd_no_trailer);
             }
         });
     }
@@ -63,5 +61,10 @@ public class GradientImageView extends MorphView {
         canvas.drawPath(gradientPath, paint);
         canvas.rotate(180, width * .5f, height * .5f);
         canvas.drawPath(gradientPath, paint);
+    }
+
+    public void setHasTrailer(boolean hasTrailer) {
+        Log.d(TAG, "setHasTrailer: hasTrailer : " + hasTrailer);
+        setCurrentId(hasTrailer ? R.drawable.vd_play : R.drawable.vd_no_trailer);
     }
 }

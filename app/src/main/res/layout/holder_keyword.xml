@@ -8,11 +8,11 @@
     tools:ignore="RtlSymmetry">
 
     <Button
-        android:id="@+id/genreBtn"
+        android:id="@+id/keywordBtn"
         style="@style/AppTheme.genreKeywordButton"
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="GenreText_GenreText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="KeywordText_KeywordText" />
 
 </android.support.constraint.ConstraintLayout>

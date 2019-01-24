@@ -2,15 +2,15 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <corners android:radius="@dimen/genre_btn_shape_radius" />
+    <corners android:radius="@dimen/genre_keyword_btn_shape_radius" />
 
     <stroke
-        android:width="@dimen/genre_btn_stroke_width"
+        android:width="@dimen/genre_keyword_btn_stroke_width"
         android:color="@color/genreBtnBackground" />
 
     <!--<solid android:color="@color/genreBtnBackground" />-->
 
     <padding
-        android:left="@dimen/genre_btn_shape_padding"
-        android:right="@dimen/genre_btn_shape_padding" />
+        android:left="@dimen/holder_genre_keyword_layout_padding"
+        android:right="@dimen/holder_genre_keyword_layout_padding" />
 </shape>

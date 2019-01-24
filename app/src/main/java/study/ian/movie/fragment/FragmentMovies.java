@@ -90,7 +90,7 @@ public class FragmentMovies extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         movie -> {
-                            movieAdapter.addResults(movie.getDetailResults());
+                            movieAdapter.addResults(movie.getMovieResults());
                             isLoading = false;
                         },
                         // TODO: 2019-01-15 retry when network is not work out...

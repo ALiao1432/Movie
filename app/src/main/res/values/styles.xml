@@ -11,4 +11,21 @@
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="AppTheme.mainContentText" parent="AppTheme">
+        <item name="android:textSize">@dimen/movie_main_content_text_size</item>
+        <item name="android:textColor">@color/mainContent</item>
+        <item name="android:layout_marginStart">@dimen/movie_info_margin</item>
+        <item name="android:layout_marginTop">@dimen/movie_info_margin</item>
+        <item name="android:layout_marginEnd">@dimen/movie_info_margin</item>
+    </style>
+
+    <style name="AppTheme.genreKeywordButton" parent="AppTheme">
+        <item name="android:layout_height">@dimen/genre_keyword_btn_height</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:background">@drawable/genre_keyword_btn_shape</item>
+        <item name="android:foreground">@drawable/foreground_ripple</item>
+        <item name="android:textColor">@color/genreKeywordBtnText</item>
+        <item name="android:textSize">@dimen/genre_keyword_btn_text_size</item>
+    </style>
+
 </resources>

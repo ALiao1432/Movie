@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
+import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.model.movie.video.VideoResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
@@ -44,6 +45,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView overviewText;
     private RecyclerView genreRecyclerView;
     private RecyclerView creditRecyclerView;
+    private RecyclerView keywordRecyclerView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -72,6 +74,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         overviewText = findViewById(R.id.overviewContentText);
         genreRecyclerView = findViewById(R.id.recyclerViewGenres);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
+        keywordRecyclerView = findViewById(R.id.recyclerViewKeywords);
     }
 
     private void setViews(int movieId) {
@@ -100,15 +103,25 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .getVideo(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(throwable -> Log.d(TAG, "setViews: get video error : " + throwable))
-                .concatMap(video -> clickObservable.map(unit -> video))
-                .doOnNext(video -> {
+                .map(video -> {
                     for (VideoResult result : video.getResults()) {
                         if (result.getSite().equals("YouTube")) {
-                            watchYoutubeVideo(this, result.getKey());
-                            break;
+                            backdropImage.setHasTrailer(true);
+                            return result.getKey();
                         }
                     }
+                    return "";
+                })
+                .doOnError(throwable -> Log.d(TAG, "setViews: get video error : " + throwable))
+                .concatMap(key -> clickObservable.map(unit -> key))
+                .doOnNext(key -> {
+                    if (key.equals("")) {
+                        backdropImage.setClickable(false);
+                    } else {
+                        watchYoutubeVideo(this, key);
+                    }
+
+//                    key.equals("") ? backdropImage.setClickable(false) : watchYoutubeVideo(this, key);
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: click backdropImage error : " + throwable))
                 .subscribe();
@@ -128,28 +141,32 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .getKeyword(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(keyword -> Log.d(TAG, "setViews: "))
+                .doOnNext(keyword -> keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
                 .subscribe();
 
         compositeDisposable.add(detailDisposable);
         compositeDisposable.add(videoDisposable);
         compositeDisposable.add(creditDisposable);
+        compositeDisposable.add(keywordDisposable);
     }
 
     private void initRecyclerViews() {
         SnapHelper helper = new LinearSnapHelper();
-        helper.attachToRecyclerView(genreRecyclerView);
         helper.attachToRecyclerView(creditRecyclerView);
-
-        LinearLayoutManager genreLayoutManager = new LinearLayoutManager(this);
-        genreLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         LinearLayoutManager creditLayoutManager = new LinearLayoutManager(this);
         creditLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+        LinearLayoutManager genreLayoutManager = new LinearLayoutManager(this);
+        genreLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        LinearLayoutManager keywordLayoutManager = new LinearLayoutManager(this);
+        keywordLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
         genreRecyclerView.setLayoutManager(genreLayoutManager);
         creditRecyclerView.setLayoutManager(creditLayoutManager);
+        keywordRecyclerView.setLayoutManager(keywordLayoutManager);
     }
 
     private void watchYoutubeVideo(Context context, String id) {
@@ -157,7 +174,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void loadBackdropImage(String imagePath) {
-        RequestOptions requestOptions = new RequestOptions().centerCrop();
+        RequestOptions requestOptions = new RequestOptions().centerCrop().error(R.drawable.vd_credit_holder);
         Glide.with(this)
                 .load(ServiceBuilder.BACKDROP_BASE_URL + imagePath)
                 .apply(requestOptions)

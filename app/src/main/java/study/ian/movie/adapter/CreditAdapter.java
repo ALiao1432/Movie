@@ -42,6 +42,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
+                .placeholder(R.drawable.vd_credit_holder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(context)
                 .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())

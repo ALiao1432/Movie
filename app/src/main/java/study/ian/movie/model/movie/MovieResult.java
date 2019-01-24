@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class DetailResult {
+public class MovieResult {
 
     @SerializedName("vote_count")
     private int vote_count;
@@ -162,7 +162,7 @@ public class DetailResult {
 
     @Override
     public String toString() {
-        return "DetailResult{" +
+        return "MovieResult{" +
                 "vote_count=" + vote_count +
                 ", id=" + id +
                 ", video=" + video +

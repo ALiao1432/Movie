@@ -18,9 +18,9 @@
     <color name="childContent">#b4b4b4</color>
     <color name="mainContent">#E2E2E2</color>
 
-    <!-- genre_btn_shape.xml -->
+    <!-- genre_keyword_btn_shape.xml -->
     <color name="genreBtnBackground">#00796b</color>
-    <color name="genreBtnText">#b4b4b4</color>
+    <color name="genreKeywordBtnText">#b4b4b4</color>
 
     <!-- holder_credit.xml -->
     <color name="holderCreditName">#E2E2E2</color>

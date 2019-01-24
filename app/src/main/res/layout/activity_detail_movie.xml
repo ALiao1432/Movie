@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/childContent"
-                android:textSize="@dimen/movie_runtime_text_size"
+                android:textSize="@dimen/movie_sub_content_text_size"
                 app:layout_constraintStart_toStartOf="@+id/detailTitleText"
                 app:layout_constraintTop_toBottomOf="@+id/detailTitleText"
                 tools:text="release_date" />
@@ -71,7 +71,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/childContent"
-                android:textSize="@dimen/movie_release_date_text_size"
+                android:textSize="@dimen/movie_sub_content_text_size"
                 app:layout_constraintBottom_toBottomOf="@+id/detailReleaseDateText"
                 app:layout_constraintStart_toEndOf="@+id/detailReleaseDateText"
                 app:layout_constraintTop_toBottomOf="@+id/detailTitleText"
@@ -80,14 +80,10 @@
 
             <TextView
                 android:id="@+id/overviewTitleText"
+                style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/movie_info_margin"
-                android:layout_marginTop="@dimen/movie_info_margin"
-                android:layout_marginEnd="@dimen/movie_info_margin"
                 android:text="@string/string_overview"
-                android:textColor="@color/mainContent"
-                android:textSize="@dimen/movie_overview_title_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +96,7 @@
                 android:layout_marginStart="@dimen/movie_info_margin"
                 android:layout_marginEnd="@dimen/movie_info_margin"
                 android:textColor="@color/childContent"
-                android:textSize="@dimen/movie_overview_content_text_size"
+                android:textSize="@dimen/movie_sub_content_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/overviewTitleText"
@@ -108,14 +104,10 @@
 
             <TextView
                 android:id="@+id/creditTitleText"
+                style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/movie_info_margin"
-                android:layout_marginTop="@dimen/movie_info_margin"
-                android:layout_marginEnd="@dimen/movie_info_margin"
                 android:text="@string/string_credit"
-                android:textColor="@color/mainContent"
-                android:textSize="@dimen/movie_credit_title_text_size"
                 app:layout_constraintTop_toBottomOf="@id/overviewContentText" />
 
             <android.support.v7.widget.RecyclerView
@@ -125,19 +117,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/creditTitleText"
-                tools:layout_height="100dp" />
+                tools:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/recommendTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/string_recommend"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewCredits" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewRecommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommendTitleText"
+                tools:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/genreTitleText"
+                style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/movie_info_margin"
-                android:layout_marginTop="@dimen/movie_info_margin"
-                android:layout_marginEnd="@dimen/movie_info_margin"
                 android:text="@string/string_genre"
-                android:textColor="@color/mainContent"
-                android:textSize="@dimen/movie_credit_title_text_size"
-                app:layout_constraintTop_toBottomOf="@id/recyclerViewCredits" />
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewRecommend" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewGenres"
@@ -145,24 +150,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/movie_info_margin"
                 android:layout_marginEnd="@dimen/movie_info_margin"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genreTitleText"
-                app:layout_constraintVertical_bias="1.0"
-                tools:layout_height="50dp" />
+                tools:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/keywordTitleText"
+                style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/movie_info_margin"
                 android:text="@string/string_keyword"
-                android:textColor="@color/mainContent"
-                android:textSize="@dimen/movie_keyword_title_text_size"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewGenres" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewKeywords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/movie_info_margin"
+                android:layout_marginEnd="@dimen/movie_info_margin"
+                app:layout_constraintTop_toBottomOf="@id/keywordTitleText"
+                tools:layout_height="30dp" />
 
         </android.support.constraint.ConstraintLayout>
 

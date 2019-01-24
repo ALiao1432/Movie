@@ -15,6 +15,7 @@
     <string name="string_credit">Credit</string>
     <string name="string_genre">Genres</string>
     <string name="string_keyword">Keyword</string>
+    <string name="string_recommend">Recommend</string>
 
     <!-- holder_credit.xml -->
     <string name="string_holder_credit_image_description">Cast/Crew image</string>
