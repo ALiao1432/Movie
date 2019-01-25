@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
@@ -196,7 +195,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     if (o instanceof Recommend) {
                         List<RecommendResult> resultList = ((Recommend) o).getResults();
                         if (resultList.size() == 0) {
-                            recommendText.setText(getResources().getString(R.string.string_no_recommend));
+                            recommendText.setText(getResources().getString(R.string.no_recommend));
                         } else {
                             recommendAdapter.addResults(resultList);
                             totalRecommendPages = ((Recommend) o).getTotal_pages();

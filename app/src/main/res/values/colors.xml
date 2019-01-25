@@ -18,9 +18,15 @@
     <color name="childContent">#b4b4b4</color>
     <color name="mainContent">#E2E2E2</color>
 
-    <!-- genre_keyword_btn_shape.xml -->
+    <!-- shape_genre_keyword_btn.xml -->
     <color name="genreBtnBackground">#00796b</color>
     <color name="genreKeywordBtnText">#b4b4b4</color>
+
+    <!-- shape_db_search_edt_focus_focus.xml -->
+    <color name="dbSearchEdtBackgroundFocus">#00796b</color>
+    <color name="dbSearchEdtBackgroundNotFocus">#686868</color>
+    <color name="dbSearchEdtText">#b4b4b4</color>
+    <color name="dbSearchEdtHintText">#686868</color>
 
     <!-- holder_detail_card.xml -->
     <color name="holderMainText">#E2E2E2</color>

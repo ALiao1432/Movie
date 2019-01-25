@@ -22,7 +22,7 @@
     <style name="AppTheme.genreKeywordButton" parent="AppTheme">
         <item name="android:layout_height">@dimen/genre_keyword_btn_height</item>
         <item name="android:minWidth">0dp</item>
-        <item name="android:background">@drawable/genre_keyword_btn_shape</item>
+        <item name="android:background">@drawable/shape_genre_keyword_btn</item>
         <item name="android:foreground">@drawable/foreground_ripple</item>
         <item name="android:textColor">@color/genreKeywordBtnText</item>
         <item name="android:textSize">@dimen/genre_keyword_btn_text_size</item>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- fading_in.xml & fading_out.xml -->
+    <integer name="fragment_transition_duration">250</integer>
+
     <!-- holder_movie.xml -->
     <dimen name="holder_movie_layout_margin">8dp</dimen>
     <dimen name="holder_movie_title_margin">8dp</dimen>
@@ -21,11 +24,17 @@
     <!-- holder_genre.xml & holder_keyword.xml -->
     <dimen name="holder_genre_keyword_layout_padding">12dp</dimen>
 
-    <!-- genre_keyword_btn_shape.xml -->
+    <!-- shape_genre_keyword_btn.xml -->
     <dimen name="genre_keyword_btn_height">28dp</dimen>
     <dimen name="genre_keyword_btn_shape_radius">30dp</dimen>
     <dimen name="genre_keyword_btn_stroke_width">2dp</dimen>
     <dimen name="genre_keyword_btn_text_size">12sp</dimen>
+
+    <!-- db_search_edt_dark.xml & db_search_edt_light.xml -->
+    <dimen name="db_search_edt_radius">36dp</dimen>
+    <dimen name="db_search_edt_stroke_width">4dp</dimen>
+    <dimen name="db_search_edt_padding_left_right">16dp</dimen>
+    <dimen name="db_search_edt_padding_top_bottom">8dp</dimen>
 
     <!-- holder_detail_card.xml -->
     <dimen name="holder_detail_width">140dp</dimen>
@@ -35,5 +44,8 @@
     <dimen name="holder_detail_sub_text_size">14sp</dimen>
     <dimen name="holder_detail_layout_margin">8dp</dimen>
     <dimen name="holder_detail_text_margin">12dp</dimen>
-
+    
+    <!-- layout_discover -->
+    <dimen name="search_layout_margin">10dp</dimen>
+    
 </resources>

@@ -25,28 +25,32 @@ public class MainActivity extends AppCompatActivity {
     private Fragment activeFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = menuItem -> {
-                switch (menuItem.getItemId()) {
-                    case R.id.item_discover:
-                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentDiscover).commit();
-                        activeFragment = fragmentDiscover;
-                        return true;
-                    case R.id.item_movies:
-                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentMovies).commit();
-                        activeFragment = fragmentMovies;
-                        return true;
-                    case R.id.item_tv_shows:
-                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentTvShows).commit();
-                        activeFragment = fragmentTvShows;
-                        return true;
-                    case R.id.item_people:
-                        fragmentManager.beginTransaction().hide(activeFragment).show(fragmentPeople).commit();
-                        activeFragment = fragmentPeople;
-                        return true;
-                    default:
-                        break;
-                }
-                return false;
-            };
+
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.fading_in, R.anim.fading_out);
+
+        switch (menuItem.getItemId()) {
+            case R.id.item_discover:
+                fragmentTransaction.hide(activeFragment).show(fragmentDiscover).commit();
+                activeFragment = fragmentDiscover;
+                return true;
+            case R.id.item_movies:
+                fragmentTransaction.hide(activeFragment).show(fragmentMovies).commit();
+                activeFragment = fragmentMovies;
+                return true;
+            case R.id.item_tv_shows:
+                fragmentTransaction.hide(activeFragment).show(fragmentTvShows).commit();
+                activeFragment = fragmentTvShows;
+                return true;
+            case R.id.item_people:
+                fragmentTransaction.hide(activeFragment).show(fragmentPeople).commit();
+                activeFragment = fragmentPeople;
+                return true;
+            default:
+                break;
+        }
+        return false;
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         setFragmentManager();
         setBottomNavView();
 
-        // for test
-        bottomNavView.setSelectedItemId(R.id.item_movies);
+        // TODO: 2019-01-25 after testing, delete this line~~~
+        bottomNavView.setSelectedItemId(R.id.item_discover);
     }
 
     private void findViews() {

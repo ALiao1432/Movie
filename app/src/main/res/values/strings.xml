@@ -2,22 +2,25 @@
     <string name="app_name">Movie</string>
 
     <!-- bottomNavigationView -->
-    <string name="string_discover">Discover</string>
-    <string name="string_movies">Movies</string>
-    <string name="string_tv_shows">Tv Shows</string>
-    <string name="string_people">People</string>
+    <string name="discover">Discover</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">Tv Shows</string>
+    <string name="people">People</string>
 
     <!-- holder_movie -->
-    <string name="string_holder_movie_image_description">Movie poster</string>
+    <string name="holder_movie_image_description">Movie poster</string>
 
     <!-- activity_detail_movie.xml -->
-    <string name="string_overview">Overview</string>
-    <string name="string_credit">Credit</string>
-    <string name="string_genre">Genres</string>
-    <string name="string_keyword">Keyword</string>
-    <string name="string_recommend">Recommend</string>
-    <string name="string_no_recommend">No Recommend Movie</string>
+    <string name="overview">Overview</string>
+    <string name="credit">Credit</string>
+    <string name="genre">Genres</string>
+    <string name="keyword">Keyword</string>
+    <string name="recommend">Recommend</string>
+    <string name="no_recommend">No Recommend Movie</string>
 
     <!-- holder_detail_card.xml -->
-    <string name="string_holder_detail_image_description">Detail image</string>
+    <string name="holder_detail_image_description">Detail image</string>
+
+    <!-- layout_discover -->
+    <string name="db_search_edt_hint">Search for movie, tv show, person…</string>
 </resources>
