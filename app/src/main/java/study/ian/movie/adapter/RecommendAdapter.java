@@ -1,6 +1,7 @@
 package study.ian.movie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +14,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
 import study.ian.movie.model.movie.recommend.RecommendResult;
+import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.RecommendHolder> {
@@ -54,6 +59,16 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
                 .load(ServiceBuilder.POSTER_BASE_URL + result.getPoster_path())
                 .apply(requestOptions)
                 .into(recommendHolder.recommendImage);
+
+        RxView.clicks(recommendHolder.cardView)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                .doOnNext(unit -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(MovieService.KEY_ID, result.getId());
+                    intent.setClass(context, MovieDetailActivity.class);
+                    context.startActivity(intent);
+                })
+                .subscribe();
 
         recommendHolder.titleText.setText(result.getTitle());
         recommendHolder.releaseDateText.setText(result.getRelease_date());

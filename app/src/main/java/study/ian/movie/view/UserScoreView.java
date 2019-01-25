@@ -36,8 +36,7 @@ public class UserScoreView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        float VIEW_SIZE_RATIO = 0.14f; // determine the size of this view
-//        float VIEW_SIZE_RATIO = 0.5f; // test
+        float VIEW_SIZE_RATIO = 0.1f; // determine the size of this view
 
         width = MeasureSpec.getSize(widthMeasureSpec);
         width *= VIEW_SIZE_RATIO;

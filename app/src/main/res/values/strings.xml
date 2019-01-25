@@ -16,6 +16,7 @@
     <string name="string_genre">Genres</string>
     <string name="string_keyword">Keyword</string>
     <string name="string_recommend">Recommend</string>
+    <string name="string_no_recommend">No Recommend Movie</string>
 
     <!-- holder_detail_card.xml -->
     <string name="string_holder_detail_image_description">Detail image</string>

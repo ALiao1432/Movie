@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -27,6 +28,7 @@ import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.adapter.RecommendAdapter;
 import study.ian.movie.model.movie.recommend.Recommend;
+import study.ian.movie.model.movie.recommend.RecommendResult;
 import study.ian.movie.model.movie.video.VideoResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
@@ -43,6 +45,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView runTimeText;
     private TextView releaseDateText;
     private TextView overviewText;
+    private TextView recommendText;
     private RecyclerView genreRecyclerView;
     private RecyclerView creditRecyclerView;
     private RecyclerView keywordRecyclerView;
@@ -70,6 +73,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         runTimeText = findViewById(R.id.detailRunTimeText);
         releaseDateText = findViewById(R.id.detailReleaseDateText);
         overviewText = findViewById(R.id.overviewContentText);
+        recommendText = findViewById(R.id.recommendTitleText);
         genreRecyclerView = findViewById(R.id.recyclerViewGenres);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
         keywordRecyclerView = findViewById(R.id.recyclerViewKeywords);
@@ -143,9 +147,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initRecyclerViews() {
-        new LinearSnapHelper().attachToRecyclerView(creditRecyclerView);
-        new LinearSnapHelper().attachToRecyclerView(recommendRecyclerView);
-
         LinearLayoutManager creditLayoutManager = new LinearLayoutManager(this);
         creditLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -165,6 +166,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         creditRecyclerView.setLayoutManager(creditLayoutManager);
         keywordRecyclerView.setLayoutManager(keywordLayoutManager);
         recommendRecyclerView.setLayoutManager(recommendLayoutManager);
+
+        creditRecyclerView.setNestedScrollingEnabled(false);
+        recommendRecyclerView.setNestedScrollingEnabled(false);
 
         // setup load more listener
         recommendRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
@@ -190,9 +194,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(o -> {
                     if (o instanceof Recommend) {
-                        recommendAdapter.addResults(((Recommend) o).getResults());
-                        totalRecommendPages = ((Recommend) o).getTotal_pages();
-                        isRecommendLoading = false;
+                        List<RecommendResult> resultList = ((Recommend) o).getResults();
+                        if (resultList.size() == 0) {
+                            recommendText.setText(getResources().getString(R.string.string_no_recommend));
+                        } else {
+                            recommendAdapter.addResults(resultList);
+                            totalRecommendPages = ((Recommend) o).getTotal_pages();
+                            isRecommendLoading = false;
+                        }
                     }
                 })
                 .doOnError(throwable -> Log.d(TAG, "loadMorePage: error : " + throwable))
