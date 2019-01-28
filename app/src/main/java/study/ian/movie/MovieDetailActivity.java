@@ -158,13 +158,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         LinearLayoutManager recommendLayoutManager = new LinearLayoutManager(this);
         recommendLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        recommendAdapter = new RecommendAdapter(this);
-        recommendRecyclerView.setAdapter(recommendAdapter);
-
         genreRecyclerView.setLayoutManager(genreLayoutManager);
         creditRecyclerView.setLayoutManager(creditLayoutManager);
         keywordRecyclerView.setLayoutManager(keywordLayoutManager);
         recommendRecyclerView.setLayoutManager(recommendLayoutManager);
+
+        recommendAdapter = new RecommendAdapter(this);
+        recommendRecyclerView.setAdapter(recommendAdapter);
 
         creditRecyclerView.setNestedScrollingEnabled(false);
         recommendRecyclerView.setNestedScrollingEnabled(false);

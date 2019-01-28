@@ -16,11 +16,27 @@
     <string name="genre">Genres</string>
     <string name="keyword">Keyword</string>
     <string name="recommend">Recommend</string>
-    <string name="no_recommend">No Recommend Movie</string>
+    <string name="no_recommend">No Recommend Movie</string>d
 
     <!-- holder_detail_card.xml -->
     <string name="holder_detail_image_description">Detail image</string>
 
     <!-- layout_discover -->
     <string name="db_search_edt_hint">Search for movie, tv show, person…</string>
+
+    <string-array name="sort_option_array">
+        <item>Popularity Descending</item>
+        <item>Popularity Ascending</item>
+        <item>Rating Descending</item>
+        <item>Rating Ascending</item>
+        <item>Release Date Descending</item>
+        <item>Release Date Ascending</item>
+        <item>Title(A-Z)</item>
+        <item>Title(Z-A)</item>
+    </string-array>
+
+    <string-array name="search_genre_option_array">
+        <item>Movie</item>
+        <item>Tv Show</item>
+    </string-array>
 </resources>

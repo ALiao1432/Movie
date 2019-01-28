@@ -13,7 +13,6 @@ import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.disposables.Disposable;
 import study.ian.movie.R;
 import study.ian.movie.model.movie.keyword.Keyword;
 import study.ian.movie.model.movie.keyword.KeywordResult;

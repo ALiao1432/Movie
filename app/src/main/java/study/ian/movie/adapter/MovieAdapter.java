@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.disposables.Disposable;
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
 import study.ian.movie.model.movie.MovieResult;

@@ -13,6 +13,14 @@
     <color name="holderMovieTitle">#E2E2E2</color>
     <color name="holderMovieReleaseDate">#a4a4a4</color>
 
+    <!-- holder_detail_card.xml -->
+    <color name="holderMainText">#E2E2E2</color>
+    <color name="holderSubText">#b4b4b4</color>
+
+    <!-- holder_search_option.xml -->
+    <color name="holderSearchOptionSelect">#00796b</color>
+    <color name="holderSearchOptionNotSelect">#686868</color>
+
     <!-- Movie_DetailActivity.xml -->
     <color name="releaseDate">#b4b4b4</color>
     <color name="childContent">#b4b4b4</color>
@@ -28,7 +36,4 @@
     <color name="dbSearchEdtText">#b4b4b4</color>
     <color name="dbSearchEdtHintText">#686868</color>
 
-    <!-- holder_detail_card.xml -->
-    <color name="holderMainText">#E2E2E2</color>
-    <color name="holderSubText">#b4b4b4</color>
 </resources>

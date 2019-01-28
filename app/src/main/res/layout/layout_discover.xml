@@ -15,36 +15,97 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/search_layout_margin"
-                android:background="@drawable/db_search_layout_selector"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/searchHintImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/vd_search"
-                    tools:ignore="ContentDescription" />
-
-                <EditText
-                    android:id="@+id/dbSearchEdt"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/dbSearchEdtLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/db_search_edt_hint"
-                    android:inputType="text"
-                    android:textColor="@color/dbSearchEdtText"
-                    android:textColorHint="@color/dbSearchEdtHintText"
+                    android:layout_margin="@dimen/search_layout_margin"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/db_search_layout_selector"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:layout_constraintBottom_toTopOf="@id/recyclerViewYear"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/searchHintImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/vd_search"
+                        tools:ignore="ContentDescription" />
+
+                    <EditText
+                        android:id="@+id/dbSearchEdt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="@string/db_search_edt_hint"
+                        android:inputType="text"
+                        android:textColor="@color/dbSearchEdtText"
+                        android:textColorHint="@color/dbSearchEdtHintText"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/searchHintImage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="Autofill" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewYear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/search_layout_margin"
+                    android:layout_marginEnd="@dimen/search_layout_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dbSearchEdtLayout"
+                    tools:layout_height="30dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewSort"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/search_layout_margin"
+                    android:layout_marginEnd="@dimen/search_layout_margin"
+                    app:layout_constraintBottom_toTopOf="@id/genreOptionSpinner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recyclerViewYear"
+                    tools:layout_height="30dp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/genreOptionSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/search_layout_margin"
+                    app:layout_constraintBottom_toBottomOf="@id/recyclerViewGenreOption"
+                    app:layout_constraintEnd_toStartOf="@id/recyclerViewGenreOption"
+                    app:layout_constraintHorizontal_weight="1.7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/recyclerViewGenreOption" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewGenreOption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/search_layout_margin"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/searchHintImage"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="Autofill" />
+                    app:layout_constraintHorizontal_weight="4"
+                    app:layout_constraintStart_toEndOf="@id/genreOptionSpinner"
+                    app:layout_constraintTop_toBottomOf="@id/recyclerViewSort"
+                    tools:layout_height="30dp" />
 
             </android.support.constraint.ConstraintLayout>
 

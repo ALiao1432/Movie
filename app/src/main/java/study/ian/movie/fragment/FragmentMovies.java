@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
 import study.ian.movie.adapter.MovieAdapter;

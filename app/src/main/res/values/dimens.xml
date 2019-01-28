@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- fading_in.xml & fading_out.xml -->
     <integer name="fragment_transition_duration">250</integer>
 
@@ -44,8 +45,14 @@
     <dimen name="holder_detail_sub_text_size">14sp</dimen>
     <dimen name="holder_detail_layout_margin">8dp</dimen>
     <dimen name="holder_detail_text_margin">12dp</dimen>
-    
+
     <!-- layout_discover -->
     <dimen name="search_layout_margin">10dp</dimen>
-    
+
+    <!-- holder_search_option.xml -->
+    <dimen name="holder_search_option_text_padding_start_end">12dp</dimen>
+    <dimen name="holder_search_option_text_padding_top_bottom">6dp</dimen>
+
+    <!-- spinner_item.xml -->
+    <dimen name="spinner_item_padding">5dp</dimen>
 </resources>
