@@ -37,7 +37,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
     }
 
     public <T> void setResultList(List<T> rList) {
-        Log.d(TAG, "setResultList: ");
         resultList.clear();
         resultList = rList;
         notifyDataSetChanged();

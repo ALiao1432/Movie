@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import study.ian.movie.R;
+import study.ian.movie.util.OnYearSelectedListener;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
 
@@ -28,14 +29,14 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
     private List<String> yearList = new ArrayList<>();
     private List<String> tempList = new ArrayList<>();
     private String currentSelected;
+    private OnYearSelectedListener yearSelectedListener;
 
     public YearAdapter(Context context) {
         this.context = context;
 
-        int currentYear = (int) (Calendar.getInstance().getTime().getTime() / 365f / 24f / 60f / 60f / 1000f) + 1970;
-
         tempList.add("None");
         currentSelected = tempList.get(0);
+        int currentYear = (int) (Calendar.getInstance().getTime().getTime() / 365f / 24f / 60f / 60f / 1000f) + 1970;
         for (int i = currentYear; i >= 1900; i--) {
             tempList.add(String.valueOf(i));
         }
@@ -77,6 +78,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
                 .doOnNext(unit -> {
                     currentSelected = String.valueOf(t.getText());
+                    yearSelectedListener.onYearSelected(getSelectedYear());
                     notifyDataSetChanged();
                 })
                 .subscribe();
@@ -93,6 +95,10 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
     @Override
     public int getItemCount() {
         return yearList.size();
+    }
+
+    public void setOnYearSelectedListener(OnYearSelectedListener onYearSelectedListener) {
+        yearSelectedListener = onYearSelectedListener;
     }
 
     class YearHolder extends RecyclerView.ViewHolder {

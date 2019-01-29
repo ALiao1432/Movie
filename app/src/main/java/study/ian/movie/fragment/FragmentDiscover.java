@@ -28,8 +28,9 @@ import study.ian.movie.adapter.SearchAdapter;
 import study.ian.movie.adapter.YearAdapter;
 import study.ian.movie.service.DiscoverService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.OnYearSelectedListener;
 
-public class FragmentDiscover extends Fragment {
+public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
     private final String TAG = "FragmentDiscover";
 
@@ -40,6 +41,7 @@ public class FragmentDiscover extends Fragment {
     private EditText dbSearchEdt;
     private YearAdapter yearAdapter;
     private SearchAdapter searchAdapter;
+
     private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -103,6 +105,7 @@ public class FragmentDiscover extends Fragment {
 
         yearAdapter = new YearAdapter(context);
         yearAdapter.setSearchType(true);
+        yearAdapter.setOnYearSelectedListener(this);
 
         searchAdapter = new SearchAdapter(context);
 
@@ -120,6 +123,7 @@ public class FragmentDiscover extends Fragment {
         );
         optionSpinner.setAdapter(spinnerAdapter);
         optionSpinner.setOnItemSelectedListener(itemSelectedListener);
+
 
         RxTextView.textChanges(dbSearchEdt)
                 .throttleLast(2000, TimeUnit.MILLISECONDS)
@@ -148,5 +152,10 @@ public class FragmentDiscover extends Fragment {
             case "Person":
                 break;
         }
+    }
+
+    @Override
+    public void onYearSelected(@Nullable Integer year) {
+        search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), year);
     }
 }
