@@ -46,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     @NonNull
     @Override
     public MovieHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.holder_movie, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.holder_main_display, viewGroup, false);
         return new MovieHolder(view);
     }
 
@@ -91,10 +91,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         MovieHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardView = itemView.findViewById(R.id.holder_movie_card);
-            posterImage = itemView.findViewById(R.id.holderMovieImage);
-            titleText = itemView.findViewById(R.id.movieTitleText);
-            releaseDateText = itemView.findViewById(R.id.releaseDateText);
+            cardView = itemView.findViewById(R.id.holderMainDisplayCard);
+            posterImage = itemView.findViewById(R.id.holderMainImage);
+            titleText = itemView.findViewById(R.id.mainTitleText);
+            releaseDateText = itemView.findViewById(R.id.subContentText);
         }
     }
 }

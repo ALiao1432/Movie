@@ -2,13 +2,13 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/holder_movie_card"
+    android:id="@+id/holderMainDisplayCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/holder_movie_layout_margin"
-    android:layout_marginTop="@dimen/holder_movie_layout_margin"
-    android:layout_marginEnd="@dimen/holder_movie_layout_margin"
-    app:cardCornerRadius="@dimen/holder_movie_layout_corner_radius">
+    android:layout_marginStart="@dimen/holder_main_card_layout_margin"
+    android:layout_marginTop="@dimen/holder_main_card_layout_margin"
+    android:layout_marginEnd="@dimen/holder_main_card_layout_margin"
+    app:cardCornerRadius="@dimen/holder_main_card_corner_radius">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
         android:background="@color/holderBackground">
 
         <ImageView
-            android:id="@+id/holderMovieImage"
+            android:id="@+id/holderMainImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/holder_movie_movie_image_height"
-            android:contentDescription="@string/holder_movie_image_description"
+            android:layout_height="@dimen/holder_main_image_height"
+            android:contentDescription="@string/holder_main_image_description"
             android:foreground="@drawable/foreground_ripple"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,34 +28,34 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/movieTitleText"
+            android:id="@+id/mainTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:singleLine="true"
-            android:textColor="@color/holderMovieTitle"
-            android:textSize="@dimen/holder_movie_title_text_size"
+            android:textColor="@color/holderMainTitle"
+            android:textSize="@dimen/holder_main_title_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/holderMovieImage"
-            tools:text="text_movie_title" />
+            app:layout_constraintTop_toBottomOf="@+id/holderMainImage"
+            tools:text="text_main_title" />
 
         <TextView
-            android:id="@+id/releaseDateText"
+            android:id="@+id/subContentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/holder_movie_release_date_margin"
-            android:layout_marginBottom="@dimen/holder_movie_release_date_margin"
+            android:layout_marginTop="@dimen/holder_sub_content_margin"
+            android:layout_marginBottom="@dimen/holder_sub_content_margin"
             android:background="@android:color/transparent"
-            android:textColor="@color/holderMovieReleaseDate"
-            android:textSize="@dimen/holder_movie_release_date_text_size"
+            android:textColor="@color/holderSubContent"
+            android:textSize="@dimen/holder_sub_content_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/movieTitleText"
+            app:layout_constraintEnd_toEndOf="@+id/mainTitleText"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/movieTitleText"
-            app:layout_constraintTop_toBottomOf="@+id/movieTitleText"
-            tools:text="text_release_date" />
+            app:layout_constraintStart_toStartOf="@+id/mainTitleText"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitleText"
+            tools:text="text_sub_content" />
 
     </android.support.constraint.ConstraintLayout>
 

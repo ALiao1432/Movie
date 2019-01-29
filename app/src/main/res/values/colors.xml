@@ -8,10 +8,10 @@
     <color name="navIconUnselected">#b4b4b4</color>
     <color name="ripple">#3f000000</color>
 
-    <!-- holder_movie.xml -->
+    <!-- holder_main_display.xml -->
     <color name="holderBackground">#0d2e3b</color>
-    <color name="holderMovieTitle">#E2E2E2</color>
-    <color name="holderMovieReleaseDate">#a4a4a4</color>
+    <color name="holderMainTitle">#E2E2E2</color>
+    <color name="holderSubContent">#a4a4a4</color>
 
     <!-- holder_detail_card.xml -->
     <color name="holderMainText">#E2E2E2</color>

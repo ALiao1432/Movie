@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,15 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.List;
+import com.jakewharton.rxbinding3.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
-import study.ian.movie.adapter.GenreOptionAdapter;
-import study.ian.movie.adapter.SortAdapter;
+import study.ian.movie.adapter.SearchAdapter;
 import study.ian.movie.adapter.YearAdapter;
-import study.ian.movie.model.discover.GenreResult;
 import study.ian.movie.service.DiscoverService;
 import study.ian.movie.service.ServiceBuilder;
 
@@ -34,22 +35,23 @@ public class FragmentDiscover extends Fragment {
 
     private Context context;
     private RecyclerView recyclerViewYear;
-    private RecyclerView recyclerViewSort;
-    private RecyclerView recyclerViewGenreOption;
-    private GenreOptionAdapter genreOptionAdapter;
+    private RecyclerView recyclerViewSearchResult;
     private Spinner optionSpinner;
     private EditText dbSearchEdt;
-    private List<GenreResult> movieGenreList;
-    private List<GenreResult> tvGenreList;
+    private YearAdapter yearAdapter;
+    private SearchAdapter searchAdapter;
     private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    genreOptionAdapter.setGenreResultList(movieGenreList);
-                    break;
                 case 1:
-                    genreOptionAdapter.setGenreResultList(tvGenreList);
+                    Log.d(TAG, "onItemSelected: true");
+                    yearAdapter.setSearchType(true);
+                    break;
+                case 2:
+                    yearAdapter.setSearchType(false);
+                    Log.d(TAG, "onItemSelected: flse");
                     break;
             }
         }
@@ -67,7 +69,6 @@ public class FragmentDiscover extends Fragment {
 
         findViews(view);
         setViews();
-        getGenreList();
 
         return view;
     }
@@ -88,31 +89,29 @@ public class FragmentDiscover extends Fragment {
 
     private void findViews(View view) {
         recyclerViewYear = view.findViewById(R.id.recyclerViewYear);
-        recyclerViewSort = view.findViewById(R.id.recyclerViewSort);
-        recyclerViewGenreOption = view.findViewById(R.id.recyclerViewGenreOption);
+        recyclerViewSearchResult = view.findViewById(R.id.recyclerViewSearchResult);
         optionSpinner = view.findViewById(R.id.genreOptionSpinner);
         dbSearchEdt = view.findViewById(R.id.dbSearchEdt);
     }
 
     private void setViews() {
-        LinearLayoutManager yearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager yearLayoutManager = new LinearLayoutManager(context);
         yearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        LinearLayoutManager sortLayoutManager = new LinearLayoutManager(getContext());
-        sortLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        GridLayoutManager searchLayoutManager = new GridLayoutManager(context, 2);
+        searchLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        LinearLayoutManager genreLayoutManager = new LinearLayoutManager(getContext());
-        genreLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        yearAdapter = new YearAdapter(context);
+        yearAdapter.setSearchType(true);
 
-        genreOptionAdapter = new GenreOptionAdapter(context);
+        searchAdapter = new SearchAdapter(context);
 
         recyclerViewYear.setLayoutManager(yearLayoutManager);
-        recyclerViewSort.setLayoutManager(sortLayoutManager);
-        recyclerViewGenreOption.setLayoutManager(genreLayoutManager);
+        recyclerViewYear.setAdapter(yearAdapter);
 
-        recyclerViewYear.setAdapter(new YearAdapter(context));
-        recyclerViewSort.setAdapter(new SortAdapter(context));
-        recyclerViewGenreOption.setAdapter(genreOptionAdapter);
+        recyclerViewSearchResult.setLayoutManager(searchLayoutManager);
+        recyclerViewSearchResult.setAdapter(searchAdapter);
+        recyclerViewSearchResult.setNestedScrollingEnabled(false);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
                 context,
@@ -120,27 +119,34 @@ public class FragmentDiscover extends Fragment {
                 R.layout.spinner_item
         );
         optionSpinner.setAdapter(spinnerAdapter);
+        optionSpinner.setOnItemSelectedListener(itemSelectedListener);
+
+        RxTextView.textChanges(dbSearchEdt)
+                .throttleLast(2000, TimeUnit.MILLISECONDS)
+                .doOnNext(charSequence -> search((String) optionSpinner.getSelectedItem(), charSequence.toString(), yearAdapter.getSelectedYear()))
+                .doOnError(throwable -> Log.d(TAG, "setViews: dbSearchEdt error : " + throwable))
+                .subscribe();
     }
 
-    private void getGenreList() {
-        ServiceBuilder.getService(DiscoverService.class)
-                .getMovieGenre(ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(genre -> {
-                    movieGenreList = genre.getGenres();
-                    optionSpinner.setOnItemSelectedListener(itemSelectedListener);
-                    genreOptionAdapter.setGenreResultList(movieGenreList);
-                })
-                .doOnError(throwable -> Log.d(TAG, "getGenreList: get movie genre error : " + throwable))
-                .subscribe();
+    private void search(String searchType, String query, @Nullable Integer year) {
+        if (query.equals("")) {
+            return;
+        }
 
-        ServiceBuilder.getService(DiscoverService.class)
-                .getTvGenre(ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(genre -> tvGenreList = genre.getGenres())
-                .doOnError(throwable -> Log.d(TAG, "getGenreList: get tv genre error : " + throwable))
-                .subscribe();
+        switch (searchType) {
+            case "Movie":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchMovie(ServiceBuilder.API_KEY, query, year)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(movie -> searchAdapter.setResultList(movie.getMovieResults()))
+                        .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
+                        .subscribe();
+                break;
+            case "Tv Show":
+                break;
+            case "Person":
+                break;
+        }
     }
 }

@@ -4,14 +4,13 @@
     <!-- fading_in.xml & fading_out.xml -->
     <integer name="fragment_transition_duration">250</integer>
 
-    <!-- holder_movie.xml -->
-    <dimen name="holder_movie_layout_margin">8dp</dimen>
-    <dimen name="holder_movie_title_margin">8dp</dimen>
-    <dimen name="holder_movie_movie_image_height">307dp</dimen>
-    <dimen name="holder_movie_release_date_margin">2dp</dimen>
-    <dimen name="holder_movie_layout_corner_radius">8dp</dimen>
-    <dimen name="holder_movie_title_text_size">16sp</dimen>
-    <dimen name="holder_movie_release_date_text_size">12sp</dimen>
+    <!-- holder_main_display.xml -->
+    <dimen name="holder_main_card_layout_margin">8dp</dimen>
+    <dimen name="holder_main_card_corner_radius">8dp</dimen>
+    <dimen name="holder_main_image_height">307dp</dimen>
+    <dimen name="holder_main_title_text_size">16sp</dimen>
+    <dimen name="holder_sub_content_margin">2dp</dimen>
+    <dimen name="holder_sub_content_text_size">12sp</dimen>
 
     <!-- MovieDetailActivity.xml -->
     <dimen name="backdrop_height">240dp</dimen>

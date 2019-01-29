@@ -7,8 +7,8 @@
     <string name="tv_shows">Tv Shows</string>
     <string name="people">People</string>
 
-    <!-- holder_movie -->
-    <string name="holder_movie_image_description">Movie poster</string>
+    <!-- holder_main_display.xml -->
+    <string name="holder_main_image_description">Main Display Image</string>
 
     <!-- activity_detail_movie.xml -->
     <string name="overview">Overview</string>
@@ -21,7 +21,7 @@
     <!-- holder_detail_card.xml -->
     <string name="holder_detail_image_description">Detail image</string>
 
-    <!-- layout_discover -->
+    <!-- layout_discover.xml -->
     <string name="db_search_edt_hint">Search for movie, tv show, person…</string>
 
     <string-array name="sort_option_array">
@@ -38,5 +38,6 @@
     <string-array name="search_genre_option_array">
         <item>Movie</item>
         <item>Tv Show</item>
+        <item>Person</item>
     </string-array>
 </resources>

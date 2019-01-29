@@ -3,6 +3,7 @@ package study.ian.movie.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
 
     private Context context;
     private List<String> yearList = new ArrayList<>();
+    private List<String> tempList = new ArrayList<>();
     private String currentSelected;
 
     public YearAdapter(Context context) {
@@ -32,10 +34,29 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
 
         int currentYear = (int) (Calendar.getInstance().getTime().getTime() / 365f / 24f / 60f / 60f / 1000f) + 1970;
 
-        yearList.add("None");
-        currentSelected = "None";
+        tempList.add("None");
+        currentSelected = tempList.get(0);
         for (int i = currentYear; i >= 1900; i--) {
-            yearList.add(String.valueOf(i));
+            tempList.add(String.valueOf(i));
+        }
+    }
+
+    public void setSearchType(boolean hasYear) {
+        if (hasYear) {
+            yearList.clear();
+            yearList.addAll(tempList);
+        } else {
+            yearList.clear();
+            yearList.add("None");
+        }
+        notifyDataSetChanged();
+    }
+
+    public @Nullable Integer getSelectedYear() {
+        if (currentSelected.equals("None")) {
+            return null;
+        } else {
+            return Integer.valueOf(currentSelected);
         }
     }
 
