@@ -33,14 +33,19 @@ import study.ian.movie.util.OnYearSelectedListener;
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
     private final String TAG = "FragmentDiscover";
+    private final int VISIBLE_THRESHOLD = 10;
 
     private Context context;
-    private RecyclerView recyclerViewYear;
-    private RecyclerView recyclerViewSearchResult;
+    private RecyclerView yearRecyclerView;
+    private RecyclerView searchResultRecyclerView;
     private Spinner optionSpinner;
     private EditText dbSearchEdt;
     private YearAdapter yearAdapter;
     private SearchAdapter searchAdapter;
+    private String lastQuery = "";
+    private boolean isSearching = false;
+    private int totalSearchPages = 0;
+    private int page = 1;
 
     private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -48,12 +53,10 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             switch (position) {
                 case 0:
                 case 1:
-                    Log.d(TAG, "onItemSelected: true");
                     yearAdapter.setSearchType(true);
                     break;
                 case 2:
                     yearAdapter.setSearchType(false);
-                    Log.d(TAG, "onItemSelected: flse");
                     break;
             }
         }
@@ -90,8 +93,8 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     }
 
     private void findViews(View view) {
-        recyclerViewYear = view.findViewById(R.id.recyclerViewYear);
-        recyclerViewSearchResult = view.findViewById(R.id.recyclerViewSearchResult);
+        yearRecyclerView = view.findViewById(R.id.recyclerViewYear);
+        searchResultRecyclerView = view.findViewById(R.id.recyclerViewSearchResult);
         optionSpinner = view.findViewById(R.id.genreOptionSpinner);
         dbSearchEdt = view.findViewById(R.id.dbSearchEdt);
     }
@@ -109,12 +112,19 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
         searchAdapter = new SearchAdapter(context);
 
-        recyclerViewYear.setLayoutManager(yearLayoutManager);
-        recyclerViewYear.setAdapter(yearAdapter);
+        yearRecyclerView.setLayoutManager(yearLayoutManager);
+        yearRecyclerView.setAdapter(yearAdapter);
 
-        recyclerViewSearchResult.setLayoutManager(searchLayoutManager);
-        recyclerViewSearchResult.setAdapter(searchAdapter);
-        recyclerViewSearchResult.setNestedScrollingEnabled(false);
+        searchResultRecyclerView.setLayoutManager(searchLayoutManager);
+        searchResultRecyclerView.setAdapter(searchAdapter);
+        searchResultRecyclerView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            int lastVisibleItem = searchLayoutManager.findLastVisibleItemPosition();
+            int totalItemCount = searchLayoutManager.getItemCount();
+
+            if (!isSearching && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && page < totalSearchPages) {
+                search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
+            }
+        });
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
                 context,
@@ -123,7 +133,6 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         );
         optionSpinner.setAdapter(spinnerAdapter);
         optionSpinner.setOnItemSelectedListener(itemSelectedListener);
-
 
         RxTextView.textChanges(dbSearchEdt)
                 .throttleLast(2000, TimeUnit.MILLISECONDS)
@@ -134,24 +143,39 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
     private void search(String searchType, String query, @Nullable Integer year) {
         if (query.equals("")) {
+            // if query is empty, then just return
             return;
+        }
+        
+        isSearching = true;
+        if (lastQuery.equals(query)) {
+            page++;
+        } else {
+            searchAdapter.clearResultList();
+            page = 1;
         }
 
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, year)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(movie -> searchAdapter.setResultList(movie.getMovieResults()))
+                        .doOnNext(movie -> {
+                            isSearching = false;
+                            totalSearchPages = movie.getTotal_pages();
+                            searchAdapter.addResultList(movie.getMovieResults());
+                        })
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
                 break;
-            case "Tv Show":
+            case "TvShow Show":
                 break;
             case "Person":
                 break;
         }
+
+        lastQuery = query;
     }
 
     @Override

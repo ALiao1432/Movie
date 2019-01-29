@@ -1,6 +1,7 @@
 package study.ian.movie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
 import study.ian.movie.model.movie.MovieResult;
+import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHolder> {
@@ -31,15 +34,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
 
     private Context context;
     private List resultList = new ArrayList<>();
+    private RequestOptions requestOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
 
     public SearchAdapter(Context context) {
         this.context = context;
     }
 
-    public <T> void setResultList(List<T> rList) {
-        resultList.clear();
-        resultList = rList;
+    public <T> void addResultList(List<T> rList) {
+        resultList.addAll(rList);
         notifyDataSetChanged();
+    }
+
+    public void clearResultList() {
+        resultList.clear();
     }
 
     @NonNull
@@ -51,25 +58,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
 
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.ResultHolder viewHolder, int i) {
-        RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-
         if (resultList.get(i) instanceof MovieResult) {
-            MovieResult movieResult = (MovieResult) resultList.get(i);
-            Glide.with(context)
-                    .asBitmap()
-                    .load(ServiceBuilder.POSTER_BASE_URL + movieResult.getPoster_path())
-                    .apply(requestOptions)
-                    .transition(new BitmapTransitionOptions().crossFade(250))
-                    .into(viewHolder.posterImage);
-            viewHolder.mainText.setText(movieResult.getTitle());
-            viewHolder.subText.setText(movieResult.getRelease_date());
-
-            RxView.clicks(viewHolder.cardView)
-                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                    .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: click"))
-                    .subscribe();
+            setMovieCard((MovieResult) resultList.get(i), viewHolder);
         }
     }
 
@@ -78,9 +68,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
         return resultList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+    private void setMovieCard(MovieResult movieResult, SearchAdapter.ResultHolder viewHolder) {
+        Glide.with(context)
+                .asBitmap()
+                .load(ServiceBuilder.POSTER_BASE_URL + movieResult.getPoster_path())
+                .apply(requestOptions)
+                .transition(new BitmapTransitionOptions().crossFade(250))
+                .into(viewHolder.posterImage);
+        viewHolder.mainText.setText(movieResult.getTitle());
+        viewHolder.subText.setText(movieResult.getRelease_date());
+
+        RxView.clicks(viewHolder.cardView)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                .doOnNext(unit -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(MovieService.KEY_ID, movieResult.getId());
+                    intent.setClass(context, MovieDetailActivity.class);
+                    context.startActivity(intent);
+                })
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click movie card error : " + throwable))
+                .subscribe();
     }
 
     class ResultHolder extends RecyclerView.ViewHolder {

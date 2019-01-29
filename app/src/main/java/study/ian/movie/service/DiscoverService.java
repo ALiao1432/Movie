@@ -24,6 +24,7 @@ public interface DiscoverService {
     Observable<Movie> searchMovie(
             @Query("api_key") String api_key,
             @Query("query") String query,
+            @Query("page") int page,
             @Nullable @Query("primary_release_year") Integer primary_release_year
     );
 }
