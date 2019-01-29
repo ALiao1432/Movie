@@ -74,7 +74,7 @@ public class FragmentMovies extends Fragment {
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(movieService.getPage(ServiceBuilder.API_KEY, "popularity.desc", currentPage, true, false));
+        subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, "popularity.desc", currentPage, true, false));
     }
 
     private void subscribeForData(Observable<Movie> observable) {

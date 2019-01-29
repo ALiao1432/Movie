@@ -9,7 +9,6 @@
         android:id="@+id/recyclerViewMovie"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listItem="@layout/holder_discover"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

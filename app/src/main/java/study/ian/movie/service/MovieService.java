@@ -15,7 +15,7 @@ public interface MovieService {
     String KEY_ID = "KEY_ID";
 
     @GET("/3/discover/movie?language=en-US")
-    Observable<Movie> getPage(
+    Observable<Movie> getMovie(
             @Query("api_key") String api_key,
             @Query("sort_by") String sort_by,
             @Query("page") int page,
