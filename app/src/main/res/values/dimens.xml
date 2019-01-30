@@ -45,12 +45,15 @@
     <dimen name="holder_detail_layout_margin">8dp</dimen>
     <dimen name="holder_detail_text_margin">12dp</dimen>
 
-    <!-- layout_discover -->
-    <dimen name="search_layout_margin">10dp</dimen>
+    <!-- layout_discover.xml -->
+    <dimen name="layout_discover_margin">10dp</dimen>
 
-    <!-- holder_search_option.xml -->
-    <dimen name="holder_search_option_text_padding_start_end">12dp</dimen>
-    <dimen name="holder_search_option_text_padding_top_bottom">6dp</dimen>
+    <!-- layout_movie.xml -->
+    <dimen name="layout_movie_option_margin">10dp</dimen>
+
+    <!-- holder_option.xml -->
+    <dimen name="holder_option_text_padding_start_end">12dp</dimen>
+    <dimen name="holder_option_text_padding_top_bottom">6dp</dimen>
 
     <!-- spinner_item.xml -->
     <dimen name="spinner_item_padding">5dp</dimen>

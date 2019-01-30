@@ -24,15 +24,30 @@
     <!-- layout_discover.xml -->
     <string name="db_search_edt_hint">Search for movie, tv show, person…</string>
 
-    <string-array name="sort_option_array">
-        <item>Popularity Descending</item>
-        <item>Popularity Ascending</item>
-        <item>Rating Descending</item>
-        <item>Rating Ascending</item>
-        <item>Release Date Descending</item>
-        <item>Release Date Ascending</item>
-        <item>Title(A-Z)</item>
-        <item>Title(Z-A)</item>
+    <string-array name="sort_movie_option_array">
+        <item>popularity.desc</item>
+        <item>popularity.asc</item>
+        <item>release_date.desc</item>
+        <item>release_date.asc</item>
+        <item>revenue.desc</item>
+        <item>revenue.asc</item>
+        <item>primary_release_date.desc</item>
+        <item>primary_release_date.asc</item>
+        <item>original_title.desc</item>
+        <item>original_title.asc</item>
+        <item>vote_average.desc</item>
+        <item>vote_average.asc</item>
+        <item>vote_count.desc</item>
+        <item>vote_count.asc</item>
+    </string-array>
+
+    <string-array name="sort_tv_show_option_array">
+        <item>vote_average.desc</item>
+        <item>vote_average.asc</item>
+        <item>first_air_date.desc</item>
+        <item>first_air_date.asc</item>
+        <item>popularity.desc</item>
+        <item>popularity.asc</item>
     </string-array>
 
     <string-array name="search_genre_option_array">
@@ -40,4 +55,5 @@
         <item>Tv Show</item>
         <item>Person</item>
     </string-array>
+
 </resources>

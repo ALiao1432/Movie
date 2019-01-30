@@ -6,17 +6,17 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/searchOptionText"
+        android:id="@+id/optionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/holder_search_option_text_padding_top_bottom"
-        android:paddingEnd="@dimen/holder_search_option_text_padding_start_end"
-        android:paddingBottom="@dimen/holder_search_option_text_padding_top_bottom"
+        android:paddingTop="@dimen/holder_option_text_padding_top_bottom"
+        android:paddingEnd="@dimen/holder_option_text_padding_start_end"
+        android:paddingBottom="@dimen/holder_option_text_padding_top_bottom"
         android:textAlignment="center"
-        android:textColor="@color/search_option_text_color"
+        android:textColor="@color/option_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
-        tools:text="Search Option" />
+        tools:text="Option_Option" />
 
 </android.support.constraint.ConstraintLayout>

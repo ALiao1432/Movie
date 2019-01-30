@@ -64,7 +64,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
     @NonNull
     @Override
     public YearHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.holder_search_option, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.holder_option, viewGroup, false);
         return new YearHolder(view);
     }
 
@@ -81,6 +81,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
                     yearSelectedListener.onYearSelected(getSelectedYear());
                     notifyDataSetChanged();
                 })
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: year error : " + throwable))
                 .subscribe();
 
         if (currentSelected.equals(String.valueOf(t.getText()))) {
@@ -108,7 +109,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
         YearHolder(@NonNull View itemView) {
             super(itemView);
 
-            yearText = itemView.findViewById(R.id.searchOptionText);
+            yearText = itemView.findViewById(R.id.optionText);
         }
     }
 }

@@ -44,6 +44,7 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
         RxView.clicks(keywordHolder.keywordBtn)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
                 .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()))
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: keyword error : " + throwable))
                 .subscribe();
     }
 

@@ -44,6 +44,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
         RxView.clicks(genreHolder.genreBtn)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
                 .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()))
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: genre error : " + throwable))
                 .subscribe();
     }
 

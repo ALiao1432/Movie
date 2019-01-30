@@ -5,4 +5,4 @@
     android:gravity="bottom"
     android:textStyle="bold"
     android:padding="@dimen/spinner_item_padding"
-    android:textColor="@color/holderSearchOptionSelect" />
+    android:textColor="@color/holderOptionSelect" />

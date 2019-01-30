@@ -146,7 +146,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             // if query is empty, then just return
             return;
         }
-        
+
         isSearching = true;
         if (lastQuery.equals(query)) {
             page++;
@@ -178,8 +178,40 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastQuery = query;
     }
 
+    private void searchByYear(String searchType, String query, @Nullable Integer year) {
+        if (query.equals("")) {
+            // if query is empty, then just return
+            return;
+        }
+
+        page = 1;
+        searchAdapter.clearResultList();
+
+        switch (searchType) {
+            case "Movie":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(movie -> {
+                            isSearching = false;
+                            totalSearchPages = movie.getTotal_pages();
+                            searchAdapter.addResultList(movie.getMovieResults());
+                        })
+                        .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
+                        .subscribe();
+                break;
+            case "TvShow Show":
+                break;
+            case "Person":
+                break;
+        }
+
+        lastQuery = query;
+    }
+
     @Override
     public void onYearSelected(@Nullable Integer year) {
-        search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), year);
+        searchByYear((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), year);
     }
 }
