@@ -12,7 +12,7 @@ import study.ian.movie.model.movie.video.Video;
 
 public interface MovieService {
 
-    String KEY_ID = "KEY_ID";
+    String KEY_ID = "MOVIE_KEY_ID";
 
     @GET("/3/discover/movie?language=en-US")
     Observable<Movie> getMovie(

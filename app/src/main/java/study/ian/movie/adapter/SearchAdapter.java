@@ -24,9 +24,12 @@ import java.util.concurrent.TimeUnit;
 
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
+import study.ian.movie.TvShowDetailActivity;
 import study.ian.movie.model.movie.MovieResult;
+import study.ian.movie.model.tv.TvShowResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.service.TvShowService;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHolder> {
 
@@ -60,6 +63,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
     public void onBindViewHolder(@NonNull SearchAdapter.ResultHolder viewHolder, int i) {
         if (resultList.get(i) instanceof MovieResult) {
             setMovieCard((MovieResult) resultList.get(i), viewHolder);
+        } else if (resultList.get(i) instanceof TvShowResult) {
+            setTvShowCard((TvShowResult) resultList.get(i), viewHolder);
         }
     }
 
@@ -87,6 +92,28 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
                     context.startActivity(intent);
                 })
                 .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click movie card error : " + throwable))
+                .subscribe();
+    }
+
+    private void setTvShowCard(TvShowResult tvShowResult, SearchAdapter.ResultHolder viewHolder) {
+        Glide.with(context)
+                .asBitmap()
+                .load(ServiceBuilder.POSTER_BASE_URL + tvShowResult.getPoster_path())
+                .apply(requestOptions)
+                .transition(new BitmapTransitionOptions().crossFade(250))
+                .into(viewHolder.posterImage);
+        viewHolder.mainText.setText(tvShowResult.getName());
+        viewHolder.subText.setText(tvShowResult.getFirst_air_date());
+
+        RxView.clicks(viewHolder.cardView)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                .doOnNext(unit -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(TvShowService.KEY_ID, tvShowResult.getId());
+                    intent.setClass(context, TvShowDetailActivity.class);
+                    context.startActivity(intent);
+                })
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click tv show card error : " + throwable))
                 .subscribe();
     }
 

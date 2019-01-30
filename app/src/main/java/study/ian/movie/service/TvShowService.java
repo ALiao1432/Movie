@@ -9,6 +9,8 @@ import study.ian.movie.model.tv.detail.Detail;
 
 public interface TvShowService {
 
+    String KEY_ID = "TV_SHOW_KEY_ID";
+
     @GET("/3/discover/tv?language=en-US")
     Observable<TvShow> getTvShow(
             @Query("api_key") String api_key,

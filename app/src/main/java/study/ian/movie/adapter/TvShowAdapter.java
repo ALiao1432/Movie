@@ -1,6 +1,7 @@
 package study.ian.movie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +23,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import study.ian.movie.R;
+import study.ian.movie.TvShowDetailActivity;
 import study.ian.movie.model.tv.TvShowResult;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.service.TvShowService;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHolder> {
 
-    private final String TAG = "MovieAdapter";
+    private final String TAG = "TvShowAdapter";
 
     private Context context;
     private List<TvShowResult> tvShowResultList = new ArrayList<>();
@@ -70,10 +73,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
         RxView.clicks(holder.cardView)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS) // only react to first click and skip the clicks within 1500ms
                 .doOnNext(unit -> {
-//                    Intent intent = new Intent();
-//                    intent.putExtra(MovieService.KEY_ID, tvShowResultList.get(i).getId());
-//                    intent.setClass(context, MovieDetailActivity.class);
-//                    context.startActivity(intent);
+                    Intent intent = new Intent();
+                    intent.putExtra(TvShowService.KEY_ID, tvShowResultList.get(i).getId());
+                    intent.setClass(context, TvShowDetailActivity.class);
+                    context.startActivity(intent);
                 })
                 .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click tv show card error : " + throwable))
                 .subscribe();

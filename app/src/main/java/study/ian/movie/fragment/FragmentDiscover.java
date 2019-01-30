@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableRow;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
@@ -34,6 +35,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
     private final String TAG = "FragmentDiscover";
     private final int VISIBLE_THRESHOLD = 10;
+    private final boolean INCLUDE_ADULT = true;
 
     private Context context;
     private RecyclerView yearRecyclerView;
@@ -43,6 +45,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private YearAdapter yearAdapter;
     private SearchAdapter searchAdapter;
     private String lastQuery = "";
+    private String lastSearchType;
     private boolean isSearching = false;
     private int totalSearchPages = 0;
     private int page = 1;
@@ -59,6 +62,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                     yearAdapter.setSearchType(false);
                     break;
             }
+            search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
         }
 
         @Override
@@ -133,6 +137,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         );
         optionSpinner.setAdapter(spinnerAdapter);
         optionSpinner.setOnItemSelectedListener(itemSelectedListener);
+        lastSearchType = (String) optionSpinner.getSelectedItem();
 
         RxTextView.textChanges(dbSearchEdt)
                 .throttleLast(2000, TimeUnit.MILLISECONDS)
@@ -148,7 +153,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         }
 
         isSearching = true;
-        if (lastQuery.equals(query)) {
+        if (lastQuery.equals(query) && lastSearchType.equals(searchType)) {
             page++;
         } else {
             searchAdapter.clearResultList();
@@ -158,7 +163,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -169,13 +174,25 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
                 break;
-            case "TvShow Show":
+            case "Tv Show":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(tvShow -> {
+                            isSearching = false;
+                            totalSearchPages = tvShow.getTotal_pages();
+                            searchAdapter.addResultList(tvShow.getTvShowResults());
+                        })
+                        .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
+                        .subscribe();
                 break;
             case "Person":
                 break;
         }
 
         lastQuery = query;
+        lastSearchType = searchType;
     }
 
     private void searchByYear(String searchType, String query, @Nullable Integer year) {
@@ -190,7 +207,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -201,13 +218,25 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
                 break;
-            case "TvShow Show":
+            case "Tv Show":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(tvShow -> {
+                            isSearching = false;
+                            totalSearchPages = tvShow.getTotal_pages();
+                            searchAdapter.addResultList(tvShow.getTvShowResults());
+                        })
+                        .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
+                        .subscribe();
                 break;
             case "Person":
                 break;
         }
 
         lastQuery = query;
+        lastSearchType = searchType;
     }
 
     @Override
