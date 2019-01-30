@@ -35,7 +35,6 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
     private RecyclerView movieRecyclerView;
     private RecyclerView movieSortRecyclerView;
     private MovieAdapter movieAdapter;
-    private SortAdapter sortAdapter;
     private MovieService movieService = ServiceBuilder.getService(MovieService.class);
     private List<String> movieSortOptionList;
     private String sortBy;
@@ -70,7 +69,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
         movieSortLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         movieAdapter = new MovieAdapter(getContext());
-        sortAdapter = new SortAdapter(getContext());
+        SortAdapter sortAdapter = new SortAdapter(getContext());
         sortAdapter.setOptionList(movieSortOptionList);
         sortAdapter.setOptionSelectedListener(this);
 
@@ -116,6 +115,9 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
 
     @Override
     public void onOptionSelected(String option) {
-        Log.d(TAG, "onOptionSelected: option : " + option);
+        sortBy = option;
+        currentPage = 0;
+        movieAdapter.clearResults();
+        loadMorePage();
     }
 }

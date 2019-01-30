@@ -4,5 +4,6 @@
     android:layout_height="wrap_content"
     android:gravity="bottom"
     android:textStyle="bold"
+    android:textSize="@dimen/spinner_item_text_size"
     android:padding="@dimen/spinner_item_padding"
     android:textColor="@color/holderOptionSelect" />

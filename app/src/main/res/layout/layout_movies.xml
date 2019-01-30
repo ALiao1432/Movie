@@ -18,8 +18,8 @@
                 android:id="@+id/recyclerViewMovieSort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_movie_option_margin"
-                android:layout_marginEnd="@dimen/layout_movie_option_margin"
+                android:layout_marginStart="@dimen/layout_option_margin"
+                android:layout_marginEnd="@dimen/layout_option_margin"
                 app:layout_collapseMode="parallax"
                 tools:layout_height="30dp" />
 

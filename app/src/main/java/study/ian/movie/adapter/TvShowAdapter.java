@@ -41,6 +41,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
         notifyDataSetChanged();
     }
 
+    public void clearResults() {
+        tvShowResultList.clear();
+    }
+
     @NonNull
     @Override
     public TvShowAdapter.TvShowHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

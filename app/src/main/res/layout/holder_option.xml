@@ -14,6 +14,7 @@
         android:paddingBottom="@dimen/holder_option_text_padding_top_bottom"
         android:textAlignment="center"
         android:textColor="@color/option_text_color"
+        android:textSize="@dimen/holder_option_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
