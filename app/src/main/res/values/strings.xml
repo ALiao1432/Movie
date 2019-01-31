@@ -10,9 +10,10 @@
     <!-- holder_main_display.xml -->
     <string name="holder_main_image_description">Main Display Image</string>
 
-    <!-- activity_detail_movie.xml -->
+    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml -->
     <string name="overview">Overview</string>
     <string name="credit">Credit</string>
+    <string name="season">Season</string>
     <string name="genre">Genres</string>
     <string name="keyword">Keyword</string>
     <string name="recommend">Recommend</string>

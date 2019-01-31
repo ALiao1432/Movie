@@ -12,14 +12,12 @@
     <dimen name="holder_sub_content_margin">2dp</dimen>
     <dimen name="holder_sub_content_text_size">12sp</dimen>
 
-    <!-- MovieDetailActivity.xml -->
+    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml -->
     <dimen name="backdrop_height">240dp</dimen>
-    <dimen name="movie_poster_width">100dp</dimen>
-    <dimen name="movie_poster_height">150dp</dimen>
-    <dimen name="movie_title_text_size">30sp</dimen>
-    <dimen name="movie_main_content_text_size">24sp</dimen>
-    <dimen name="movie_sub_content_text_size">16sp</dimen>
-    <dimen name="movie_info_margin">20dp</dimen>
+    <dimen name="detail_title_text_size">30sp</dimen>
+    <dimen name="detail_main_content_text_size">24sp</dimen>
+    <dimen name="detail_sub_content_text_size">16sp</dimen>
+    <dimen name="detail_info_margin">20dp</dimen>
 
     <!-- holder_genre.xml & holder_keyword.xml -->
     <dimen name="holder_genre_keyword_layout_padding">12dp</dimen>

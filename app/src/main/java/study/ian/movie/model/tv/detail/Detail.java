@@ -34,7 +34,7 @@ public class Detail {
     private boolean in_production;
 
     @SerializedName("languages")
-    private List<Integer> languages;
+    private List<String> languages;
 
     @SerializedName("last_air_date")
     private String last_air_date;
@@ -59,7 +59,7 @@ public class Detail {
     private int number_of_seasons;
 
     @SerializedName("origin_country")
-    private int origin_country;
+    private List<String> origin_country;
 
     @SerializedName("original_language")
     private String original_language;
@@ -127,7 +127,7 @@ public class Detail {
         return in_production;
     }
 
-    public List<Integer> getLanguages() {
+    public List<String> getLanguages() {
         return languages;
     }
 
@@ -160,7 +160,7 @@ public class Detail {
         return number_of_seasons;
     }
 
-    public int getOrigin_country() {
+    public List<String> getOrigin_country() {
         return origin_country;
     }
 

@@ -15,16 +15,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import study.ian.movie.R;
-import study.ian.movie.model.people.credit.Cast;
-import study.ian.movie.model.people.credit.Credit;
+import study.ian.movie.model.people.movie.credit.Cast;
+import study.ian.movie.model.people.movie.credit.Credit;
 import study.ian.movie.service.ServiceBuilder;
 
 public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHolder> {
 
     private Context context;
-    private Credit credit;
+    private Object credit;
 
-    public CreditAdapter(Context context, Credit credit) {
+    public CreditAdapter(Context context, Object credit) {
         this.context = context;
         this.credit = credit;
     }
@@ -38,24 +38,47 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
     @Override
     public void onBindViewHolder(@NonNull CreditHolder creditHolder, int i) {
-        Cast cast = credit.getCast().get(i);
+        if (credit instanceof Credit) {
+            Cast cast = ((Credit) credit).getCast().get(i);
 
-        RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.vd_credit_holder)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context)
-                .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
-                .apply(requestOptions)
-                .into(creditHolder.creditImage);
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.vd_credit_holder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(context)
+                    .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
+                    .apply(requestOptions)
+                    .into(creditHolder.creditImage);
 
-        creditHolder.creditText.setText(cast.getName());
-        creditHolder.charText.setText(cast.getCharacter());
+            creditHolder.creditText.setText(cast.getName());
+            creditHolder.charText.setText(cast.getCharacter());
+        } else if (credit instanceof study.ian.movie.model.people.tv.credit.Credit) {
+            study.ian.movie.model.people.tv.credit.Cast cast =
+                    ((study.ian.movie.model.people.tv.credit.Credit) credit).getCast().get(i);
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.vd_credit_holder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(context)
+                    .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
+                    .apply(requestOptions)
+                    .into(creditHolder.creditImage);
+
+            creditHolder.creditText.setText(cast.getName());
+            creditHolder.charText.setText(cast.getCharacter());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return credit.getCast().size();
+        if (credit instanceof Credit) {
+            return ((Credit) credit).getCast().size();
+        } else if (credit instanceof study.ian.movie.model.people.tv.credit.Credit) {
+            return ((study.ian.movie.model.people.tv.credit.Credit) credit).getCast().size();
+        } else {
+            return 0;
+        }
     }
 
     class CreditHolder extends RecyclerView.ViewHolder {

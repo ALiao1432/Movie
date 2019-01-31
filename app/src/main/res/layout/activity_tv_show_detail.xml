@@ -1,9 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TvShowDetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/layout_collapsing_backdrop" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/detailTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_info_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/detail_info_margin"
+                android:textColor="@color/mainContent"
+                android:textSize="@dimen/detail_title_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Title" />
+
+            <TextView
+                android:id="@+id/detailTitleFirstSubText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/childContent"
+                android:textSize="@dimen/detail_sub_content_text_size"
+                app:layout_constraintStart_toStartOf="@+id/detailTitleText"
+                app:layout_constraintTop_toBottomOf="@+id/detailTitleText"
+                tools:text="sub_content" />
+
+            <TextView
+                android:id="@+id/detailTitleSecondSubText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/childContent"
+                android:textSize="@dimen/detail_sub_content_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/detailTitleFirstSubText"
+                app:layout_constraintStart_toEndOf="@+id/detailTitleFirstSubText"
+                app:layout_constraintTop_toBottomOf="@+id/detailTitleText"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="sub_content" />
+
+            <TextView
+                android:id="@+id/overviewTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/overview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailTitleFirstSubText" />
+
+            <TextView
+                android:id="@+id/overviewContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_info_margin"
+                android:layout_marginEnd="@dimen/detail_info_margin"
+                android:textColor="@color/childContent"
+                android:textSize="@dimen/detail_sub_content_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/overviewTitleText"
+                tools:text="overview_content" />
+
+            <TextView
+                android:id="@+id/creditTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/credit"
+                app:layout_constraintTop_toBottomOf="@id/overviewContentText" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCredits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/creditTitleText"
+                tools:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/seasonTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/season"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewCredits" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewSeasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seasonTitleText"
+                tools:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/recommendTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recommend"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewSeasons" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewRecommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommendTitleText"
+                tools:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/genreTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewRecommend" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewGenres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_info_margin"
+                android:layout_marginEnd="@dimen/detail_info_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genreTitleText"
+                tools:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/keywordTitleText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/keyword"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewGenres" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewKeywords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_info_margin"
+                android:layout_marginEnd="@dimen/detail_info_margin"
+                android:layout_marginBottom="@dimen/detail_info_margin"
+                app:layout_constraintTop_toBottomOf="@id/keywordTitleText"
+                tools:layout_height="30dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

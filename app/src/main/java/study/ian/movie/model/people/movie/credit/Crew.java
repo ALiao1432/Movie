@@ -1,4 +1,4 @@
-package study.ian.movie.model.people.credit;
+package study.ian.movie.model.people.movie.credit;
 
 import android.support.annotation.Nullable;
 

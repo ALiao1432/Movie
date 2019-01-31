@@ -12,11 +12,11 @@
     </style>
 
     <style name="AppTheme.mainContentText" parent="AppTheme">
-        <item name="android:textSize">@dimen/movie_main_content_text_size</item>
+        <item name="android:textSize">@dimen/detail_main_content_text_size</item>
         <item name="android:textColor">@color/mainContent</item>
-        <item name="android:layout_marginStart">@dimen/movie_info_margin</item>
-        <item name="android:layout_marginTop">@dimen/movie_info_margin</item>
-        <item name="android:layout_marginEnd">@dimen/movie_info_margin</item>
+        <item name="android:layout_marginStart">@dimen/detail_info_margin</item>
+        <item name="android:layout_marginTop">@dimen/detail_info_margin</item>
+        <item name="android:layout_marginEnd">@dimen/detail_info_margin</item>
     </style>
 
     <style name="AppTheme.genreKeywordButton" parent="AppTheme">

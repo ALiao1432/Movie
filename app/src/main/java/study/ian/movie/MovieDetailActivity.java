@@ -41,14 +41,14 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private GradientImageView backdropImage;
     private TextView titleText;
-    private TextView runTimeText;
     private TextView releaseDateText;
+    private TextView runTimeText;
     private TextView overviewText;
     private TextView recommendText;
-    private RecyclerView genreRecyclerView;
     private RecyclerView creditRecyclerView;
-    private RecyclerView keywordRecyclerView;
     private RecyclerView recommendRecyclerView;
+    private RecyclerView genreRecyclerView;
+    private RecyclerView keywordRecyclerView;
     private RecommendAdapter recommendAdapter;
     private boolean isRecommendLoading = false;
     private int currentRecommendPage = 0;
@@ -58,7 +58,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_movie);
+        setContentView(R.layout.activity_movie_detail);
 
         movieId = getIntent().getIntExtra(MovieService.KEY_ID, 0);
 
@@ -69,14 +69,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void findViews() {
         backdropImage = findViewById(R.id.detailBackdropImage);
         titleText = findViewById(R.id.detailTitleText);
-        runTimeText = findViewById(R.id.detailRunTimeText);
-        releaseDateText = findViewById(R.id.detailReleaseDateText);
+        releaseDateText = findViewById(R.id.detailTitleFirstSubText);
+        runTimeText = findViewById(R.id.detailTitleSecondSubText);
         overviewText = findViewById(R.id.overviewContentText);
         recommendText = findViewById(R.id.recommendTitleText);
-        genreRecyclerView = findViewById(R.id.recyclerViewGenres);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
-        keywordRecyclerView = findViewById(R.id.recyclerViewKeywords);
         recommendRecyclerView = findViewById(R.id.recyclerViewRecommend);
+        genreRecyclerView = findViewById(R.id.recyclerViewGenres);
+        keywordRecyclerView = findViewById(R.id.recyclerViewKeywords);
     }
 
     private void setViews(int movieId) {
@@ -90,12 +90,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .doOnNext(detail -> {
                     loadBackdropImage(detail.getBackdrop_path());
                     titleText.setText(detail.getTitle());
-                    runTimeText.setText(detail.getRuntime() + " mins");
                     releaseDateText.setText(detail.getRelease_date());
+                    runTimeText.setText(detail.getRuntime() + " mins");
                     overviewText.setText(detail.getOverview());
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
-                .doOnError(throwable -> Log.d(TAG, "onCreate: get detail error : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "onCreate: get movie detail error : " + throwable))
                 .subscribe();
 
         // get video
@@ -128,11 +128,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // get credit
         ServiceBuilder.getService(PeopleService.class)
-                .getCredit(movieId, ServiceBuilder.API_KEY)
+                .getMovieCredit(movieId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
-                .doOnError(throwable -> Log.d(TAG, "setViews: get credit error : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "setViews: get movie credit error : " + throwable))
                 .subscribe();
 
         // get keyword
@@ -158,8 +158,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         LinearLayoutManager recommendLayoutManager = new LinearLayoutManager(this);
         recommendLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        genreRecyclerView.setLayoutManager(genreLayoutManager);
         creditRecyclerView.setLayoutManager(creditLayoutManager);
+        genreRecyclerView.setLayoutManager(genreLayoutManager);
         keywordRecyclerView.setLayoutManager(keywordLayoutManager);
         recommendRecyclerView.setLayoutManager(recommendLayoutManager);
 
