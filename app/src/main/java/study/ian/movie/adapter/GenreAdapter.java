@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.jakewharton.rxbinding3.view.RxView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,11 +23,11 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
     private final String TAG = "GenreAdapter";
 
     private Context context;
-    private List<Genre> genreList;
+    private List<Object> genreList = new ArrayList<>();
 
-    public GenreAdapter(Context context, List<Genre> genreList) {
+    public <T> GenreAdapter(Context context, List<T> genreList) {
         this.context = context;
-        this.genreList = genreList;
+        this.genreList.addAll(genreList);
     }
 
     @NonNull
@@ -38,14 +39,26 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
 
     @Override
     public void onBindViewHolder(@NonNull GenreHolder genreHolder, int i) {
-        Genre genre = genreList.get(i);
+        if (genreList.get(i) instanceof Genre) {
+            Genre genre = (Genre) genreList.get(i);
 
-        genreHolder.genreBtn.setText(genre.getName());
-        RxView.clicks(genreHolder.genreBtn)
-                .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()))
-                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: genre error : " + throwable))
-                .subscribe();
+            genreHolder.genreBtn.setText(genre.getName());
+            RxView.clicks(genreHolder.genreBtn)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()))
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: genre error : " + throwable))
+                    .subscribe();
+        } else if (genreList.get(i) instanceof study.ian.movie.model.tv.detail.Genre) {
+            study.ian.movie.model.tv.detail.Genre genre =
+                    (study.ian.movie.model.tv.detail.Genre) genreList.get(i);
+
+            genreHolder.genreBtn.setText(genre.getName());
+            RxView.clicks(genreHolder.genreBtn)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: genre : " + genre.getName() + ", id : " + genre.getId()))
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: genre error : " + throwable))
+                    .subscribe();
+        }
     }
 
     @Override

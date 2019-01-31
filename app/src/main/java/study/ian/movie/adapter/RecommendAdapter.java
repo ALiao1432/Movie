@@ -23,22 +23,24 @@ import java.util.concurrent.TimeUnit;
 
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.R;
+import study.ian.movie.TvShowDetailActivity;
 import study.ian.movie.model.movie.recommend.RecommendResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.service.TvShowService;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.RecommendHolder> {
 
     private final String TAG = "RecommendAdapter";
 
     private Context context;
-    private List<RecommendResult> recommendResultList = new ArrayList<>();
+    private List<Object> recommendResultList = new ArrayList<>();
 
     public RecommendAdapter(Context context) {
         this.context = context;
     }
 
-    public void addResults(List<RecommendResult> rList) {
+    public <T> void addResults(List<T> rList) {
         recommendResultList.addAll(rList);
         notifyDataSetChanged();
     }
@@ -52,30 +54,59 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
 
     @Override
     public void onBindViewHolder(@NonNull RecommendHolder recommendHolder, int i) {
-        RecommendResult result = recommendResultList.get(i);
+        if (recommendResultList.get(i) instanceof RecommendResult) {
+            RecommendResult result = (RecommendResult) recommendResultList.get(i);
 
-        RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.vd_credit_holder)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context)
-                .load(ServiceBuilder.POSTER_BASE_URL + result.getPoster_path())
-                .apply(requestOptions)
-                .into(recommendHolder.recommendImage);
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.vd_credit_holder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(recommendHolder.recommendImage)
+                    .load(ServiceBuilder.POSTER_BASE_URL + result.getPoster_path())
+                    .apply(requestOptions)
+                    .into(recommendHolder.recommendImage);
 
-        RxView.clicks(recommendHolder.cardView)
-                .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                .doOnNext(unit -> {
-                    Intent intent = new Intent();
-                    intent.putExtra(MovieService.KEY_ID, result.getId());
-                    intent.setClass(context, MovieDetailActivity.class);
-                    context.startActivity(intent);
-                })
-                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: recommend error : " + throwable))
-                .subscribe();
+            RxView.clicks(recommendHolder.cardView)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> {
+                        Intent intent = new Intent();
+                        intent.putExtra(MovieService.KEY_ID, result.getId());
+                        intent.setClass(context, MovieDetailActivity.class);
+                        context.startActivity(intent);
+                    })
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: movie recommend error : " + throwable))
+                    .subscribe();
 
-        recommendHolder.titleText.setText(result.getTitle());
-        recommendHolder.releaseDateText.setText(result.getRelease_date());
+            recommendHolder.titleText.setText(result.getTitle());
+            recommendHolder.releaseDateText.setText(result.getRelease_date());
+        } else if (recommendResultList.get(i) instanceof study.ian.movie.model.tv.recommend.RecommendResult) {
+            study.ian.movie.model.tv.recommend.RecommendResult result =
+                    (study.ian.movie.model.tv.recommend.RecommendResult) recommendResultList.get(i);
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.vd_credit_holder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(recommendHolder.recommendImage)
+                    .load(ServiceBuilder.POSTER_BASE_URL + result.getPoster_path())
+                    .apply(requestOptions)
+                    .into(recommendHolder.recommendImage);
+
+            RxView.clicks(recommendHolder.cardView)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> {
+                        Intent intent = new Intent();
+                        intent.putExtra(TvShowService.KEY_ID, result.getId());
+                        intent.setClass(context, TvShowDetailActivity.class);
+                        context.startActivity(intent);
+                    })
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: tv recommend error : " + throwable))
+                    .subscribe();
+
+            recommendHolder.titleText.setText(result.getName());
+            recommendHolder.releaseDateText.setText(result.getFirst_air_date());
+        }
+
     }
 
     @Override

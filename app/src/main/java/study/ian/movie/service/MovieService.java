@@ -8,7 +8,7 @@ import study.ian.movie.model.movie.detail.Detail;
 import study.ian.movie.model.movie.Movie;
 import study.ian.movie.model.movie.keyword.Keyword;
 import study.ian.movie.model.movie.recommend.Recommend;
-import study.ian.movie.model.movie.video.Video;
+import study.ian.movie.model.genral.video.Video;
 
 public interface MovieService {
 

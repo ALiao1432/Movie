@@ -45,7 +45,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
                     .centerCrop()
                     .placeholder(R.drawable.vd_credit_holder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            Glide.with(context)
+            Glide.with(creditHolder.creditImage)
                     .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
                     .apply(requestOptions)
                     .into(creditHolder.creditImage);
@@ -60,7 +60,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
                     .centerCrop()
                     .placeholder(R.drawable.vd_credit_holder)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            Glide.with(context)
+            Glide.with(creditHolder.creditImage)
                     .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
                     .apply(requestOptions)
                     .into(creditHolder.creditImage);

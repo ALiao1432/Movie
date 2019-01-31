@@ -36,7 +36,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
     private final String TAG = "SearchAdapter";
 
     private Context context;
-    private List resultList = new ArrayList<>();
+    private List<Object> resultList = new ArrayList<>();
     private RequestOptions requestOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
 
     public SearchAdapter(Context context) {
@@ -74,7 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
     }
 
     private void setMovieCard(MovieResult movieResult, SearchAdapter.ResultHolder viewHolder) {
-        Glide.with(context)
+        Glide.with(viewHolder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + movieResult.getPoster_path())
                 .apply(requestOptions)
@@ -96,7 +96,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
     }
 
     private void setTvShowCard(TvShowResult tvShowResult, SearchAdapter.ResultHolder viewHolder) {
-        Glide.with(context)
+        Glide.with(viewHolder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + tvShowResult.getPoster_path())
                 .apply(requestOptions)

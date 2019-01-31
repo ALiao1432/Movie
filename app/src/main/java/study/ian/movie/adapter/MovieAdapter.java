@@ -60,7 +60,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context)
+        Glide.with(holder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + movieResultList.get(i).getPoster_path())
                 .apply(requestOptions)

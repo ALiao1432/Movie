@@ -22,9 +22,9 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
     private final String TAG = "KeywordAdapter";
 
     private Context context;
-    private Keyword keyword;
+    private Object keyword;
 
-    public KeywordAdapter(Context context, Keyword keyword) {
+    public KeywordAdapter(Context context, Object keyword) {
         this.context = context;
         this.keyword = keyword;
     }
@@ -38,19 +38,37 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
 
     @Override
     public void onBindViewHolder(@NonNull KeywordHolder keywordHolder, int i) {
-        KeywordResult keywordResult = keyword.getKeywords().get(i);
-        keywordHolder.keywordBtn.setText(keywordResult.getName());
+        if (keyword instanceof Keyword) {
+            KeywordResult keywordResult = ((Keyword) keyword).getKeywords().get(i);
+            keywordHolder.keywordBtn.setText(keywordResult.getName());
 
-        RxView.clicks(keywordHolder.keywordBtn)
-                .throttleFirst(1500, TimeUnit.MILLISECONDS)
-                .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()))
-                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: keyword error : " + throwable))
-                .subscribe();
+            RxView.clicks(keywordHolder.keywordBtn)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()))
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: keyword error : " + throwable))
+                    .subscribe();
+        } else if (keyword instanceof study.ian.movie.model.tv.keyword.Keyword) {
+            study.ian.movie.model.tv.keyword.KeywordResult keywordResult =
+                    ((study.ian.movie.model.tv.keyword.Keyword) keyword).getKeywords().get(i);
+            keywordHolder.keywordBtn.setText(keywordResult.getName());
+
+            RxView.clicks(keywordHolder.keywordBtn)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> Log.d(TAG, "onBindViewHolder: keyword : " + keywordResult.getName()))
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: keyword error : " + throwable))
+                    .subscribe();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return keyword.getKeywords().size();
+        if (keyword instanceof Keyword) {
+            return ((Keyword) keyword).getKeywords().size();
+        } else if (keyword instanceof study.ian.movie.model.tv.keyword.Keyword) {
+            return ((study.ian.movie.model.tv.keyword.Keyword) keyword).getKeywords().size();
+        } else {
+            return 0;
+        }
     }
 
     class KeywordHolder extends RecyclerView.ViewHolder {

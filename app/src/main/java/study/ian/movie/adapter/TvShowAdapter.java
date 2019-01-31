@@ -60,7 +60,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context)
+        Glide.with(holder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + tvShowResultList.get(i).getPoster_path())
                 .apply(requestOptions)

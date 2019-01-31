@@ -1,4 +1,4 @@
-package study.ian.movie.model.movie.video;
+package study.ian.movie.model.genral.video;
 
 import com.google.gson.annotations.SerializedName;
 

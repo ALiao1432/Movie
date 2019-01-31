@@ -40,8 +40,8 @@
     <dimen name="holder_detail_layout_corner_radius">8dp</dimen>
     <dimen name="holder_detail_main_text_size">16sp</dimen>
     <dimen name="holder_detail_sub_text_size">14sp</dimen>
-    <dimen name="holder_detail_layout_margin">8dp</dimen>
-    <dimen name="holder_detail_text_margin">12dp</dimen>
+    <dimen name="holder_detail_layout_margin">6dp</dimen>
+    <dimen name="holder_detail_text_margin">6dp</dimen>
 
     <!-- layout_discover.xml -->
     <dimen name="layout_discover_margin">10dp</dimen>

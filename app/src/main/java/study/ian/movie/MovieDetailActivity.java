@@ -28,7 +28,7 @@ import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.adapter.RecommendAdapter;
 import study.ian.movie.model.movie.recommend.Recommend;
 import study.ian.movie.model.movie.recommend.RecommendResult;
-import study.ian.movie.model.movie.video.VideoResult;
+import study.ian.movie.model.genral.video.VideoResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
@@ -114,7 +114,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     }
                     return "";
                 })
-                .doOnError(throwable -> Log.d(TAG, "setViews: get video error : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "setViews: get movie video error : " + throwable))
                 .concatMap(key -> clickObservable.map(unit -> key))
                 .doOnNext(key -> {
                     if (key.equals("")) {
@@ -195,7 +195,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     if (o instanceof Recommend) {
                         List<RecommendResult> resultList = ((Recommend) o).getResults();
                         if (resultList.size() == 0) {
-                            recommendText.setText(getResources().getString(R.string.no_recommend));
+                            recommendText.setText(getResources().getString(R.string.no_recommend_movie));
                         } else {
                             recommendAdapter.addResults(resultList);
                             totalRecommendPages = ((Recommend) o).getTotal_pages();
@@ -213,7 +213,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void loadBackdropImage(String imagePath) {
         RequestOptions requestOptions = new RequestOptions().centerCrop().error(R.drawable.vd_credit_holder);
-        Glide.with(this)
+        Glide.with(getApplicationContext())
                 .load(ServiceBuilder.BACKDROP_BASE_URL + imagePath)
                 .apply(requestOptions)
                 .into(backdropImage);
