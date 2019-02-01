@@ -96,7 +96,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
                     .throttleFirst(1500, TimeUnit.MILLISECONDS)
                     .doOnNext(unit -> {
                         Intent intent = new Intent();
-                        intent.putExtra(TvShowService.KEY_ID, result.getId());
+                        intent.putExtra(TvShowService.TV_SHOW_KEY_ID, result.getId());
                         intent.setClass(context, TvShowDetailActivity.class);
                         context.startActivity(intent);
                     })

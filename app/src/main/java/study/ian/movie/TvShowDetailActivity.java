@@ -1,17 +1,11 @@
 package study.ian.movie;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.List;
@@ -29,13 +23,13 @@ import study.ian.movie.adapter.SeasonAdapter;
 import study.ian.movie.model.genral.video.VideoResult;
 import study.ian.movie.model.tv.recommend.Recommend;
 import study.ian.movie.model.tv.recommend.RecommendResult;
-import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
+import study.ian.movie.util.DetailActivity;
 import study.ian.movie.view.GradientImageView;
 
-public class TvShowDetailActivity extends AppCompatActivity {
+public class TvShowDetailActivity extends DetailActivity {
 
     private final String TAG = "TvShowDetailActivity";
     private final int VISIBLE_THRESHOLD = 10;
@@ -63,7 +57,7 @@ public class TvShowDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_show_detail);
 
-        tvShowId = getIntent().getIntExtra(TvShowService.KEY_ID, 0);
+        tvShowId = getIntent().getIntExtra(TvShowService.TV_SHOW_KEY_ID, 0);
 
         findViews();
         setViews(tvShowId);
@@ -92,12 +86,12 @@ public class TvShowDetailActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
-                    loadBackdropImage(detail.getBackdrop_path());
+                    loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getName());
                     firstAirDateText.setText(detail.getFirst_air_date());
                     statusText.setText(detail.getStatus());
                     overviewText.setText(detail.getOverview());
-                    seasonRecyclerView.setAdapter(new SeasonAdapter(this, detail.getSeasons()));
+                    seasonRecyclerView.setAdapter(new SeasonAdapter(this, detail.getSeasons(), tvShowId));
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv show detail error : " + throwable))
@@ -215,17 +209,5 @@ public class TvShowDetailActivity extends AppCompatActivity {
                 })
                 .doOnError(throwable -> Log.d(TAG, "loadMorePage: error : " + throwable))
                 .subscribe();
-    }
-
-    private void loadBackdropImage(String imagePath) {
-        RequestOptions requestOptions = new RequestOptions().centerCrop().error(R.drawable.vd_credit_holder);
-        Glide.with(getApplicationContext())
-                .load(ServiceBuilder.BACKDROP_BASE_URL + imagePath)
-                .apply(requestOptions)
-                .into(backdropImage);
-    }
-
-    private void watchYoutubeVideo(Context context, String id) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + id)));
     }
 }

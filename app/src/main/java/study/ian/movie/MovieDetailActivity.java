@@ -1,18 +1,12 @@
 package study.ian.movie;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.List;
@@ -26,15 +20,16 @@ import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.adapter.RecommendAdapter;
+import study.ian.movie.model.genral.video.VideoResult;
 import study.ian.movie.model.movie.recommend.Recommend;
 import study.ian.movie.model.movie.recommend.RecommendResult;
-import study.ian.movie.model.genral.video.VideoResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.DetailActivity;
 import study.ian.movie.view.GradientImageView;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends DetailActivity {
 
     private final String TAG = "MovieDetailActivity";
     private final int VISIBLE_THRESHOLD = 10;
@@ -88,7 +83,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
-                    loadBackdropImage(detail.getBackdrop_path());
+                    loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getTitle());
                     releaseDateText.setText(detail.getRelease_date());
                     runTimeText.setText(detail.getRuntime() + " mins");
@@ -205,17 +200,5 @@ public class MovieDetailActivity extends AppCompatActivity {
                 })
                 .doOnError(throwable -> Log.d(TAG, "loadMorePage: error : " + throwable))
                 .subscribe();
-    }
-
-    private void watchYoutubeVideo(Context context, String id) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + id)));
-    }
-
-    private void loadBackdropImage(String imagePath) {
-        RequestOptions requestOptions = new RequestOptions().centerCrop().error(R.drawable.vd_credit_holder);
-        Glide.with(getApplicationContext())
-                .load(ServiceBuilder.BACKDROP_BASE_URL + imagePath)
-                .apply(requestOptions)
-                .into(backdropImage);
     }
 }

@@ -19,6 +19,10 @@
         <item name="android:layout_marginEnd">@dimen/detail_info_margin</item>
     </style>
 
+    <style name="AppTheme.subContentText" parent="AppTheme.mainContentText">
+        <item name="android:textSize">@dimen/detail_sub_content_text_size</item>
+    </style>
+
     <style name="AppTheme.genreKeywordButton" parent="AppTheme">
         <item name="android:layout_height">@dimen/genre_keyword_btn_height</item>
         <item name="android:minWidth">0dp</item>

@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Movie</string>
 
-    <!-- bottomNavigationView -->
+    <!-- bottom_menu.xml -->
     <string name="discover">Discover</string>
     <string name="movies">Movies</string>
     <string name="tv_shows">Tv Shows</string>
     <string name="people">People</string>
+
+    <!-- FragmentPeople.java -->
+    <string name="no_known_for">Locked Up</string>
 
     <!-- holder_main_display.xml -->
     <string name="holder_main_image_description">Main Display Image</string>
@@ -17,8 +20,11 @@
     <string name="genre">Genres</string>
     <string name="keyword">Keyword</string>
     <string name="recommend">Recommend</string>
-    <string name="no_recommend_movie">No Recommend Movie</string>d
-    <string name="no_recommend_tv">No Recommend Tv Show</string>d
+    <string name="no_recommend_movie">No Recommend Movie</string>
+    <string name="no_recommend_tv">No Recommend Tv Show</string>
+
+    <!-- SeasonDetailActivity.java -->
+    <string name="episodes">Episodes</string>
 
     <!-- holder_detail_card.xml -->
     <string name="holder_detail_image_description">Detail image</string>

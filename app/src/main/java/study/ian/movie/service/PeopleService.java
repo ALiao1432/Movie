@@ -5,8 +5,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import study.ian.movie.model.people.movie.credit.Credit;
+import study.ian.movie.model.people.popular.Popular;
 
 public interface PeopleService {
+
+    String KEY_ID = "PEOPLE_KEY_ID";
 
     @GET("/3/movie/{id}/credits")
     Observable<Credit> getMovieCredit(
@@ -18,5 +21,11 @@ public interface PeopleService {
     Observable<study.ian.movie.model.people.tv.credit.Credit> getTvCredit(
             @Path("id") int id,
             @Query("api_key") String api_key
+    );
+
+    @GET("/3/person/popular?language=en-US")
+    Observable<Popular> getPopular(
+            @Query("api_key") String api_key,
+            @Query("page") int page
     );
 }

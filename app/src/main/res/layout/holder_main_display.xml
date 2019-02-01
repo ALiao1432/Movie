@@ -48,6 +48,7 @@
             android:layout_marginTop="@dimen/holder_sub_content_margin"
             android:layout_marginBottom="@dimen/holder_sub_content_margin"
             android:background="@android:color/transparent"
+            android:singleLine="true"
             android:textColor="@color/holderSubContent"
             android:textSize="@dimen/holder_sub_content_text_size"
             app:layout_constraintBottom_toBottomOf="parent"

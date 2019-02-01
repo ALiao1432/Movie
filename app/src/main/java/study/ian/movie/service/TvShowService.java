@@ -9,10 +9,12 @@ import study.ian.movie.model.tv.TvShow;
 import study.ian.movie.model.tv.detail.Detail;
 import study.ian.movie.model.tv.keyword.Keyword;
 import study.ian.movie.model.tv.recommend.Recommend;
+import study.ian.movie.model.tv.season.Season;
 
 public interface TvShowService {
 
-    String KEY_ID = "TV_SHOW_KEY_ID";
+    String TV_SHOW_KEY_ID = "TV_SHOW_KEY_ID";
+    String SEASON_NUM_KEY_ID = "SEASON_NUM_KEY_ID";
 
     @GET("/3/discover/tv?language=en-US")
     Observable<TvShow> getTvShow(
@@ -44,5 +46,12 @@ public interface TvShowService {
             @Path("id") int id,
             @Query("api_key") String api_key,
             @Query("page") int page
+    );
+
+    @GET("/3/tv/{id}/season/{seasonNum}")
+    Observable<Season> getSeasonDetails(
+            @Path("id") int id,
+            @Path("seasonNum") int seasonNum,
+            @Query("api_key") String api_key
     );
 }
