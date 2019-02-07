@@ -64,4 +64,9 @@
         <item>Person</item>
     </string-array>
 
+    <string-array name="language_config">
+        <item>en-US</item>
+        <item>zh-TW</item>
+    </string-array>
+
 </resources>

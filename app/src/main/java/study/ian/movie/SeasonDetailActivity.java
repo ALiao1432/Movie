@@ -17,6 +17,7 @@ import study.ian.movie.adapter.SeasonDetailAdapter;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.view.GradientImageView;
 
 public class SeasonDetailActivity extends DetailActivity {
@@ -26,7 +27,6 @@ public class SeasonDetailActivity extends DetailActivity {
     private RecyclerView seasonDetailRecyclerView;
     private int seasonId;
     private int seasonNum;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +49,11 @@ public class SeasonDetailActivity extends DetailActivity {
         seasonDetailRecyclerView.setLayoutManager(seasonDetailLayoutManager);
 
         ServiceBuilder.getService(TvShowService.class)
-                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY)
+                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(season -> {
-                    seasonDetailRecyclerView.setAdapter(new SeasonDetailAdapter(this, season.getEpisodes()));
-                })
+                .doOnNext(season ->
+                        seasonDetailRecyclerView.setAdapter(new SeasonDetailAdapter(this, season.getEpisodes())))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get season detail error : " + throwable))
                 .subscribe();
     }

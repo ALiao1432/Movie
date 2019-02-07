@@ -16,23 +16,26 @@ public interface TvShowService {
     String TV_SHOW_KEY_ID = "TV_SHOW_KEY_ID";
     String SEASON_NUM_KEY_ID = "SEASON_NUM_KEY_ID";
 
-    @GET("/3/discover/tv?language=en-US")
+    @GET("/3/discover/tv")
     Observable<TvShow> getTvShow(
             @Query("api_key") String api_key,
             @Query("sort_by") String sort_by,
-            @Query("page") int page
+            @Query("page") int page,
+            @Query("language") String language
     );
 
-    @GET("/3/tv/{id}?language=en-US")
+    @GET("/3/tv/{id}")
     Observable<Detail> getDetail(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
-    @GET("/3/tv/{id}/videos?language=en-US")
+    @GET("/3/tv/{id}/videos")
     Observable<Video> getVideo(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
     @GET("/3/tv/{id}/keywords")
@@ -45,13 +48,15 @@ public interface TvShowService {
     Observable<Recommend> getRecommend(
             @Path("id") int id,
             @Query("api_key") String api_key,
-            @Query("page") int page
+            @Query("page") int page,
+            @Query("language") String language
     );
 
     @GET("/3/tv/{id}/season/{seasonNum}")
     Observable<Season> getSeasonDetails(
             @Path("id") int id,
             @Path("seasonNum") int seasonNum,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 }

@@ -27,6 +27,7 @@ import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.view.GradientImageView;
 
 public class MovieDetailActivity extends DetailActivity {
@@ -79,7 +80,7 @@ public class MovieDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(MovieService.class)
-                .getDetail(movieId, ServiceBuilder.API_KEY)
+                .getDetail(movieId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
@@ -97,7 +98,7 @@ public class MovieDetailActivity extends DetailActivity {
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(MovieService.class)
-                .getVideo(movieId, ServiceBuilder.API_KEY)
+                .getVideo(movieId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(video -> {
@@ -171,13 +172,13 @@ public class MovieDetailActivity extends DetailActivity {
 
             if (!isRecommendLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage));
+                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage));
+            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
         }
     }
 

@@ -20,6 +20,7 @@ import study.ian.movie.adapter.PeopleAdapter;
 import study.ian.movie.model.people.popular.Popular;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.LanguageConfig;
 
 public class FragmentPeople extends Fragment {
 
@@ -72,7 +73,7 @@ public class FragmentPeople extends Fragment {
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(peopleService.getPopular(ServiceBuilder.API_KEY, currentPage));
+        subscribeForData(peopleService.getPopular(ServiceBuilder.API_KEY, currentPage, LanguageConfig.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<Popular> observable) {

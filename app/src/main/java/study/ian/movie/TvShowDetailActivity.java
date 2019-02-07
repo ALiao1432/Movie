@@ -27,6 +27,7 @@ import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.view.GradientImageView;
 
 public class TvShowDetailActivity extends DetailActivity {
@@ -82,7 +83,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(TvShowService.class)
-                .getDetail(tvShowId, ServiceBuilder.API_KEY)
+                .getDetail(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
@@ -101,7 +102,7 @@ public class TvShowDetailActivity extends DetailActivity {
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(TvShowService.class)
-                .getVideo(tvShowId, ServiceBuilder.API_KEY)
+                .getVideo(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(video -> {
@@ -127,7 +128,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get credit
         ServiceBuilder.getService(PeopleService.class)
-                .getTvCredit(tvShowId, ServiceBuilder.API_KEY)
+                .getTvCredit(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
@@ -180,13 +181,13 @@ public class TvShowDetailActivity extends DetailActivity {
 
             if (!isRecommendLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage));
+                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage));
+            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
         }
     }
 

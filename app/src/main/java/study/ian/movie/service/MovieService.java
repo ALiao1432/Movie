@@ -14,25 +14,28 @@ public interface MovieService {
 
     String KEY_ID = "MOVIE_KEY_ID";
 
-    @GET("/3/discover/movie?language=en-US")
+    @GET("/3/discover/movie")
     Observable<Movie> getMovie(
             @Query("api_key") String api_key,
             @Query("sort_by") String sort_by,
             @Query("page") int page,
             @Query("include_adult") boolean include_adult,
-            @Query("include_video") boolean include_video
+            @Query("include_video") boolean include_video,
+            @Query("language") String language
     );
 
-    @GET("/3/movie/{id}?language=en-US")
+    @GET("/3/movie/{id}")
     Observable<Detail> getDetail(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
-    @GET("/3/movie/{id}/videos?language=en-US")
+    @GET("/3/movie/{id}/videos")
     Observable<Video> getVideo(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
     @GET("/3/movie/{id}/keywords")
@@ -45,6 +48,7 @@ public interface MovieService {
     Observable<Recommend> getRecommend(
             @Path("id") int id,
             @Query("api_key") String api_key,
-            @Query("page") int page
+            @Query("page") int page,
+            @Query("language") String language
     );
 }

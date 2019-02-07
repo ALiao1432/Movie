@@ -25,6 +25,7 @@ import study.ian.movie.adapter.SortAdapter;
 import study.ian.movie.model.movie.Movie;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentMovies extends Fragment implements OnOptionSelectedListener {
@@ -96,7 +97,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, sortBy, currentPage, true, false));
+        subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, sortBy, currentPage, true, false, LanguageConfig.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<Movie> observable) {

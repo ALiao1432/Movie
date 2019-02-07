@@ -25,6 +25,7 @@ import study.ian.movie.adapter.TvShowAdapter;
 import study.ian.movie.model.tv.TvShow;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentTvShows extends Fragment implements OnOptionSelectedListener {
@@ -96,7 +97,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(tvShowService.getTvShow(ServiceBuilder.API_KEY, sortBy, currentPage));
+        subscribeForData(tvShowService.getTvShow(ServiceBuilder.API_KEY, sortBy, currentPage, LanguageConfig.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<TvShow> observable) {

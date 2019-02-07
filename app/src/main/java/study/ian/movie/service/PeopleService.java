@@ -20,12 +20,14 @@ public interface PeopleService {
     @GET("/3/tv/{id}/credits")
     Observable<study.ian.movie.model.people.tv.credit.Credit> getTvCredit(
             @Path("id") int id,
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
-    @GET("/3/person/popular?language=en-US")
+    @GET("/3/person/popular")
     Observable<Popular> getPopular(
             @Query("api_key") String api_key,
-            @Query("page") int page
+            @Query("page") int page,
+            @Query("language") String language
     );
 }

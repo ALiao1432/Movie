@@ -29,6 +29,7 @@ import study.ian.movie.adapter.SearchAdapter;
 import study.ian.movie.adapter.YearAdapter;
 import study.ian.movie.service.DiscoverService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.util.OnYearSelectedListener;
 
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
@@ -163,7 +164,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT, LanguageConfig.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -176,7 +177,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                 break;
             case "Tv Show":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year)
+                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year, LanguageConfig.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(tvShow -> {
@@ -207,7 +208,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT, LanguageConfig.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -220,7 +221,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                 break;
             case "Tv Show":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year)
+                        .searchTvShow(ServiceBuilder.API_KEY, query, page, year, LanguageConfig.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(tvShow -> {

@@ -11,30 +11,34 @@ import study.ian.movie.model.tv.TvShow;
 
 public interface DiscoverService {
 
-    @GET("/3/genre/movie/list?language=en-US")
+    @GET("/3/genre/movie/list")
     Observable<Genre> getMovieGenre(
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
-    @GET("/3/genre/tv/list?language=en-US")
+    @GET("/3/genre/tv/list")
     Observable<Genre> getTvGenre(
-            @Query("api_key") String api_key
+            @Query("api_key") String api_key,
+            @Query("language") String language
     );
 
-    @GET("/3/search/movie?language=en-US")
+    @GET("/3/search/movie")
     Observable<Movie> searchMovie(
             @Query("api_key") String api_key,
             @Query("query") String query,
             @Query("page") int page,
             @Nullable @Query("primary_release_year") Integer primary_release_year,
-            @Query("include_adult") boolean include_adult
+            @Query("include_adult") boolean include_adult,
+            @Query("language") String language
     );
 
-    @GET("/3/search/tv?language=en-US")
+    @GET("/3/search/tv")
     Observable<TvShow> searchTvShow(
             @Query("api_key") String api_key,
             @Query("query") String query,
             @Query("page") int page,
-            @Nullable @Query("first_air_date_year") Integer first_air_date_year
+            @Nullable @Query("first_air_date_year") Integer first_air_date_year,
+            @Query("language") String language
     );
 }
