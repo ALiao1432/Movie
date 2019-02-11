@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.PersonDetailImageAdapter;
 import study.ian.movie.service.PeopleService;
@@ -36,6 +37,7 @@ public class PersonDetailActivity extends DetailActivity {
     private TextView deathText;
     private TextView birthPlaceText;
     private ExpandableTextView bioText;
+    private MorphView expandHintView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +72,14 @@ public class PersonDetailActivity extends DetailActivity {
                     deathText.setText((detail.getDeathday() == null) ? "" : detail.getDeathday());
                     birthPlaceText.setText(detail.getPlace_of_birth());
                     bioText.setText(detail.getBiography());
+
+                    if (bioText.isExpandable()) {
+                        View v = ((ViewStub) findViewById(R.id.expandHintViewStub)).inflate();
+                        expandHintView = v.findViewById(R.id.expandHintView);
+                        expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
+                        expandHintView.setPaintColor("#E2E2E2");
+                        expandHintView.setSize(75, 75);
+                    }
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get detail error : " + throwable))
                 .subscribe();
@@ -127,7 +137,14 @@ public class PersonDetailActivity extends DetailActivity {
 
         RxView.clicks(bioText)
                 .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
-                .doOnNext(unit -> bioText.setExpand())
+                .doOnNext(unit -> {
+                    bioText.setExpand();
+                    if (bioText.isExpand()) {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                    } else {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                    }
+                })
                 .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
                 .subscribe();
     }

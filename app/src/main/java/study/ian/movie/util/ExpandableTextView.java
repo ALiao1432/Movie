@@ -12,6 +12,7 @@ public class ExpandableTextView extends android.support.v7.widget.AppCompatTextV
     public final static long DURATION = 150;
 
     private boolean isExpand = false;
+    private boolean isExpandable = false;
     private final int minLines = 3;
 
     public ExpandableTextView(Context context, @Nullable AttributeSet attrs) {
@@ -22,7 +23,7 @@ public class ExpandableTextView extends android.support.v7.widget.AppCompatTextV
 
     public void setExpand() {
         if (!isExpand) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(this, "maxLines", this.getLineCount());
+            ObjectAnimator animator = ObjectAnimator.ofInt(this, "maxLines", getLineCount());
             animator.setDuration(DURATION);
             animator.start();
             isExpand = true;
@@ -36,5 +37,18 @@ public class ExpandableTextView extends android.support.v7.widget.AppCompatTextV
 
     public boolean isExpand() {
         return isExpand;
+    }
+
+    public boolean isExpandable() {
+        return isExpandable;
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+
+        if (getLineCount() > 3) {
+            isExpandable = true;
+        }
     }
 }
