@@ -33,7 +33,7 @@ class DataPath extends Path {
         scaleFactors = factors;
     }
 
-    public void getPath() {
+    void getPath() {
         for (String pathData : pathDataList) {
             for (String aCmd : getFullPathCmdList(pathData)) {
                 switch (aCmd.charAt(0)) {
@@ -75,14 +75,14 @@ class DataPath extends Path {
         }
     }
 
-    public void setMorphPath(List<String> fromList, List<String> toList) {
+    void setMorphPath(List<String> fromList, List<String> toList) {
         for (int i = 0; i < fromList.size(); i++) {
             fromCmdList.addAll(getFullPathCmdList(fromList.get(i)));
             toCmdList.addAll(getFullPathCmdList(toList.get(i)));
         }
     }
 
-    public void getMorphPath(float mFactor) {
+    void getMorphPath(float mFactor) {
         for (int i = 0; i < fromCmdList.size(); i++) {
             switch (fromCmdList.get(i).charAt(0)) {
                 case 'M':
@@ -446,7 +446,7 @@ class DataPath extends Path {
     }
 
     private PointF[] getPointFromCmd(String cmd) {
-        cmd = cmd.substring(1, cmd.length());
+        cmd = cmd.substring(1);
 
         String[] pointStrings = cmd.split(" ");
         PointF[] pointFS = new PointF[pointStrings.length];
@@ -463,7 +463,7 @@ class DataPath extends Path {
     }
 
     private PointF[] getHPointFromCmd(String cmd) {
-        cmd = cmd.substring(1, cmd.length());
+        cmd = cmd.substring(1);
 
         String[] pointStrings = cmd.split(" ");
         PointF[] pointFS = new PointF[pointStrings.length];
@@ -479,7 +479,7 @@ class DataPath extends Path {
     }
 
     private PointF[] getVPointFromCmd(String cmd) {
-        cmd = cmd.substring(1, cmd.length());
+        cmd = cmd.substring(1);
 
         String[] pointStrings = cmd.split(" ");
         PointF[] pointFS = new PointF[pointStrings.length];

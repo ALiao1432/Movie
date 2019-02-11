@@ -41,7 +41,7 @@ public class MorphView extends AppCompatImageView {
 
     private void initAnimator() {
         LinearInterpolator linearInterpolator = new LinearInterpolator();
-        final long animationDuration = 250;
+        final long animationDuration = 1600;
 
         pointAnimator = ValueAnimator.ofFloat(0, 1, 1.025f, 1.0125f, 1);
         pointAnimator.setDuration(animationDuration);
