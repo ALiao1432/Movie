@@ -21,6 +21,7 @@
 
     <style name="AppTheme.subContentText" parent="AppTheme.mainContentText">
         <item name="android:textSize">@dimen/detail_sub_content_text_size</item>
+        <item name="android:textColor">@color/childContent</item>
     </style>
 
     <style name="AppTheme.genreKeywordButton" parent="AppTheme">

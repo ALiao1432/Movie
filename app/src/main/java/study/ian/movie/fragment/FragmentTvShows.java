@@ -25,13 +25,12 @@ import study.ian.movie.adapter.TvShowAdapter;
 import study.ian.movie.model.tv.TvShow;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
-import study.ian.movie.util.LanguageConfig;
+import study.ian.movie.util.Config;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentTvShows extends Fragment implements OnOptionSelectedListener {
 
     private final String TAG = "FragmentTvShows";
-    private final int VISIBLE_THRESHOLD = 10;
 
     private RecyclerView tvShowRecyclerView;
     private RecyclerView tvShowSortRecyclerView;
@@ -81,7 +80,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
             int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             int totalItemCount = layoutManager.getItemCount();
 
-            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
+            if (!isLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
                 loadMorePage();
             }
         });
@@ -97,7 +96,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(tvShowService.getTvShow(ServiceBuilder.API_KEY, sortBy, currentPage, LanguageConfig.REQUEST_LANGUAGE));
+        subscribeForData(tvShowService.getTvShow(ServiceBuilder.API_KEY, sortBy, currentPage, Config.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<TvShow> observable) {

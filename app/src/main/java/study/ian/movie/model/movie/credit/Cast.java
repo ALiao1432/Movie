@@ -1,10 +1,13 @@
-package study.ian.movie.model.people.tv.credit;
+package study.ian.movie.model.movie.credit;
 
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Cast {
+
+    @SerializedName("cast_id")
+    private int cast_id;
 
     @SerializedName("character")
     private String character;
@@ -28,6 +31,10 @@ public class Cast {
     @Nullable
     @SerializedName("profile_path")
     private String profile_path;
+
+    public int getCast_id() {
+        return cast_id;
+    }
 
     public String getCharacter() {
         return character;
@@ -62,6 +69,7 @@ public class Cast {
     @Override
     public String toString() {
         return "Cast{" +
+                "cast_id=" + cast_id +
                 ", character='" + character + '\'' +
                 ", credit_id='" + credit_id + '\'' +
                 ", gender=" + gender +

@@ -25,13 +25,12 @@ import study.ian.movie.adapter.SortAdapter;
 import study.ian.movie.model.movie.Movie;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
-import study.ian.movie.util.LanguageConfig;
+import study.ian.movie.util.Config;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentMovies extends Fragment implements OnOptionSelectedListener {
 
     private final String TAG = "FragmentMovies";
-    private final int VISIBLE_THRESHOLD = 10;
 
     private RecyclerView movieRecyclerView;
     private RecyclerView movieSortRecyclerView;
@@ -81,7 +80,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
             int lastVisibleItem = movieLayoutManager.findLastVisibleItemPosition();
             int totalItemCount = movieLayoutManager.getItemCount();
 
-            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
+            if (!isLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
                 loadMorePage();
             }
         });
@@ -97,7 +96,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, sortBy, currentPage, true, false, LanguageConfig.REQUEST_LANGUAGE));
+        subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, sortBy, currentPage, true, false, Config.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<Movie> observable) {

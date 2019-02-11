@@ -26,14 +26,13 @@ import study.ian.movie.model.tv.recommend.RecommendResult;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
+import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
-import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.view.GradientImageView;
 
 public class TvShowDetailActivity extends DetailActivity {
 
     private final String TAG = "TvShowDetailActivity";
-    private final int VISIBLE_THRESHOLD = 10;
 
     private GradientImageView backdropImage;
     private TextView titleText;
@@ -83,7 +82,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(TvShowService.class)
-                .getDetail(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getDetail(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
@@ -102,7 +101,7 @@ public class TvShowDetailActivity extends DetailActivity {
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(TvShowService.class)
-                .getVideo(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getVideo(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(video -> {
@@ -128,7 +127,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get credit
         ServiceBuilder.getService(PeopleService.class)
-                .getTvCredit(tvShowId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getTvCredit(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
@@ -179,15 +178,15 @@ public class TvShowDetailActivity extends DetailActivity {
             int lastVisibleItem = recommendLayoutManager.findLastVisibleItemPosition();
             int totalItemCount = recommendLayoutManager.getItemCount();
 
-            if (!isRecommendLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
+            if (!isRecommendLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
+                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
+            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
         }
     }
 

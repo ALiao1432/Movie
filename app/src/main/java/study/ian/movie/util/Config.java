@@ -9,16 +9,23 @@ import java.util.Optional;
 
 import study.ian.movie.R;
 
-public class LanguageConfig {
+public class Config {
 
-    private final String TAG = "LanguageConfig";
+    private final String TAG = "Config";
 
     public static String REQUEST_LANGUAGE = "en-US";
+    public static boolean INCLUDE_ADULT = true;
+    public static final int VISIBLE_THRESHOLD = 20;
 
-    public LanguageConfig(Context context) {
+    public Config(Context context) {
+
+        configLanguage(context);
+    }
+
+    private void configLanguage(Context context) {
         String[] languages = context.getResources().getStringArray(R.array.language_config);
 
-         Optional<String> stringOptional = Arrays.stream(languages)
+        Optional<String> stringOptional = Arrays.stream(languages)
                 .filter(l -> l.startsWith(Locale.getDefault().getLanguage()))
                 .findFirst();
 

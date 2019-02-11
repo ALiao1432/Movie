@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PersonDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            app:contentScrim="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/personDetailImagePager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nameText"
+                style="@style/AppTheme.mainContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name Text" />
+
+            <TextView
+                android:id="@+id/genderText"
+                style="@style/AppTheme.subContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameText"
+                tools:text="Gender" />
+
+            <TextView
+                android:id="@+id/birthText"
+                style="@style/AppTheme.subContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintStart_toEndOf="@id/genderText"
+                app:layout_constraintTop_toBottomOf="@id/nameText"
+                tools:text="Birth Text" />
+
+            <TextView
+                android:id="@+id/deathText"
+                style="@style/AppTheme.subContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintStart_toEndOf="@id/birthText"
+                app:layout_constraintTop_toBottomOf="@id/nameText"
+                tools:text="Death Text" />
+
+            <TextView
+                android:id="@+id/birthPlaceText"
+                style="@style/AppTheme.subContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/birthText"
+                tools:text="Birth Place Text" />
+
+            <study.ian.movie.util.ExpandableTextView
+                android:id="@+id/bioText"
+                style="@style/AppTheme.subContentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="@drawable/foreground_ripple"
+                android:textColor="@color/mainContent"
+                app:layout_constraintTop_toBottomOf="@id/birthPlaceText"
+                tools:text="Bio Text" />
+
+            <FrameLayout
+                android:id="@+id/personMovieCreditLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/bioText">
+
+                <ViewStub
+                    android:id="@+id/movieViewStub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inflatedId="@+id/movieCreditView"
+                    android:layout="@layout/layout_person_credit" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/personTvCreditLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/personMovieCreditLayout">
+
+                <ViewStub
+                    android:id="@+id/tvViewStub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inflatedId="@+id/tvCreditView"
+                    android:layout="@layout/layout_person_credit" />
+
+            </FrameLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

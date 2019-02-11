@@ -19,12 +19,16 @@ import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
+import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.PersonDetailActivity;
 import study.ian.movie.R;
-import study.ian.movie.model.people.movie.credit.Cast;
-import study.ian.movie.model.people.movie.credit.Credit;
+import study.ian.movie.TvShowDetailActivity;
+import study.ian.movie.model.movie.credit.Cast;
+import study.ian.movie.model.movie.credit.Credit;
+import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.service.TvShowService;
 
 public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHolder> {
 
@@ -50,16 +54,9 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
         if (credit instanceof Credit) {
             Cast cast = ((Credit) credit).getCast().get(i);
 
-            RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
-                    .placeholder(R.drawable.vd_credit_holder)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL);
-            Glide.with(creditHolder.creditImage)
-                    .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
-                    .apply(requestOptions)
-                    .into(creditHolder.creditImage);
+            loadImage(creditHolder.creditImage, ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path());
 
-            RxView.clicks(creditHolder.creditImage)
+            RxView.clicks(creditHolder.cardView)
                     .throttleFirst(1500, TimeUnit.MILLISECONDS)
                     .doOnNext(unit -> {
                         Intent intent = new Intent();
@@ -72,20 +69,13 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
             creditHolder.creditText.setText(cast.getName());
             creditHolder.charText.setText(cast.getCharacter());
-        } else if (credit instanceof study.ian.movie.model.people.tv.credit.Credit) {
-            study.ian.movie.model.people.tv.credit.Cast cast =
-                    ((study.ian.movie.model.people.tv.credit.Credit) credit).getCast().get(i);
+        } else if (credit instanceof study.ian.movie.model.tv.credit.Credit) {
+            study.ian.movie.model.tv.credit.Cast cast =
+                    ((study.ian.movie.model.tv.credit.Credit) credit).getCast().get(i);
 
-            RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
-                    .placeholder(R.drawable.vd_credit_holder)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL);
-            Glide.with(creditHolder.creditImage)
-                    .load(ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path())
-                    .apply(requestOptions)
-                    .into(creditHolder.creditImage);
+            loadImage(creditHolder.creditImage, ServiceBuilder.CREDIT_BASE_URL + cast.getProfile_path());
 
-            RxView.clicks(creditHolder.creditImage)
+            RxView.clicks(creditHolder.cardView)
                     .throttleFirst(1500, TimeUnit.MILLISECONDS)
                     .doOnNext(unit -> {
                         Intent intent = new Intent();
@@ -98,6 +88,44 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
             creditHolder.creditText.setText(cast.getName());
             creditHolder.charText.setText(cast.getCharacter());
+        } else if (credit instanceof study.ian.movie.model.people.credit.movie.Credit) {
+            study.ian.movie.model.people.credit.movie.Cast cast =
+                    ((study.ian.movie.model.people.credit.movie.Credit) credit).getCast().get(i);
+
+            loadImage(creditHolder.creditImage, ServiceBuilder.POSTER_BASE_URL + cast.getPoster_path());
+
+            RxView.clicks(creditHolder.cardView)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> {
+                        Intent intent = new Intent();
+                        intent.putExtra(MovieService.KEY_ID, cast.getId());
+                        intent.setClass(context, MovieDetailActivity.class);
+                        context.startActivity(intent);
+                    })
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click person movie credit error : " + throwable))
+                    .subscribe();
+
+            creditHolder.creditText.setText(cast.getTitle());
+            creditHolder.charText.setText(cast.getRelease_date());
+        } else if (credit instanceof study.ian.movie.model.people.credit.tv.Credit) {
+            study.ian.movie.model.people.credit.tv.Cast cast =
+                    ((study.ian.movie.model.people.credit.tv.Credit) credit).getCast().get(i);
+
+            loadImage(creditHolder.creditImage, ServiceBuilder.POSTER_BASE_URL + cast.getPoster_path());
+
+            RxView.clicks(creditHolder.cardView)
+                    .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> {
+                        Intent intent = new Intent();
+                        intent.putExtra(TvShowService.TV_SHOW_KEY_ID, cast.getId());
+                        intent.setClass(context, TvShowDetailActivity.class);
+                        context.startActivity(intent);
+                    })
+                    .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click person tv credit error : " + throwable))
+                    .subscribe();
+
+            creditHolder.creditText.setText(cast.getName());
+            creditHolder.charText.setText(cast.getFirst_air_date());
         }
     }
 
@@ -105,11 +133,26 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
     public int getItemCount() {
         if (credit instanceof Credit) {
             return ((Credit) credit).getCast().size();
-        } else if (credit instanceof study.ian.movie.model.people.tv.credit.Credit) {
-            return ((study.ian.movie.model.people.tv.credit.Credit) credit).getCast().size();
+        } else if (credit instanceof study.ian.movie.model.tv.credit.Credit) {
+            return ((study.ian.movie.model.tv.credit.Credit) credit).getCast().size();
+        } else if (credit instanceof study.ian.movie.model.people.credit.movie.Credit) {
+            return ((study.ian.movie.model.people.credit.movie.Credit) credit).getCast().size();
+        } else if (credit instanceof study.ian.movie.model.people.credit.tv.Credit) {
+            return ((study.ian.movie.model.people.credit.tv.Credit) credit).getCast().size();
         } else {
             return 0;
         }
+    }
+
+    private void loadImage(View targetView, String path) {
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.vd_credit_holder)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(targetView)
+                .load(path)
+                .apply(requestOptions)
+                .into((ImageView) targetView);
     }
 
     class CreditHolder extends RecyclerView.ViewHolder {

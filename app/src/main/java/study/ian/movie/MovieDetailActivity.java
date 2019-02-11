@@ -26,14 +26,13 @@ import study.ian.movie.model.movie.recommend.RecommendResult;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
+import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
-import study.ian.movie.util.LanguageConfig;
 import study.ian.movie.view.GradientImageView;
 
 public class MovieDetailActivity extends DetailActivity {
 
     private final String TAG = "MovieDetailActivity";
-    private final int VISIBLE_THRESHOLD = 10;
 
     private GradientImageView backdropImage;
     private TextView titleText;
@@ -80,7 +79,7 @@ public class MovieDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(MovieService.class)
-                .getDetail(movieId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getDetail(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(detail -> {
@@ -98,7 +97,7 @@ public class MovieDetailActivity extends DetailActivity {
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(MovieService.class)
-                .getVideo(movieId, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getVideo(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(video -> {
@@ -170,15 +169,15 @@ public class MovieDetailActivity extends DetailActivity {
             int lastVisibleItem = recommendLayoutManager.findLastVisibleItemPosition();
             int totalItemCount = recommendLayoutManager.getItemCount();
 
-            if (!isRecommendLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
+            if (!isRecommendLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
+                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, LanguageConfig.REQUEST_LANGUAGE));
+            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
         }
     }
 

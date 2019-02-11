@@ -4,12 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -17,8 +11,7 @@ import study.ian.movie.adapter.SeasonDetailAdapter;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.DetailActivity;
-import study.ian.movie.util.LanguageConfig;
-import study.ian.movie.view.GradientImageView;
+import study.ian.movie.util.Config;
 
 public class SeasonDetailActivity extends DetailActivity {
 
@@ -49,7 +42,7 @@ public class SeasonDetailActivity extends DetailActivity {
         seasonDetailRecyclerView.setLayoutManager(seasonDetailLayoutManager);
 
         ServiceBuilder.getService(TvShowService.class)
-                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, LanguageConfig.REQUEST_LANGUAGE)
+                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(season ->

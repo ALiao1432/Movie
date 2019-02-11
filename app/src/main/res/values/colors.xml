@@ -21,7 +21,7 @@
     <color name="holderOptionSelect">#00796b</color>
     <color name="holderOptionNotSelect">#686868</color>
 
-    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml -->
+    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml & activity_person_detail.xml -->
     <color name="releaseDate">#b4b4b4</color>
     <color name="childContent">#b4b4b4</color>
     <color name="mainContent">#E2E2E2</color>

@@ -20,12 +20,11 @@ import study.ian.movie.adapter.PeopleAdapter;
 import study.ian.movie.model.people.popular.Popular;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
-import study.ian.movie.util.LanguageConfig;
+import study.ian.movie.util.Config;
 
 public class FragmentPeople extends Fragment {
 
     private final String TAG = "FragmentPeople";
-    private final int VISIBLE_THRESHOLD = 10;
 
     private RecyclerView peopleRecyclerView;
     private PeopleAdapter peopleAdapter;
@@ -60,7 +59,7 @@ public class FragmentPeople extends Fragment {
             int lastVisibleItem = peopleLayoutManager.findLastVisibleItemPosition();
             int totalItemCount = peopleLayoutManager.getItemCount();
 
-            if (!isLoading && (lastVisibleItem + VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
+            if (!isLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentPage < totalPages) {
                 loadMorePage();
             }
         });
@@ -73,7 +72,7 @@ public class FragmentPeople extends Fragment {
     private void loadMorePage() {
         currentPage++;
         isLoading = true;
-        subscribeForData(peopleService.getPopular(ServiceBuilder.API_KEY, currentPage, LanguageConfig.REQUEST_LANGUAGE));
+        subscribeForData(peopleService.getPopular(ServiceBuilder.API_KEY, currentPage, Config.REQUEST_LANGUAGE));
     }
 
     private void subscribeForData(Observable<Popular> observable) {

@@ -12,7 +12,7 @@
     <dimen name="holder_sub_content_margin">2dp</dimen>
     <dimen name="holder_sub_content_text_size">12sp</dimen>
 
-    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml & activity_season_detail.xml -->
+    <!-- activity_movie.detail.xml & activity_tv_show_detail.xml & activity_season_detail.xml & activity_person_detail.xml -->
     <dimen name="backdrop_height">240dp</dimen>
     <dimen name="detail_title_text_size">30sp</dimen>
     <dimen name="detail_main_content_text_size">24sp</dimen>

@@ -1,4 +1,4 @@
-package study.ian.movie.model.people.tv.credit;
+package study.ian.movie.model.tv.credit;
 
 import com.google.gson.annotations.SerializedName;
 
