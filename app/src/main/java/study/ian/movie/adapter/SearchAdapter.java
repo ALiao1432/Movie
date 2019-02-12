@@ -23,11 +23,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import study.ian.movie.MovieDetailActivity;
+import study.ian.movie.PersonDetailActivity;
 import study.ian.movie.R;
 import study.ian.movie.TvShowDetailActivity;
 import study.ian.movie.model.movie.MovieResult;
+import study.ian.movie.model.people.popular.KnownFor;
+import study.ian.movie.model.people.popular.Popular;
+import study.ian.movie.model.people.popular.PopularResult;
 import study.ian.movie.model.tv.TvShowResult;
 import study.ian.movie.service.MovieService;
+import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 
@@ -65,6 +70,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
             setMovieCard((MovieResult) resultList.get(i), viewHolder);
         } else if (resultList.get(i) instanceof TvShowResult) {
             setTvShowCard((TvShowResult) resultList.get(i), viewHolder);
+        } else if (resultList.get(i) instanceof PopularResult) {
+            setPersonCard((PopularResult) resultList.get(i), viewHolder);
         }
     }
 
@@ -114,6 +121,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
                     context.startActivity(intent);
                 })
                 .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click tv show card error : " + throwable))
+                .subscribe();
+    }
+
+    private void setPersonCard(PopularResult popularResult, ResultHolder viewHolder) {
+        Glide.with(viewHolder.posterImage)
+                .asBitmap()
+                .load(ServiceBuilder.POSTER_BASE_URL + popularResult.getProfile_path())
+                .apply(requestOptions)
+                .transition(new BitmapTransitionOptions().crossFade(250))
+                .into(viewHolder.posterImage);
+        viewHolder.mainText.setText(popularResult.getName());
+
+        // set subText
+        StringBuilder sb = new StringBuilder();
+        for (KnownFor knownFor : popularResult.getKnown_for()) {
+            sb.append(knownFor.getTitle()).append(", ");
+        }
+        if (sb.toString().equals("")) {
+            viewHolder.subText.setText(context.getResources().getString(R.string.no_known_for));
+        } else {
+            viewHolder.subText.setText(sb.toString());
+        }
+
+        RxView.clicks(viewHolder.cardView)
+                .throttleFirst(1500, TimeUnit.MILLISECONDS)
+                .doOnNext(unit -> {
+                    Intent intent = new Intent();
+                    intent.putExtra(PeopleService.KEY_ID, popularResult.getId());
+                    intent.setClass(context, PersonDetailActivity.class);
+                    context.startActivity(intent);
+                })
+                .doOnError(throwable -> Log.d(TAG, "onBindViewHolder: click person card error : " + throwable))
                 .subscribe();
     }
 

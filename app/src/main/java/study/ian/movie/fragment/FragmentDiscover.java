@@ -34,7 +34,6 @@ import study.ian.movie.util.OnYearSelectedListener;
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
     private final String TAG = "FragmentDiscover";
-    private final boolean INCLUDE_ADULT = true;
 
     private Context context;
     private RecyclerView yearRecyclerView;
@@ -162,7 +161,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -187,6 +186,17 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case "Person":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(popular -> {
+                            isSearching = false;
+                            totalSearchPages = popular.getTotal_pages();
+                            searchAdapter.addResultList(popular.getResults());
+                        })
+                        .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
+                        .subscribe();
                 break;
         }
 
@@ -206,7 +216,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         switch (searchType) {
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
-                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
+                        .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(movie -> {
@@ -231,6 +241,17 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case "Person":
+                ServiceBuilder.getService(DiscoverService.class)
+                        .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext(popular -> {
+                            isSearching = false;
+                            totalSearchPages = popular.getTotal_pages();
+                            searchAdapter.addResultList(popular.getResults());
+                        })
+                        .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
+                        .subscribe();
                 break;
         }
 

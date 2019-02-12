@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import study.ian.movie.model.discover.Genre;
 import study.ian.movie.model.movie.Movie;
+import study.ian.movie.model.people.popular.Popular;
 import study.ian.movie.model.tv.TvShow;
 
 public interface DiscoverService {
@@ -39,6 +40,15 @@ public interface DiscoverService {
             @Query("query") String query,
             @Query("page") int page,
             @Nullable @Query("first_air_date_year") Integer first_air_date_year,
+            @Query("language") String language
+    );
+
+    @GET("/3/search/person")
+    Observable<Popular> searchPerson(
+            @Query("api_key") String api_key,
+            @Query("query") String query,
+            @Query("page") int page,
+            @Query("include_adult") boolean include_adult,
             @Query("language") String language
     );
 }

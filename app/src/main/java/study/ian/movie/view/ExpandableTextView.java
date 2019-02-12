@@ -1,4 +1,4 @@
-package study.ian.movie.util;
+package study.ian.movie.view;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

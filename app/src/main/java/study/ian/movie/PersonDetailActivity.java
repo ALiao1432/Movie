@@ -24,7 +24,7 @@ import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
-import study.ian.movie.util.ExpandableTextView;
+import study.ian.movie.view.ExpandableTextView;
 
 public class PersonDetailActivity extends DetailActivity {
 
@@ -145,18 +145,20 @@ public class PersonDetailActivity extends DetailActivity {
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv credit error : " + throwable))
                 .subscribe();
 
-        RxView.clicks(bioText)
-                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
-                .doOnNext(unit -> {
-                    bioText.setExpand();
-                    if (bioText.isExpand()) {
-                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
-                    } else {
-                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
-                    }
-                })
-                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
-                .subscribe();
+        if (bioText.isExpandable()) {
+            RxView.clicks(bioText)
+                    .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
+                    .doOnNext(unit -> {
+                        bioText.setExpand();
+                        if (bioText.isExpand()) {
+                            expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                        } else {
+                            expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                        }
+                    })
+                    .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
+                    .subscribe();
+        }
 
         personImagePager.setPadding(250,0,250,0);
         personImagePager.setClipToPadding(false);
