@@ -24,6 +24,7 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
 import study.ian.movie.util.ExpandableTextView;
+import study.ian.movie.util.ViewPagerScrollHintBar;
 
 public class PersonDetailActivity extends DetailActivity {
 
@@ -38,6 +39,7 @@ public class PersonDetailActivity extends DetailActivity {
     private TextView birthPlaceText;
     private ExpandableTextView bioText;
     private MorphView expandHintView;
+    private ViewPagerScrollHintBar hintBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class PersonDetailActivity extends DetailActivity {
         deathText = findViewById(R.id.deathText);
         birthPlaceText = findViewById(R.id.birthPlaceText);
         bioText = findViewById(R.id.bioText);
+        hintBar = findViewById(R.id.hintBar);
     }
 
     private void setViews() {
@@ -88,7 +91,13 @@ public class PersonDetailActivity extends DetailActivity {
                 .getImage(personId, ServiceBuilder.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(image -> personImagePager.setAdapter(new PersonDetailImageAdapter(this, image.getProfiles())))
+                .doOnNext(image -> {
+                    if (image.getProfiles().size() != 0) {
+                        hintBar.setTotalPage(image.getProfiles().size());
+                        hintBar.setCurrentPage(personImagePager.getCurrentItem());
+                    }
+                    personImagePager.setAdapter(new PersonDetailImageAdapter(this, image.getProfiles()));
+                })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get image error :  " + throwable))
                 .subscribe();
 
@@ -147,6 +156,25 @@ public class PersonDetailActivity extends DetailActivity {
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
                 .subscribe();
+
+        personImagePager.setPadding(250,0,250,0);
+        personImagePager.setClipToPadding(false);
+        personImagePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                hintBar.setCurrentPage(i, v);
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     private String getGender(int gender) {
