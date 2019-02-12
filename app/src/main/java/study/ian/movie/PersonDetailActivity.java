@@ -11,6 +11,7 @@ import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding3.view.RxView;
+import com.seamas.colorhintbarlibrary.ColorHintBar;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,6 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
 import study.ian.movie.util.ExpandableTextView;
-import study.ian.movie.util.ViewPagerScrollHintBar;
 
 public class PersonDetailActivity extends DetailActivity {
 
@@ -39,7 +39,7 @@ public class PersonDetailActivity extends DetailActivity {
     private TextView birthPlaceText;
     private ExpandableTextView bioText;
     private MorphView expandHintView;
-    private ViewPagerScrollHintBar hintBar;
+    private ColorHintBar hintBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,8 +93,9 @@ public class PersonDetailActivity extends DetailActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(image -> {
                     if (image.getProfiles().size() != 0) {
-                        hintBar.setTotalPage(image.getProfiles().size());
-                        hintBar.setCurrentPage(personImagePager.getCurrentItem());
+                        hintBar.setItemAmount(image.getProfiles().size());
+                        hintBar.setSite(personImagePager.getCurrentItem());
+                        hintBar.setVisibility(View.VISIBLE);
                     }
                     personImagePager.setAdapter(new PersonDetailImageAdapter(this, image.getProfiles()));
                 })
@@ -159,22 +160,10 @@ public class PersonDetailActivity extends DetailActivity {
 
         personImagePager.setPadding(250,0,250,0);
         personImagePager.setClipToPadding(false);
-        personImagePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-                hintBar.setCurrentPage(i, v);
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
+        hintBar.setTimerTime(250);
+        hintBar.setVanishTime(250);
+        hintBar.setHintColor(0xff009688);
+        hintBar.setViewConnectedPager(personImagePager);
     }
 
     private String getGender(int gender) {

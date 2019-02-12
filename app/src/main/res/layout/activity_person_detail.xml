@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp"
             app:contentScrim="@color/colorPrimaryDark"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -30,15 +30,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/hintBar"/>
 
-                <study.ian.movie.util.ViewPagerScrollHintBar
+                <com.seamas.colorhintbarlibrary.ColorHintBar
                     android:id="@+id/hintBar"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:visibility="invisible"
                     app:layout_constraintVertical_weight="1"
                     app:layout_constraintTop_toBottomOf="@id/personDetailImagePager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 
