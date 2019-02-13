@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -69,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
         findViews();
         setFragmentManager();
         setBottomNavView();
-
-        // TODO: 2019-01-25 after testing, delete this line~~~
-        bottomNavView.setSelectedItemId(R.id.item_discover);
     }
 
     private void findViews() {

@@ -82,6 +82,19 @@ public class PersonDetailActivity extends DetailActivity {
                         expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
                         expandHintView.setPaintColor("#E2E2E2");
                         expandHintView.setSize(75, 75);
+
+                        RxView.clicks(bioText)
+                                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
+                                .doOnNext(unit -> {
+                                    bioText.setExpand();
+                                    if (bioText.isExpand()) {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                                    } else {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                                    }
+                                })
+                                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
+                                .subscribe();
                     }
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get detail error : " + throwable))
@@ -124,7 +137,6 @@ public class PersonDetailActivity extends DetailActivity {
                 .subscribe();
 
         ServiceBuilder.getService(PeopleService.class)
-//                .getTvCreditFromPerson(1195620, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .getTvCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -145,22 +157,7 @@ public class PersonDetailActivity extends DetailActivity {
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv credit error : " + throwable))
                 .subscribe();
 
-        if (bioText.isExpandable()) {
-            RxView.clicks(bioText)
-                    .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
-                    .doOnNext(unit -> {
-                        bioText.setExpand();
-                        if (bioText.isExpand()) {
-                            expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
-                        } else {
-                            expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
-                        }
-                    })
-                    .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
-                    .subscribe();
-        }
-
-        personImagePager.setPadding(250,0,250,0);
+        personImagePager.setPadding(250, 0, 250, 0);
         personImagePager.setClipToPadding(false);
         hintBar.setTimerTime(250);
         hintBar.setVanishTime(250);
