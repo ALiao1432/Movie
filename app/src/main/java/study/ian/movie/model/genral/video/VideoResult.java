@@ -2,6 +2,8 @@ package study.ian.movie.model.genral.video;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class VideoResult {
 
     @SerializedName("id")
@@ -60,6 +62,7 @@ public class VideoResult {
         return type;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "VideoResult{" +

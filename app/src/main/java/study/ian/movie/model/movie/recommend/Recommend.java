@@ -2,6 +2,8 @@ package study.ian.movie.model.movie.recommend;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Recommend {
@@ -34,6 +36,7 @@ public class Recommend {
         return total_results;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Recommend{" +

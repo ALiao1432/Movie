@@ -2,6 +2,8 @@ package study.ian.movie.model.people.popular;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Popular {
@@ -34,6 +36,7 @@ public class Popular {
         return total_pages;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Popular{" +

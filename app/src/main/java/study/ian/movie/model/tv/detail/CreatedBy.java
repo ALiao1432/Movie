@@ -2,6 +2,8 @@ package study.ian.movie.model.tv.detail;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CreatedBy {
 
     @SerializedName("id")
@@ -39,6 +41,7 @@ public class CreatedBy {
         return profile_path;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "CreatedBy{" +

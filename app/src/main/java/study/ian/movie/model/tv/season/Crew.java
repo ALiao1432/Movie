@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Crew {
 
     @SerializedName("id")
@@ -50,6 +52,7 @@ public class Crew {
         return profile_path;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Crew{" +

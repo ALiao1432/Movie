@@ -2,6 +2,8 @@ package study.ian.movie.model.tv.detail;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Genre {
 
     @SerializedName("id")
@@ -18,6 +20,7 @@ public class Genre {
         return name;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Genre{" +

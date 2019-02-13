@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Cast {
 
     @SerializedName("cast_id")
@@ -66,6 +68,7 @@ public class Cast {
         return profile_path;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Cast{" +

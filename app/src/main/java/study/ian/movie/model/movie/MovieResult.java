@@ -2,6 +2,8 @@ package study.ian.movie.model.movie;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class MovieResult {
@@ -104,6 +106,7 @@ public class MovieResult {
         return release_date;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "MovieResult{" +

@@ -1,7 +1,6 @@
 package study.ian.movie.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Locale;

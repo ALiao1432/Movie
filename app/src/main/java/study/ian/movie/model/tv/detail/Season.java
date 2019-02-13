@@ -2,6 +2,8 @@ package study.ian.movie.model.tv.detail;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Season {
 
     @SerializedName("air_date")
@@ -53,6 +55,7 @@ public class Season {
         return season_number;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Season{" +

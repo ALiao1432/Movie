@@ -2,6 +2,8 @@ package study.ian.movie.model.tv.credit;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Credit {
@@ -27,6 +29,7 @@ public class Credit {
         return crew;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Credit{" +

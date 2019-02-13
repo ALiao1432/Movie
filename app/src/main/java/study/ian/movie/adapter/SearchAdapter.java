@@ -28,7 +28,6 @@ import study.ian.movie.R;
 import study.ian.movie.TvShowDetailActivity;
 import study.ian.movie.model.movie.MovieResult;
 import study.ian.movie.model.people.popular.KnownFor;
-import study.ian.movie.model.people.popular.Popular;
 import study.ian.movie.model.people.popular.PopularResult;
 import study.ian.movie.model.tv.TvShowResult;
 import study.ian.movie.service.MovieService;

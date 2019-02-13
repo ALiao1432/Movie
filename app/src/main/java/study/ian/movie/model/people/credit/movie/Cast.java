@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Cast {
@@ -124,6 +126,7 @@ public class Cast {
         return poster_path;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Cast{" +

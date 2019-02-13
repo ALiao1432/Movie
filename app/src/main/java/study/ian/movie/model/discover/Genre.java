@@ -2,6 +2,8 @@ package study.ian.movie.model.discover;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Genre {
@@ -13,6 +15,7 @@ public class Genre {
         return genres;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Genre{" +

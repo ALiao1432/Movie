@@ -20,8 +20,6 @@
     <dimen name="detail_info_margin">20dp</dimen>
 
     <!-- activity_season_detail.xml -->
-    <dimen name="season_detail_width">140dp</dimen>
-    <dimen name="season_detail_height">200dp</dimen>
 
     <!-- holder_genre.xml & holder_keyword.xml -->
     <dimen name="holder_genre_keyword_layout_padding">12dp</dimen>

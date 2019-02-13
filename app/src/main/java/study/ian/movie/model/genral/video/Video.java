@@ -2,6 +2,8 @@ package study.ian.movie.model.genral.video;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Video {
@@ -20,6 +22,7 @@ public class Video {
         return results;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Video{" +

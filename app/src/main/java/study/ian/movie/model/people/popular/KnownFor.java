@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class KnownFor {
@@ -143,6 +145,7 @@ public class KnownFor {
         return original_name;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "KnownFor{" +

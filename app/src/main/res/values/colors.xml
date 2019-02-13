@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#00796b</color>
     <color name="colorPrimaryDark">#081c24</color>
-    <color name="colorPrimaryLight">#08729c</color>
     <color name="colorAccent">#009688</color>
     <color name="navIconSelected">#00796b</color>
     <color name="navIconUnselected">#b4b4b4</color>
@@ -22,7 +21,6 @@
     <color name="holderOptionNotSelect">#686868</color>
 
     <!-- activity_movie.detail.xml & activity_tv_show_detail.xml & activity_person_detail.xml -->
-    <color name="releaseDate">#b4b4b4</color>
     <color name="childContent">#b4b4b4</color>
     <color name="mainContent">#E2E2E2</color>
 

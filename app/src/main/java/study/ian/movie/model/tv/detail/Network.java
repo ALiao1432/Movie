@@ -2,6 +2,8 @@ package study.ian.movie.model.tv.detail;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Network {
 
     @SerializedName("name")
@@ -32,6 +34,7 @@ public class Network {
         return origin_country;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Network{" +

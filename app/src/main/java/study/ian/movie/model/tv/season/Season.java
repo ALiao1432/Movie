@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Season {
@@ -66,6 +68,7 @@ public class Season {
         return season_number;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Season{" +

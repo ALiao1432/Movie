@@ -2,6 +2,8 @@ package study.ian.movie.model.people.image;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Image {
@@ -20,6 +22,7 @@ public class Image {
         return profiles;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Image{" +

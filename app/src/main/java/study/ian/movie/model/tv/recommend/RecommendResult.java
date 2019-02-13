@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class RecommendResult {
@@ -103,6 +105,7 @@ public class RecommendResult {
         return vote_average;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "RecommendResult{" +

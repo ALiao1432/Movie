@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Crew {
@@ -131,6 +133,7 @@ public class Crew {
         return credit_id;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Crew{" +
