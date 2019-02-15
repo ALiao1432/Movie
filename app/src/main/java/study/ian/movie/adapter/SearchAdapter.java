@@ -138,7 +138,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
             sb.append(knownFor.getTitle()).append(", ");
         }
         if (sb.toString().equals("")) {
-            viewHolder.subText.setText(context.getResources().getString(R.string.no_known_for));
+            viewHolder.subText.setText(context.getString(R.string.no_known_for));
         } else {
             viewHolder.subText.setText(sb.toString());
         }

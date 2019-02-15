@@ -77,7 +77,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
             sb.append(knownFor.getTitle()).append(", ");
         }
         if (sb.toString().equals("")) {
-            peopleHolder.knownForText.setText(context.getResources().getString(R.string.no_known_for));
+            peopleHolder.knownForText.setText(context.getString(R.string.no_known_for));
         } else {
             peopleHolder.knownForText.setText(sb.toString());
         }

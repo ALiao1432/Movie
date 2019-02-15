@@ -62,7 +62,6 @@
                 style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/overview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +103,6 @@
                 style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/credit"
                 app:layout_constraintTop_toBottomOf="@id/overviewContentText" />
 
             <android.support.v7.widget.RecyclerView
@@ -121,7 +119,6 @@
                 style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/recommend"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewCredits" />
 
             <android.support.v7.widget.RecyclerView
@@ -138,7 +135,6 @@
                 style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/genre"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewRecommend" />
 
             <android.support.v7.widget.RecyclerView
@@ -157,7 +153,6 @@
                 style="@style/AppTheme.mainContentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/keyword"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewGenres" />
 
             <android.support.v7.widget.RecyclerView

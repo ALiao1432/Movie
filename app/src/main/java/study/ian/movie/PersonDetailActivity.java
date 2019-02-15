@@ -129,7 +129,7 @@ public class PersonDetailActivity extends DetailActivity {
                         creditRecyclerView.setLayoutManager(layoutManager);
                         creditRecyclerView.setAdapter(new CreditAdapter(this, credit));
 
-                        ((TextView) v.findViewById(R.id.personCreditText)).setText(getResources().getString(R.string.movies));
+                        ((TextView) v.findViewById(R.id.personCreditText)).setText(getString(R.string.movies));
                     }
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get movie credit error : " + throwable))
@@ -149,7 +149,7 @@ public class PersonDetailActivity extends DetailActivity {
                         creditRecyclerView.setLayoutManager(layoutManager);
                         creditRecyclerView.setAdapter(new CreditAdapter(this, credit));
 
-                        ((TextView) v.findViewById(R.id.personCreditText)).setText(getResources().getString(R.string.tv_shows));
+                        ((TextView) v.findViewById(R.id.personCreditText)).setText(getString(R.string.tv_shows));
                     }
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv credit error : " + throwable))

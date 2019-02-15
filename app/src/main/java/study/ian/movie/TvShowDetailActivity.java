@@ -90,6 +90,10 @@ public class TvShowDetailActivity extends DetailActivity {
                 .getDetail(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
+                    ((TextView) findViewById(R.id.overviewTitleText)).setText(getString(R.string.overview));
+                    ((TextView) findViewById(R.id.seasonTitleText)).setText(getString(R.string.season));
+                    ((TextView) findViewById(R.id.genreTitleText)).setText(getString(R.string.genre));
+
                     loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getName());
                     firstAirDateText.setText(detail.getFirst_air_date());
@@ -154,7 +158,10 @@ public class TvShowDetailActivity extends DetailActivity {
         ServiceBuilder.getService(PeopleService.class)
                 .getTvCredit(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .compose(ObserverHelper.applyHelper())
-                .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
+                .doOnNext(credit -> {
+                    ((TextView) findViewById(R.id.creditTitleText)).setText(getString(R.string.credit));
+                    creditRecyclerView.setAdapter(new CreditAdapter(this, credit));
+                })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv credit error : " + throwable))
                 .subscribe();
 
@@ -162,7 +169,14 @@ public class TvShowDetailActivity extends DetailActivity {
         ServiceBuilder.getService(TvShowService.class)
                 .getKeyword(tvShowId, ServiceBuilder.API_KEY)
                 .compose(ObserverHelper.applyHelper())
-                .doOnNext(keyword -> keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword)))
+                .doOnNext(keyword -> {
+                    if (keyword.getKeywords().size() != 0) {
+                        ((TextView) findViewById(R.id.keywordTitleText)).setText(getString(R.string.keyword));
+                        keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword));
+                    } else {
+                        ((TextView) findViewById(R.id.keywordTitleText)).setText(getString(R.string.no_keyword));
+                    }
+                })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
                 .subscribe();
     }
@@ -221,8 +235,9 @@ public class TvShowDetailActivity extends DetailActivity {
                     if (o instanceof Recommend) {
                         List<RecommendResult> resultList = ((Recommend) o).getResults();
                         if (resultList.size() == 0) {
-                            recommendText.setText(getResources().getString(R.string.no_recommend_tv));
+                            recommendText.setText(getString(R.string.no_recommend_tv));
                         } else {
+                            recommendText.setText(getString(R.string.recommend));
                             recommendAdapter.addResults(resultList);
                             totalRecommendPages = ((Recommend) o).getTotal_pages();
                             isRecommendLoading = false;
