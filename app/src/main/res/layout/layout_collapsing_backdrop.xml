@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/backdrop_height"
             android:foreground="@drawable/foreground_ripple"
-            android:src="@drawable/ic_launcher_background"
             app:layout_collapseMode="parallax" />
 
     </android.support.design.widget.CollapsingToolbarLayout>

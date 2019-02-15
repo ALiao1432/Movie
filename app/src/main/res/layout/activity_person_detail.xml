@@ -143,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inflatedId="@+id/movieCreditView"
-                    android:layout="@layout/layout_person_credit" />
+                    android:layout="@layout/layout_text_recycler" />
 
             </FrameLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inflatedId="@+id/tvCreditView"
-                    android:layout="@layout/layout_person_credit" />
+                    android:layout="@layout/layout_text_recycler" />
 
             </FrameLayout>
 
