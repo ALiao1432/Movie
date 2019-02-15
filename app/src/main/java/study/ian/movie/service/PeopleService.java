@@ -11,7 +11,8 @@ import study.ian.movie.model.people.popular.Popular;
 
 public interface PeopleService {
 
-    String KEY_ID = "PEOPLE_KEY_ID";
+    String KEY_ID = "KEY_ID";
+    String KEY_PERSON_IMAGE_PATH = "KEY_PERSON_IMAGE_PATH";
 
     @GET("/3/movie/{id}/credits")
     Observable<Credit> getMovieCredit(

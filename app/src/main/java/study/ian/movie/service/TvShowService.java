@@ -13,8 +13,8 @@ import study.ian.movie.model.tv.season.Season;
 
 public interface TvShowService {
 
-    String TV_SHOW_KEY_ID = "TV_SHOW_KEY_ID";
-    String SEASON_NUM_KEY_ID = "SEASON_NUM_KEY_ID";
+    String KEY_TV_SHOW_ID = "KEY_TV_SHOW_ID";
+    String KEY_SEASON_NUM_ID = "KEY_SEASON_NUM_ID";
 
     @GET("/3/discover/tv")
     Observable<TvShow> getTvShow(

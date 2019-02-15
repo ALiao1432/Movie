@@ -22,7 +22,7 @@
     <string name="recommend">Recommend</string>
     <string name="no_recommend_movie">No Recommend Movie</string>
     <string name="no_recommend_tv">No Recommend Tv Show</string>
-    
+
     <!-- activity_person_detail.xml -->
 
     <!-- SeasonDetailActivity.java -->

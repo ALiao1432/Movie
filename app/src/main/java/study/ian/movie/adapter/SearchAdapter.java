@@ -115,7 +115,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
                 .doOnNext(unit -> {
                     Intent intent = new Intent();
-                    intent.putExtra(TvShowService.TV_SHOW_KEY_ID, tvShowResult.getId());
+                    intent.putExtra(TvShowService.KEY_TV_SHOW_ID, tvShowResult.getId());
                     intent.setClass(context, TvShowDetailActivity.class);
                     context.startActivity(intent);
                 })

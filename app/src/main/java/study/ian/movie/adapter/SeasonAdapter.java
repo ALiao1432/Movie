@@ -69,8 +69,8 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonHold
                 .throttleFirst(1500, TimeUnit.MILLISECONDS)
                 .doOnNext(unit -> {
                     Intent intent = new Intent();
-                    intent.putExtra(TvShowService.TV_SHOW_KEY_ID, tvShowId);
-                    intent.putExtra(TvShowService.SEASON_NUM_KEY_ID, season.getSeason_number());
+                    intent.putExtra(TvShowService.KEY_TV_SHOW_ID, tvShowId);
+                    intent.putExtra(TvShowService.KEY_SEASON_NUM_ID, season.getSeason_number());
                     intent.setClass(context, SeasonDetailActivity.class);
                     context.startActivity(intent);
                 })

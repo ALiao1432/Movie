@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 import study.ian.morphviewlib.MorphView;
 import study.ian.movie.adapter.CreditAdapter;
@@ -63,7 +61,7 @@ public class TvShowDetailActivity extends DetailActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_show_detail);
 
-        tvShowId = getIntent().getIntExtra(TvShowService.TV_SHOW_KEY_ID, 0);
+        tvShowId = getIntent().getIntExtra(TvShowService.KEY_TV_SHOW_ID, 0);
         ServiceBuilder.watchNetworkState(this);
 
         findViews();

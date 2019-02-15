@@ -117,7 +117,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
                     .throttleFirst(1500, TimeUnit.MILLISECONDS)
                     .doOnNext(unit -> {
                         Intent intent = new Intent();
-                        intent.putExtra(TvShowService.TV_SHOW_KEY_ID, cast.getId());
+                        intent.putExtra(TvShowService.KEY_TV_SHOW_ID, cast.getId());
                         intent.setClass(context, TvShowDetailActivity.class);
                         context.startActivity(intent);
                     })

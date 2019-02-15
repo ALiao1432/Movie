@@ -74,7 +74,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
                 .throttleFirst(1500, TimeUnit.MILLISECONDS) // only react to first click and skip the clicks within 1500ms
                 .doOnNext(unit -> {
                     Intent intent = new Intent();
-                    intent.putExtra(TvShowService.TV_SHOW_KEY_ID, tvShowResultList.get(i).getId());
+                    intent.putExtra(TvShowService.KEY_TV_SHOW_ID, tvShowResultList.get(i).getId());
                     intent.setClass(context, TvShowDetailActivity.class);
                     context.startActivity(intent);
                 })

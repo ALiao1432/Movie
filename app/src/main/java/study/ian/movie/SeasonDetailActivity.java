@@ -5,8 +5,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.adapter.SeasonDetailAdapter;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
@@ -27,8 +25,8 @@ public class SeasonDetailActivity extends DetailActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_season_detail);
 
-        seasonId = getIntent().getIntExtra(TvShowService.TV_SHOW_KEY_ID, 0);
-        seasonNum = getIntent().getIntExtra(TvShowService.SEASON_NUM_KEY_ID, 0);
+        seasonId = getIntent().getIntExtra(TvShowService.KEY_TV_SHOW_ID, 0);
+        seasonNum = getIntent().getIntExtra(TvShowService.KEY_SEASON_NUM_ID, 0);
         ServiceBuilder.watchNetworkState(this);
 
         findViews();
