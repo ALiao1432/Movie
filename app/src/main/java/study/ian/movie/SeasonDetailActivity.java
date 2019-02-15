@@ -12,6 +12,7 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.DetailActivity;
 import study.ian.movie.util.Config;
+import study.ian.movie.util.ObserverHelper;
 
 public class SeasonDetailActivity extends DetailActivity {
 
@@ -43,8 +44,7 @@ public class SeasonDetailActivity extends DetailActivity {
 
         ServiceBuilder.getService(TvShowService.class)
                 .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(season ->
                         seasonDetailRecyclerView.setAdapter(new SeasonDetailAdapter(this, season.getEpisodes())))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get season detail error : " + throwable))

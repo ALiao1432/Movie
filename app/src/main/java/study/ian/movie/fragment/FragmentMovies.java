@@ -17,8 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
 import study.ian.movie.adapter.MovieAdapter;
 import study.ian.movie.adapter.SortAdapter;
@@ -26,6 +24,7 @@ import study.ian.movie.model.movie.Movie;
 import study.ian.movie.service.MovieService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentMovies extends Fragment implements OnOptionSelectedListener {
@@ -100,16 +99,13 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
     }
 
     private void subscribeForData(Observable<Movie> observable) {
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(movie -> {
                     movieAdapter.addResults(movie.getMovieResults());
                     totalPages = movie.getTotal_pages();
                     isLoading = false;
                 })
-                .doOnError(
-                        // TODO: 2019-01-15 retry when network is not work out...
-                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "onCreateView: get movie list error : " + throwable))
                 .subscribe();
     }
 

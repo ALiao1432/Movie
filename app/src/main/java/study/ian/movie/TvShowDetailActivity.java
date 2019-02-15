@@ -28,6 +28,7 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.view.GradientImageView;
 
 public class TvShowDetailActivity extends DetailActivity {
@@ -83,8 +84,7 @@ public class TvShowDetailActivity extends DetailActivity {
         // get detail
         ServiceBuilder.getService(TvShowService.class)
                 .getDetail(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getName());
@@ -102,8 +102,7 @@ public class TvShowDetailActivity extends DetailActivity {
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(TvShowService.class)
                 .getVideo(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .map(video -> {
                     for (VideoResult result : video.getResults()) {
                         if (result.getSite().equals("YouTube")) {
@@ -128,8 +127,7 @@ public class TvShowDetailActivity extends DetailActivity {
         // get credit
         ServiceBuilder.getService(PeopleService.class)
                 .getTvCredit(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv credit error : " + throwable))
                 .subscribe();
@@ -137,8 +135,7 @@ public class TvShowDetailActivity extends DetailActivity {
         // get keyword
         ServiceBuilder.getService(TvShowService.class)
                 .getKeyword(tvShowId, ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(keyword -> keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
                 .subscribe();
@@ -193,8 +190,7 @@ public class TvShowDetailActivity extends DetailActivity {
     private <T> void loadMorePage(Observable<T> observable) {
         isRecommendLoading = true;
 
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(o -> {
                     if (o instanceof Recommend) {
                         List<RecommendResult> resultList = ((Recommend) o).getResults();

@@ -21,6 +21,7 @@ import study.ian.movie.model.people.popular.Popular;
 import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
+import study.ian.movie.util.ObserverHelper;
 
 public class FragmentPeople extends Fragment {
 
@@ -76,8 +77,7 @@ public class FragmentPeople extends Fragment {
     }
 
     private void subscribeForData(Observable<Popular> observable) {
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(popular -> {
                     peopleAdapter.addResults(popular.getResults());
                     totalPages = popular.getTotal_pages();

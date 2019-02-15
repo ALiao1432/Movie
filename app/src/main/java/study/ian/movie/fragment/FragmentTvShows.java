@@ -17,8 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
 import study.ian.movie.adapter.SortAdapter;
 import study.ian.movie.adapter.TvShowAdapter;
@@ -26,6 +24,7 @@ import study.ian.movie.model.tv.TvShow;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.Config;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnOptionSelectedListener;
 
 public class FragmentTvShows extends Fragment implements OnOptionSelectedListener {
@@ -100,16 +99,13 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
     }
 
     private void subscribeForData(Observable<TvShow> observable) {
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(tvShow -> {
                     tvShowAdapter.addResults(tvShow.getTvShowResults());
                     totalPages = tvShow.getTotal_pages();
                     isLoading = false;
                 })
-                .doOnError(
-                        // TODO: 2019-01-15 retry when network is not work out...
-                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
                 .subscribe();
     }
 

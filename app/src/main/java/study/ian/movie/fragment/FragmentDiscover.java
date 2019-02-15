@@ -29,7 +29,9 @@ import study.ian.movie.adapter.YearAdapter;
 import study.ian.movie.service.DiscoverService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnYearSelectedListener;
+import study.ian.networkstateutil.RxNetworkStateUtil;
 
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
@@ -162,8 +164,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
                             isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
@@ -175,8 +176,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Tv Show":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
                             isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
@@ -188,8 +188,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Person":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {
                             isSearching = false;
                             totalSearchPages = popular.getTotal_pages();
@@ -217,8 +216,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Movie":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
                             isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
@@ -230,8 +228,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Tv Show":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
                             isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
@@ -243,8 +240,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             case "Person":
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {
                             isSearching = false;
                             totalSearchPages = popular.getTotal_pages();

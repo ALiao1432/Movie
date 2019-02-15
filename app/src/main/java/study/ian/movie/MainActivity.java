@@ -3,20 +3,26 @@ package study.ian.movie;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.fragment.FragmentDiscover;
 import study.ian.movie.fragment.FragmentMovies;
 import study.ian.movie.fragment.FragmentPeople;
 import study.ian.movie.fragment.FragmentTvShows;
+import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
+import study.ian.networkstateutil.RxNetworkStateUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,10 +73,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         new Config(this);
+        ServiceBuilder.watchNetworkState(this);
 
         findViews();
         setFragmentManager();
         setBottomNavView();
+
+        bottomNavView.setSelectedItemId(R.id.item_movies);
     }
 
     private void findViews() {

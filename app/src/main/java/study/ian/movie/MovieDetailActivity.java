@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
@@ -28,6 +26,7 @@ import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.view.GradientImageView;
 
 public class MovieDetailActivity extends DetailActivity {
@@ -80,8 +79,7 @@ public class MovieDetailActivity extends DetailActivity {
         // get detail
         ServiceBuilder.getService(MovieService.class)
                 .getDetail(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getTitle());
@@ -98,8 +96,7 @@ public class MovieDetailActivity extends DetailActivity {
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(MovieService.class)
                 .getVideo(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .map(video -> {
                     for (VideoResult result : video.getResults()) {
                         if (result.getSite().equals("YouTube")) {
@@ -124,8 +121,7 @@ public class MovieDetailActivity extends DetailActivity {
         // get credit
         ServiceBuilder.getService(PeopleService.class)
                 .getMovieCredit(movieId, ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> creditRecyclerView.setAdapter(new CreditAdapter(this, credit)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get movie credit error : " + throwable))
                 .subscribe();
@@ -133,8 +129,7 @@ public class MovieDetailActivity extends DetailActivity {
         // get keyword
         ServiceBuilder.getService(MovieService.class)
                 .getKeyword(movieId, ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(keyword -> keywordRecyclerView.setAdapter(new KeywordAdapter(this, keyword)))
                 .doOnError(throwable -> Log.d(TAG, "setViews: get keyword error : " + throwable))
                 .subscribe();
@@ -184,8 +179,7 @@ public class MovieDetailActivity extends DetailActivity {
     private <T> void loadMorePage(Observable<T> observable) {
         isRecommendLoading = true;
 
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(o -> {
                     if (o instanceof Recommend) {
                         List<RecommendResult> resultList = ((Recommend) o).getResults();

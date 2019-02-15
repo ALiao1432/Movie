@@ -24,6 +24,7 @@ import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
+import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.view.ExpandableTextView;
 
 public class PersonDetailActivity extends DetailActivity {
@@ -66,8 +67,7 @@ public class PersonDetailActivity extends DetailActivity {
     private void setViews() {
         ServiceBuilder.getService(PeopleService.class)
                 .getDetail(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     nameText.setText(detail.getName());
                     genderText.setText(getGender(detail.getGender()));
@@ -102,8 +102,7 @@ public class PersonDetailActivity extends DetailActivity {
 
         ServiceBuilder.getService(PeopleService.class)
                 .getImage(personId, ServiceBuilder.API_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(image -> {
                     if (image.getProfiles().size() != 0) {
                         hintBar.setItemAmount(image.getProfiles().size());
@@ -117,8 +116,7 @@ public class PersonDetailActivity extends DetailActivity {
 
         ServiceBuilder.getService(PeopleService.class)
                 .getMovieCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> {
                     if (credit.getCast().size() != 0) {
                         View v = ((ViewStub) findViewById(R.id.movieViewStub)).inflate();
@@ -138,8 +136,7 @@ public class PersonDetailActivity extends DetailActivity {
 
         ServiceBuilder.getService(PeopleService.class)
                 .getTvCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> {
                     if (credit.getCast().size() != 0) {
                         View v = ((ViewStub) findViewById(R.id.tvViewStub)).inflate();
