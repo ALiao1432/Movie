@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding3.view.RxView;
@@ -15,6 +17,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
@@ -29,6 +32,7 @@ import study.ian.movie.service.TvShowService;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
 import study.ian.movie.util.ObserverHelper;
+import study.ian.movie.view.ExpandableTextView;
 import study.ian.movie.view.GradientImageView;
 
 public class TvShowDetailActivity extends DetailActivity {
@@ -39,8 +43,9 @@ public class TvShowDetailActivity extends DetailActivity {
     private TextView titleText;
     private TextView firstAirDateText;
     private TextView statusText;
-    private TextView overviewText;
     private TextView recommendText;
+    private MorphView expandHintView;
+    private ExpandableTextView overviewText;
     private RecyclerView creditRecyclerView;
     private RecyclerView seasonRecyclerView;
     private RecyclerView recommendRecyclerView;
@@ -70,8 +75,8 @@ public class TvShowDetailActivity extends DetailActivity {
         titleText = findViewById(R.id.detailTitleText);
         firstAirDateText = findViewById(R.id.detailTitleFirstSubText);
         statusText = findViewById(R.id.detailTitleSecondSubText);
-        overviewText = findViewById(R.id.overviewContentText);
         recommendText = findViewById(R.id.recommendTitleText);
+        overviewText = findViewById(R.id.overviewContentText);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
         seasonRecyclerView = findViewById(R.id.recyclerViewSeasons);
         recommendRecyclerView = findViewById(R.id.recyclerViewRecommend);
@@ -92,6 +97,28 @@ public class TvShowDetailActivity extends DetailActivity {
                     firstAirDateText.setText(detail.getFirst_air_date());
                     statusText.setText(detail.getStatus());
                     overviewText.setText(detail.getOverview());
+
+                    if (overviewText.isExpandable()) {
+                        View v = ((ViewStub) findViewById(R.id.expandHintViewStub)).inflate();
+                        expandHintView = v.findViewById(R.id.expandHintView);
+                        expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
+                        expandHintView.setPaintColor("#E2E2E2");
+                        expandHintView.setSize(75, 75);
+
+                        RxView.clicks(overviewText)
+                                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
+                                .doOnNext(unit -> {
+                                    overviewText.setExpand();
+                                    if (overviewText.isExpand()) {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                                    } else {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                                    }
+                                })
+                                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
+                                .subscribe();
+                    }
+
                     seasonRecyclerView.setAdapter(new SeasonAdapter(this, detail.getSeasons(), tvShowId));
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })

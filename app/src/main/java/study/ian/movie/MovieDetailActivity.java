@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding3.view.RxView;
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import kotlin.Unit;
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
@@ -27,6 +30,7 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.DetailActivity;
 import study.ian.movie.util.ObserverHelper;
+import study.ian.movie.view.ExpandableTextView;
 import study.ian.movie.view.GradientImageView;
 
 public class MovieDetailActivity extends DetailActivity {
@@ -37,12 +41,13 @@ public class MovieDetailActivity extends DetailActivity {
     private TextView titleText;
     private TextView releaseDateText;
     private TextView runTimeText;
-    private TextView overviewText;
     private TextView recommendText;
+    private ExpandableTextView overviewText;
     private RecyclerView creditRecyclerView;
     private RecyclerView recommendRecyclerView;
     private RecyclerView genreRecyclerView;
     private RecyclerView keywordRecyclerView;
+    private MorphView expandHintView;
     private RecommendAdapter recommendAdapter;
     private boolean isRecommendLoading = false;
     private int currentRecommendPage = 0;
@@ -66,8 +71,8 @@ public class MovieDetailActivity extends DetailActivity {
         titleText = findViewById(R.id.detailTitleText);
         releaseDateText = findViewById(R.id.detailTitleFirstSubText);
         runTimeText = findViewById(R.id.detailTitleSecondSubText);
-        overviewText = findViewById(R.id.overviewContentText);
         recommendText = findViewById(R.id.recommendTitleText);
+        overviewText = findViewById(R.id.overviewContentText);
         creditRecyclerView = findViewById(R.id.recyclerViewCredits);
         recommendRecyclerView = findViewById(R.id.recyclerViewRecommend);
         genreRecyclerView = findViewById(R.id.recyclerViewGenres);
@@ -87,6 +92,28 @@ public class MovieDetailActivity extends DetailActivity {
                     releaseDateText.setText(detail.getRelease_date());
                     runTimeText.setText(detail.getRuntime() + " mins");
                     overviewText.setText(detail.getOverview());
+
+                    if (overviewText.isExpandable()) {
+                        View v = ((ViewStub) findViewById(R.id.expandHintViewStub)).inflate();
+                        expandHintView = v.findViewById(R.id.expandHintView);
+                        expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
+                        expandHintView.setPaintColor("#E2E2E2");
+                        expandHintView.setSize(75, 75);
+
+                        RxView.clicks(overviewText)
+                                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
+                                .doOnNext(unit -> {
+                                    overviewText.setExpand();
+                                    if (overviewText.isExpand()) {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                                    } else {
+                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                                    }
+                                })
+                                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
+                                .subscribe();
+                    }
+
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
                 .doOnError(throwable -> Log.d(TAG, "onCreate: get movie detail error : " + throwable))

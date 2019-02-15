@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class ExpandableTextView extends android.support.v7.widget.AppCompatTextView {
 
     private final String TAG = "ExpandableTextView";
-    public final static long DURATION = 150;
+    public final static long DURATION = 100;
 
     private boolean isExpand = false;
     private boolean isExpandable = false;
