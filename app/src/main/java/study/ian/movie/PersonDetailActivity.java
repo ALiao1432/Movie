@@ -48,6 +48,7 @@ public class PersonDetailActivity extends DetailActivity {
         setContentView(R.layout.activity_person_detail);
 
         personId = getIntent().getIntExtra(PeopleService.KEY_ID, 0);
+        ServiceBuilder.watchNetworkState(this);
 
         findViews();
         setViews();

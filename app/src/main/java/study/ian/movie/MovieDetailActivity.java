@@ -55,6 +55,7 @@ public class MovieDetailActivity extends DetailActivity {
         setContentView(R.layout.activity_movie_detail);
 
         movieId = getIntent().getIntExtra(MovieService.KEY_ID, 0);
+        ServiceBuilder.watchNetworkState(this);
 
         findViews();
         setViews(movieId);

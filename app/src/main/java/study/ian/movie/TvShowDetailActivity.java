@@ -59,6 +59,7 @@ public class TvShowDetailActivity extends DetailActivity {
         setContentView(R.layout.activity_tv_show_detail);
 
         tvShowId = getIntent().getIntExtra(TvShowService.TV_SHOW_KEY_ID, 0);
+        ServiceBuilder.watchNetworkState(this);
 
         findViews();
         setViews(tvShowId);

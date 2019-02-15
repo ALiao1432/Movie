@@ -29,6 +29,7 @@ public class SeasonDetailActivity extends DetailActivity {
 
         seasonId = getIntent().getIntExtra(TvShowService.TV_SHOW_KEY_ID, 0);
         seasonNum = getIntent().getIntExtra(TvShowService.SEASON_NUM_KEY_ID, 0);
+        ServiceBuilder.watchNetworkState(this);
 
         findViews();
         setViews();
