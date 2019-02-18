@@ -21,7 +21,6 @@ import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.adapter.RecommendAdapter;
 import study.ian.movie.adapter.SeasonAdapter;
-import study.ian.movie.model.genral.video.VideoResult;
 import study.ian.movie.model.tv.recommend.Recommend;
 import study.ian.movie.model.tv.recommend.RecommendResult;
 import study.ian.movie.service.PeopleService;
@@ -133,24 +132,18 @@ public class TvShowDetailActivity extends DetailActivity {
         ServiceBuilder.getService(TvShowService.class)
                 .getVideo(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
                 .compose(ObserverHelper.applyHelper())
-                .map(video -> {
-                    for (VideoResult result : video.getResults()) {
-                        if (result.getSite().equals("YouTube")) {
-                            backdropImage.setHasTrailer(true);
-                            return result.getKey();
-                        }
+                .flatMap(video -> Observable.fromIterable(video.getResults()))
+                .map(videoResult -> {
+                    if (videoResult.getSite().equals("YouTube")) {
+                        backdropImage.setHasTrailer(true);
+                        return videoResult.getKey();
                     }
                     return "";
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv video error : " + throwable))
                 .concatMap(key -> clickObservable.map(unit -> key))
-                .doOnNext(key -> {
-                    if (key.equals("")) {
-                        backdropImage.setClickable(false);
-                    } else {
-                        watchYoutubeVideo(this, key);
-                    }
-                })
+                .filter(key -> !key.equals(""))
+                .doOnNext(key -> watchYoutubeVideo(this, key))
                 .doOnError(throwable -> Log.d(TAG, "setViews: click backdropImage error : " + throwable))
                 .subscribe();
 
