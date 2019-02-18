@@ -21,7 +21,6 @@ import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.GenreAdapter;
 import study.ian.movie.adapter.KeywordAdapter;
 import study.ian.movie.adapter.RecommendAdapter;
-import study.ian.movie.model.genral.video.Video;
 import study.ian.movie.model.movie.recommend.Recommend;
 import study.ian.movie.model.movie.recommend.RecommendResult;
 import study.ian.movie.service.MovieService;
@@ -102,24 +101,22 @@ public class MovieDetailActivity extends DetailActivity {
                         expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
                         expandHintView.setPaintColor("#E2E2E2");
                         expandHintView.setSize(75, 75);
-
-                        RxView.clicks(overviewText)
-                                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
-                                .doOnNext(unit -> {
-                                    overviewText.setExpand();
-                                    if (overviewText.isExpand()) {
-                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
-                                    } else {
-                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
-                                    }
-                                })
-                                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
-                                .subscribe();
                     }
-
+                    
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
                 .doOnError(throwable -> Log.d(TAG, "onCreate: get movie detail error : " + throwable))
+                .filter(detail -> overviewText.isExpandable())
+                .flatMap(detail -> RxView.clicks(overviewText).throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS))
+                .doOnNext(unit -> {
+                    overviewText.setExpand();
+                    if (overviewText.isExpand()) {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                    } else {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                    }
+                })
+                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
                 .subscribe();
 
         // get video

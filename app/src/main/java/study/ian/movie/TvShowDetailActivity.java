@@ -105,25 +105,23 @@ public class TvShowDetailActivity extends DetailActivity {
                         expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
                         expandHintView.setPaintColor("#E2E2E2");
                         expandHintView.setSize(75, 75);
-
-                        RxView.clicks(overviewText)
-                                .throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS)
-                                .doOnNext(unit -> {
-                                    overviewText.setExpand();
-                                    if (overviewText.isExpand()) {
-                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
-                                    } else {
-                                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
-                                    }
-                                })
-                                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
-                                .subscribe();
                     }
 
                     seasonRecyclerView.setAdapter(new SeasonAdapter(this, detail.getSeasons(), tvShowId));
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
                 .doOnError(throwable -> Log.d(TAG, "setViews: get tv show detail error : " + throwable))
+                .filter(detail -> overviewText.isExpandable())
+                .flatMap(detail -> RxView.clicks(overviewText).throttleFirst(ExpandableTextView.DURATION, TimeUnit.MILLISECONDS))
+                .doOnNext(unit -> {
+                    overviewText.setExpand();
+                    if (overviewText.isExpand()) {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_up);
+                    } else {
+                        expandHintView.performAnimation(R.drawable.vd_expand_arrow_down);
+                    }
+                })
+                .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
                 .subscribe();
 
         // get video

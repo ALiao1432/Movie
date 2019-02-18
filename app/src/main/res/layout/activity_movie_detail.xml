@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/detail_info_margin"
                 android:layout_marginEnd="@dimen/detail_info_margin"
+                android:foreground="@drawable/foreground_ripple"
                 android:textColor="@color/childContent"
                 android:textSize="@dimen/detail_sub_content_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
