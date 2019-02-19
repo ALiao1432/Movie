@@ -16,7 +16,7 @@ using libraries
 ![demo6](https://lh3.googleusercontent.com/gYWoCJvv40YMErLq1xAs3dQDHQf4LDGR5DD8fumUKw42vI_sE-336ECx0lEQwKevaVdAH3E7fh2ytkPwAcqJfa1LGw0UIfwT5dE23KT64uwU148Rp4EfNWMEwqatQkGQlOf7BVXUINhyrpUjTf_tjPJBS-9Z4CYogTb-wUEqQ4AZau3ltgk88kpfu3M7mykY2giu8iqxQBLHdMh1IDrJOmv4-5hk5eDhO1iuKHa_8grkaEGHCTZT-6qQVvmwVX7GpPGaSfsvfrS2m722cT09uEkZ3H6AQw7RSjFGkKhut92zq5WwU_TMzkz5omm_U5uswSWOL74DBozEPIsn7u9H_yn8iw4tFEpH3eg3dC4i9o3UMXZXkqjvPDa4GXAHo-x6mkLqqd4kW9o8PHw4AbuTpoiW92vYGqemiSM_wRNWtlisjEOHi4NoJBwv9Y3kpCk6gB_cqjAq1N2-bvyp6XuOFfEyb6KIRtISjYt54T_ZCDgHFPCZUmE20H8zIyggT8Yercy1NTrHuQ-EQkS3tD1aZWQfKDrf3gwaHMC1bCa_jB0V-se4MtK9Ctzfv3ZEG4wirw89OJdc0naB4gOXYfm86HmoEpV-2yvbqor63RbX1Wl39RFKl8m8mRCN3ElhYVdE-Kg8zK27P6EoYF9k5NOjs_IGc7O8pg=w489-h867-no)  
 
 # Architecture
-![architecture](https://imgur.com/GSQzhNu)
+![architecture](https://i.imgur.com/GSQzhNu.jpg)
 * adapter : for configuring data returned by asynchronized request
 * fragment : the main page for Discover, Movies, Tv Shows and people
 * model : Plain Old Java Object(POJO) for JSON data
