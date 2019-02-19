@@ -1,6 +1,7 @@
 # Movie
 A android version of The Movie DB,
 using libraries 
+* [RxBinding](https://github.com/JakeWharton/RxBinding) : To interact with UI in reactive way, include RxJava2 and RxAndroid  
 * [RxJava2](https://github.com/ReactiveX/RxJava) : for building the asynchronized request to The Movie DB
 * [Retrofit](https://square.github.io/retrofit/) & [Gson](https://github.com/google/gson) : building service based on the REST API from THe Movie DB
 * [Glide](https://github.com/bumptech/glide) : for loading image
