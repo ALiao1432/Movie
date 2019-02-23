@@ -119,11 +119,11 @@ public class MovieDetailActivity extends DetailActivity {
                 .doOnError(throwable -> Log.d(TAG, "setViews: click bioText error : " + throwable))
                 .subscribe();
 
-        // get video
+        // get video, Unified use of en-US(ensure to get the resource)
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(MovieService.class)
-                .getVideo(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getVideo(movieId, ServiceBuilder.API_KEY, "en-US")
                 .compose(ObserverHelper.applyHelper())
                 .flatMap(video -> Observable.fromIterable(video.getResults()))
                 .map(videoResult -> {

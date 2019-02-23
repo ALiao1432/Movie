@@ -45,8 +45,8 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private YearAdapter yearAdapter;
     private SearchAdapter searchAdapter;
     private String lastQuery = "";
-    private String lastSearchType;
     private boolean isSearching = false;
+    private int lastSearchType;
     private int totalSearchPages = 0;
     private int page = 1;
 
@@ -62,7 +62,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                     yearAdapter.setSearchType(false);
                     break;
             }
-            search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
+            search(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
         }
 
         @Override
@@ -126,7 +126,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
             int totalItemCount = searchLayoutManager.getItemCount();
 
             if (!isSearching && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && page < totalSearchPages) {
-                search((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
+                search(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
             }
         });
 
@@ -137,23 +137,23 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         );
         optionSpinner.setAdapter(spinnerAdapter);
         optionSpinner.setOnItemSelectedListener(itemSelectedListener);
-        lastSearchType = (String) optionSpinner.getSelectedItem();
+        lastSearchType = optionSpinner.getSelectedItemPosition();
 
         RxTextView.textChanges(dbSearchEdt)
                 .throttleLast(2000, TimeUnit.MILLISECONDS)
-                .doOnNext(charSequence -> search((String) optionSpinner.getSelectedItem(), charSequence.toString(), yearAdapter.getSelectedYear()))
+                .doOnNext(charSequence -> search(optionSpinner.getSelectedItemPosition(), charSequence.toString(), yearAdapter.getSelectedYear()))
                 .doOnError(throwable -> Log.d(TAG, "setViews: dbSearchEdt error : " + throwable))
                 .subscribe();
     }
 
-    private void search(String searchType, String query, @Nullable Integer year) {
+    private void search(int searchType, String query, @Nullable Integer year) {
         if (query.equals("")) {
             // if query is empty, then just return
             return;
         }
 
         isSearching = true;
-        if (lastQuery.equals(query) && lastSearchType.equals(searchType)) {
+        if (lastQuery.equals(query) && lastSearchType == searchType) {
             page++;
         } else {
             searchAdapter.clearResultList();
@@ -161,7 +161,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         }
 
         switch (searchType) {
-            case "Movie":
+            case 0:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -173,7 +173,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
                 break;
-            case "Tv Show":
+            case 1:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -185,7 +185,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
                 break;
-            case "Person":
+            case 2:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -203,7 +203,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastSearchType = searchType;
     }
 
-    private void searchByYear(String searchType, String query, @Nullable Integer year) {
+    private void searchByYear(int searchType, String query, @Nullable Integer year) {
         if (query.equals("")) {
             // if query is empty, then just return
             return;
@@ -213,7 +213,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         searchAdapter.clearResultList();
 
         switch (searchType) {
-            case "Movie":
+            case 0:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -225,7 +225,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
                 break;
-            case "Tv Show":
+            case 1:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -237,7 +237,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
                 break;
-            case "Person":
+            case 2:
                 ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
@@ -257,6 +257,6 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
     @Override
     public void onYearSelected(@Nullable Integer year) {
-        searchByYear((String) optionSpinner.getSelectedItem(), dbSearchEdt.getText().toString(), year);
+        searchByYear(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), year);
     }
 }

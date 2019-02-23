@@ -1,28 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Movie</string>
+    <string name="app_name">영화</string>
 
     <!-- bottom_menu.xml -->
-    <string name="discover">Discover</string>
-    <string name="movies">Movies</string>
-    <string name="tv_shows">Tv Shows</string>
-    <string name="people">People</string>
+    <string name="discover">발견하다</string>
+    <string name="movies">영화</string>
+    <string name="tv_shows">앨범</string>
+    <string name="people">배우</string>
 
     <!-- FragmentPeople.java -->
-    <string name="no_known_for" translatable="false">Locked Up</string>
+    <string name="no_known_for">Locked Up</string>
 
     <!-- holder_main_display.xml -->
     <string name="holder_main_image_description">Main Display Image</string>
 
     <!-- activity_movie.detail.xml & activity_tv_show_detail.xml -->
-    <string name="overview">Overview</string>
-    <string name="credit">Credit</string>
-    <string name="season">Season</string>
-    <string name="genre">Genres</string>
-    <string name="keyword">Keyword</string>
-    <string name="recommend">Recommend</string>
-    <string name="no_keyword">No Keyword</string>
-    <string name="no_recommend_movie">No Recommend Movie</string>
-    <string name="no_recommend_tv">No Recommend Tv Show</string>
+    <string name="overview">개요</string>
+    <string name="credit">출연</string>
+    <string name="season">계절</string>
+    <string name="genre">장르</string>
+    <string name="keyword">예어</string>
+    <string name="recommend">권하다</string>
+    <string name="no_keyword">키워드 없음</string>
+    <string name="no_recommend_movie">추천 영화 없음</string>
+    <string name="no_recommend_tv">추천 앨범 없음</string>
 
     <!-- activity_person_detail.xml -->
 
@@ -32,7 +33,7 @@
     <string name="holder_detail_image_description">Detail image</string>
 
     <!-- layout_discover.xml -->
-    <string name="db_search_edt_hint">Search for movie, tv show, person…</string>
+    <string name="db_search_edt_hint">영화, 앨범, 배우 검색…</string>
 
     <string-array name="sort_movie_option_array">
         <item>popularity.desc</item>
@@ -61,9 +62,9 @@
     </string-array>
 
     <string-array name="search_genre_option_array">
-        <item>Movie</item>
-        <item>Tv Show</item>
-        <item>Person</item>
+        <item>영화</item>
+        <item>앨범</item>
+        <item>배우</item>
     </string-array>
 
     <string-array name="language_config">
