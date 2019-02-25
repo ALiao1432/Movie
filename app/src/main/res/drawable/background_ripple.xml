@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/colorAccent">
+
+    <item android:id="@+id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimaryDark" />
+
+            <corners android:radius="@dimen/holder_genre_keyword_layout_radius" />
+
+            <stroke
+                android:width="@dimen/holder_genre_keyword_layout_stroke_width"
+                android:color="@color/colorAccent" />
+
+            <padding
+                android:left="@dimen/holder_genre_keyword_layout_padding"
+                android:right="@dimen/holder_genre_keyword_layout_padding"/>
+        </shape>
+    </item>
+</ripple>

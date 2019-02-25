@@ -23,6 +23,8 @@
 
     <!-- holder_genre.xml & holder_keyword.xml -->
     <dimen name="holder_genre_keyword_layout_padding">12dp</dimen>
+    <dimen name="holder_genre_keyword_layout_stroke_width">2sp</dimen>
+    <dimen name="holder_genre_keyword_layout_radius">25dp</dimen>
 
     <!-- shape_genre_keyword_btn.xml -->
     <dimen name="genre_keyword_btn_height">28dp</dimen>

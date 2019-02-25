@@ -64,7 +64,6 @@ public class GradientImageView extends MorphView {
     }
 
     public void setHasTrailer(boolean hasTrailer) {
-        Log.d(TAG, "setHasTrailer: hasTrailer : " + hasTrailer);
         setCurrentId(hasTrailer ? R.drawable.vd_play : R.drawable.vd_no_trailer);
     }
 }
