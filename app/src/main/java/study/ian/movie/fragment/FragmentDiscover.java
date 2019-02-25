@@ -22,7 +22,7 @@ import com.jakewharton.rxbinding3.widget.RxTextView;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.R;
 import study.ian.movie.adapter.SearchAdapter;
 import study.ian.movie.adapter.YearAdapter;
@@ -31,7 +31,6 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnYearSelectedListener;
-import study.ian.networkstateutil.RxNetworkStateUtil;
 
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
@@ -40,6 +39,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private Context context;
     private RecyclerView yearRecyclerView;
     private RecyclerView searchResultRecyclerView;
+    private MorphView searchHintView;
     private Spinner optionSpinner;
     private EditText dbSearchEdt;
     private YearAdapter yearAdapter;
@@ -62,7 +62,11 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                     yearAdapter.setSearchType(false);
                     break;
             }
-            search(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
+
+            if (dbSearchEdt.getText().length() != 0) {
+                startSearchAnim();
+                search(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), yearAdapter.getSelectedYear());
+            }
         }
 
         @Override
@@ -99,11 +103,18 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private void findViews(View view) {
         yearRecyclerView = view.findViewById(R.id.recyclerViewYear);
         searchResultRecyclerView = view.findViewById(R.id.recyclerViewSearchResult);
+        searchHintView = view.findViewById(R.id.searchHintView);
         optionSpinner = view.findViewById(R.id.genreOptionSpinner);
         dbSearchEdt = view.findViewById(R.id.dbSearchEdt);
     }
 
     private void setViews() {
+        searchHintView.setCurrentId(R.drawable.vd_search_1);
+        searchHintView.setSize(70, 70);
+        searchHintView.setPaintWidth(4);
+        searchHintView.setPaintColor(context.getColor(R.color.colorAccent));
+        searchHintView.setAnimationDuration(240);
+
         LinearLayoutManager yearLayoutManager = new LinearLayoutManager(context);
         yearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -140,7 +151,10 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastSearchType = optionSpinner.getSelectedItemPosition();
 
         RxTextView.textChanges(dbSearchEdt)
-                .throttleLast(2000, TimeUnit.MILLISECONDS)
+                .debounce(1500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter(charSequence -> charSequence.length() > 0)
+                .doOnEach(charSequenceNotification -> startSearchAnim())
                 .doOnNext(charSequence -> search(optionSpinner.getSelectedItemPosition(), charSequence.toString(), yearAdapter.getSelectedYear()))
                 .doOnError(throwable -> Log.d(TAG, "setViews: dbSearchEdt error : " + throwable))
                 .subscribe();
@@ -169,6 +183,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
                             searchAdapter.addResultList(movie.getMovieResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
@@ -181,6 +196,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
                             searchAdapter.addResultList(tvShow.getTvShowResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
@@ -193,6 +209,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = popular.getTotal_pages();
                             searchAdapter.addResultList(popular.getResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
                         .subscribe();
@@ -221,6 +238,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
                             searchAdapter.addResultList(movie.getMovieResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
@@ -233,6 +251,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
                             searchAdapter.addResultList(tvShow.getTvShowResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
@@ -245,6 +264,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                             isSearching = false;
                             totalSearchPages = popular.getTotal_pages();
                             searchAdapter.addResultList(popular.getResults());
+                            stopSearchAnim();
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
                         .subscribe();
@@ -255,8 +275,25 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastSearchType = searchType;
     }
 
+    private void startSearchAnim() {
+        searchHintView.performInfiniteAnimation(
+                R.drawable.vd_search_2,
+                R.drawable.vd_search_3,
+                R.drawable.vd_search_4,
+                R.drawable.vd_search_5
+        );
+    }
+
+    private void stopSearchAnim() {
+        searchHintView.stopInfiniteAnimation();
+        searchHintView.performAnimation(R.drawable.vd_search_1);
+    }
+
     @Override
     public void onYearSelected(@Nullable Integer year) {
-        searchByYear(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), year);
+        if (dbSearchEdt.getText().length() != 0) {
+            startSearchAnim();
+            searchByYear(optionSpinner.getSelectedItemPosition(), dbSearchEdt.getText().toString(), year);
+        }
     }
 }

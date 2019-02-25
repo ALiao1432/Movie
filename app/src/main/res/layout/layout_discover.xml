@@ -36,14 +36,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/searchHintImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <study.ian.morphviewlib.MorphView
+                        android:id="@+id/searchHintView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/dbSearchEdt"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/dbSearchEdt"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/vd_search"
+                        app:layout_constraintTop_toTopOf="@+id/dbSearchEdt"
+                        app:layout_constraintHorizontal_weight="1"
                         tools:ignore="ContentDescription" />
 
                     <EditText
@@ -57,7 +59,8 @@
                         android:textColorHint="@color/dbSearchEdtHintText"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/searchHintImage"
+                        app:layout_constraintHorizontal_weight="14"
+                        app:layout_constraintStart_toEndOf="@+id/searchHintView"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="Autofill" />
 
