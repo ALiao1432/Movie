@@ -1,5 +1,6 @@
 package study.ian.movie;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -100,6 +101,8 @@ public class MovieDetailActivity extends DetailActivity {
                         expandHintView = v.findViewById(R.id.expandHintView);
                         expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
                         expandHintView.setPaintColor("#E2E2E2");
+                        expandHintView.setPaintWidth(3);
+                        expandHintView.setPaintStyle(Paint.Style.FILL);
                         expandHintView.setSize(75, 75);
                     }
                     
@@ -129,6 +132,7 @@ public class MovieDetailActivity extends DetailActivity {
                 .map(videoResult -> {
                     if (videoResult.getSite().equals("YouTube")) {
                         backdropImage.setHasTrailer(true);
+                        backdropImage.setPaintStyle(Paint.Style.FILL);
                         return videoResult.getKey();
                     }
                     return "";

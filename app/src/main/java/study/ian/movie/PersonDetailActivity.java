@@ -1,5 +1,6 @@
 package study.ian.movie;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -82,6 +83,8 @@ public class PersonDetailActivity extends DetailActivity {
                         expandHintView = v.findViewById(R.id.expandHintView);
                         expandHintView.setCurrentId(R.drawable.vd_expand_arrow_down);
                         expandHintView.setPaintColor("#E2E2E2");
+                        expandHintView.setPaintWidth(3);
+                        expandHintView.setPaintStyle(Paint.Style.FILL);
                         expandHintView.setSize(75, 75);
 
                         RxView.clicks(bioText)
