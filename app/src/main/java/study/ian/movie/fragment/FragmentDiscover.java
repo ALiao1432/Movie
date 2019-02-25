@@ -19,6 +19,7 @@ import android.widget.Spinner;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +40,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private Context context;
     private RecyclerView yearRecyclerView;
     private RecyclerView searchResultRecyclerView;
+    private GridLayoutManager searchLayoutManager;
     private MorphView searchHintView;
     private Spinner optionSpinner;
     private EditText dbSearchEdt;
@@ -111,14 +113,14 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private void setViews() {
         searchHintView.setCurrentId(R.drawable.vd_search_1);
         searchHintView.setSize(70, 70);
-        searchHintView.setPaintWidth(4);
+        searchHintView.setPaintWidth(6);
         searchHintView.setPaintColor(context.getColor(R.color.colorAccent));
         searchHintView.setAnimationDuration(240);
 
         LinearLayoutManager yearLayoutManager = new LinearLayoutManager(context);
         yearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        GridLayoutManager searchLayoutManager = new GridLayoutManager(context, 2);
+        searchLayoutManager = new GridLayoutManager(context, 1);
         searchLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         yearAdapter = new YearAdapter(context);
@@ -126,6 +128,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         yearAdapter.setOnYearSelectedListener(this);
 
         searchAdapter = new SearchAdapter(context);
+        searchAdapter.addResultList(new ArrayList<>());
 
         yearRecyclerView.setLayoutManager(yearLayoutManager);
         yearRecyclerView.setAdapter(yearAdapter);
@@ -180,10 +183,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
-                            isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
                             searchAdapter.addResultList(movie.getMovieResults());
-                            stopSearchAnim();
+                            configSearchPara(movie.getMovieResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
@@ -193,10 +195,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
-                            isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
                             searchAdapter.addResultList(tvShow.getTvShowResults());
-                            stopSearchAnim();
+                            configSearchPara(tvShow.getTvShowResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
@@ -206,10 +207,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {
-                            isSearching = false;
                             totalSearchPages = popular.getTotal_pages();
                             searchAdapter.addResultList(popular.getResults());
-                            stopSearchAnim();
+                            configSearchPara(popular.getResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
                         .subscribe();
@@ -235,10 +235,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
-                            isSearching = false;
                             totalSearchPages = movie.getTotal_pages();
                             searchAdapter.addResultList(movie.getMovieResults());
-                            stopSearchAnim();
+                            configSearchPara(movie.getMovieResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search Movie error : " + throwable))
                         .subscribe();
@@ -248,10 +247,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
-                            isSearching = false;
                             totalSearchPages = tvShow.getTotal_pages();
                             searchAdapter.addResultList(tvShow.getTvShowResults());
-                            stopSearchAnim();
+                            configSearchPara(tvShow.getTvShowResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search tv show error : " + throwable))
                         .subscribe();
@@ -261,10 +259,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {
-                            isSearching = false;
                             totalSearchPages = popular.getTotal_pages();
                             searchAdapter.addResultList(popular.getResults());
-                            stopSearchAnim();
+                            configSearchPara(popular.getResults().size());
                         })
                         .doOnError(throwable -> Log.d(TAG, "search: search person error : " + throwable))
                         .subscribe();
@@ -276,6 +273,9 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     }
 
     private void startSearchAnim() {
+        if (searchHintView.isRunningInfiniteAnim()) {
+            stopSearchAnim();
+        }
         searchHintView.performInfiniteAnimation(
                 R.drawable.vd_search_2,
                 R.drawable.vd_search_3,
@@ -287,6 +287,17 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private void stopSearchAnim() {
         searchHintView.stopInfiniteAnimation();
         searchHintView.performAnimation(R.drawable.vd_search_1);
+    }
+
+    private void configSearchPara(int resultSize) {
+        if (resultSize == 0) {
+            searchLayoutManager.setSpanCount(1);
+        } else {
+            searchLayoutManager.setSpanCount(2);
+        }
+
+        isSearching = false;
+        stopSearchAnim();
     }
 
     @Override

@@ -49,6 +49,7 @@
 
     <!-- layout_discover.xml -->
     <dimen name="layout_discover_margin">10dp</dimen>
+    <dimen name="layout_discover_search_text_size">20sp</dimen>
 
     <!-- layout_movie.xml & layout_tv_shows.xml -->
     <dimen name="layout_option_margin">10dp</dimen>

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import study.ian.morphviewlib.MorphView;
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.PersonDetailActivity;
 import study.ian.movie.R;
@@ -35,13 +36,18 @@ import study.ian.movie.service.PeopleService;
 import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.service.TvShowService;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final String TAG = "SearchAdapter";
 
     private Context context;
     private List<Object> resultList = new ArrayList<>();
     private RequestOptions requestOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
+    private boolean hasResult = false;
+    private enum VIEW_TYPE {
+        NORMAL,
+        NO_RESULT
+    }
 
     public SearchAdapter(Context context) {
         this.context = context;
@@ -49,6 +55,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
 
     public <T> void addResultList(List<T> rList) {
         resultList.addAll(rList);
+        hasResult = (resultList.size() != 0);
+        if (!hasResult) {
+            resultList.add(null);
+        }
+
         notifyDataSetChanged();
     }
 
@@ -58,19 +69,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
 
     @NonNull
     @Override
-    public SearchAdapter.ResultHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.holder_main_display, viewGroup, false);
-        return new ResultHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        if (viewType == VIEW_TYPE.NORMAL.ordinal()) {
+            View view = LayoutInflater.from(context).inflate(R.layout.holder_main_display, viewGroup, false);
+            return new ResultHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.holder_main_no_result, viewGroup, false);
+            return new NoResultHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchAdapter.ResultHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         if (resultList.get(i) instanceof MovieResult) {
-            setMovieCard((MovieResult) resultList.get(i), viewHolder);
+            setMovieCard((MovieResult) resultList.get(i), (SearchAdapter.ResultHolder) viewHolder);
         } else if (resultList.get(i) instanceof TvShowResult) {
-            setTvShowCard((TvShowResult) resultList.get(i), viewHolder);
+            setTvShowCard((TvShowResult) resultList.get(i), (SearchAdapter.ResultHolder) viewHolder);
         } else if (resultList.get(i) instanceof PopularResult) {
-            setPersonCard((PopularResult) resultList.get(i), viewHolder);
+            setPersonCard((PopularResult) resultList.get(i), (SearchAdapter.ResultHolder) viewHolder);
+        } else {
+            setNoResult((SearchAdapter.NoResultHolder) viewHolder);
         }
     }
 
@@ -155,6 +173,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
                 .subscribe();
     }
 
+    private void setNoResult(NoResultHolder noResultHolder) {
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return hasResult ? VIEW_TYPE.NORMAL.ordinal() : VIEW_TYPE.NO_RESULT.ordinal();
+    }
+
     class ResultHolder extends RecyclerView.ViewHolder {
 
         private CardView cardView;
@@ -169,6 +196,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultHold
             posterImage = itemView.findViewById(R.id.holderMainImage);
             mainText = itemView.findViewById(R.id.mainTitleText);
             subText = itemView.findViewById(R.id.subContentText);
+        }
+    }
+
+    class NoResultHolder extends RecyclerView.ViewHolder {
+
+        private ImageView imageView;
+
+        NoResultHolder(@NonNull View itemView) {
+            super(itemView);
+
+            imageView = itemView.findViewById(R.id.noResultHintView);
         }
     }
 }

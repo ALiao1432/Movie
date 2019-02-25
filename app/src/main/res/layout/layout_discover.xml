@@ -43,20 +43,22 @@
                         app:layout_constraintBottom_toBottomOf="@+id/dbSearchEdt"
                         app:layout_constraintDimensionRatio="h,1:1"
                         app:layout_constraintEnd_toStartOf="@+id/dbSearchEdt"
+                        app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/dbSearchEdt"
-                        app:layout_constraintHorizontal_weight="1"
                         tools:ignore="ContentDescription" />
 
                     <EditText
                         android:id="@+id/dbSearchEdt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_discover_margin"
                         android:background="@null"
                         android:hint="@string/db_search_edt_hint"
                         android:inputType="text"
                         android:textColor="@color/dbSearchEdtText"
                         android:textColorHint="@color/dbSearchEdtHintText"
+                        android:textSize="@dimen/layout_discover_search_text_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="14"
