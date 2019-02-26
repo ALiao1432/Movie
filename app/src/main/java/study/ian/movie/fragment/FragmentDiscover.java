@@ -159,7 +159,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastSearchType = optionSpinner.getSelectedItemPosition();
 
         RxTextView.textChanges(dbSearchEdt)
-                .debounce(1500, TimeUnit.MILLISECONDS)
+                .debounce(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(charSequence -> charSequence.length() > 0)
                 .doOnEach(charSequenceNotification -> startSearchAnim())
