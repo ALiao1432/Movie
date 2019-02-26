@@ -33,7 +33,7 @@
     <!-- db_search_edt_dark.xml & db_search_edt_light.xml -->
     <dimen name="db_search_edt_radius">36dp</dimen>
     <dimen name="db_search_edt_stroke_width">4dp</dimen>
-    <dimen name="db_search_edt_padding_left_right">16dp</dimen>
+    <dimen name="db_search_edt_padding_left_right">8dp</dimen>
     <dimen name="db_search_edt_padding_top_bottom">8dp</dimen>
 
     <!-- holder_detail_card.xml -->
@@ -47,7 +47,9 @@
 
     <!-- layout_discover.xml -->
     <dimen name="layout_discover_margin">10dp</dimen>
-    <dimen name="layout_discover_search_text_size">20sp</dimen>
+    <dimen name="layout_discover_margin_start_end">5dp</dimen>
+    <dimen name="layout_discover_margin_top_bottom">3dp</dimen>
+    <dimen name="layout_discover_search_text_size">18sp</dimen>
 
     <!-- layout_movie.xml & layout_tv_shows.xml -->
     <dimen name="layout_option_margin">10dp</dimen>
