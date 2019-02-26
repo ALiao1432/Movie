@@ -21,8 +21,8 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
 
     private final String TAG = "KeywordAdapter";
 
-    private Context context;
-    private Object keyword;
+    private final Context context;
+    private final Object keyword;
 
     public KeywordAdapter(Context context, Object keyword) {
         this.context = context;
@@ -73,7 +73,7 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
 
     class KeywordHolder extends RecyclerView.ViewHolder {
 
-        private Button keywordBtn;
+        private final Button keywordBtn;
 
         KeywordHolder(@NonNull View itemView) {
             super(itemView);

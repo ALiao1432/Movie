@@ -16,7 +16,7 @@ public class TvShow {
     private int total_pages;
 
     @SerializedName("results")
-    private List<TvShowResult> tvShowResults = null;
+    private final List<TvShowResult> tvShowResults = null;
 
     public int getPage() {
         return page;

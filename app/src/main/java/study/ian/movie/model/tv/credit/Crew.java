@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Crew {
+class Crew {
 
     @SerializedName("credit_id")
     private String credit_id;

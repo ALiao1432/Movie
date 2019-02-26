@@ -8,7 +8,6 @@ import android.graphics.Path;
 import android.graphics.Shader;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
@@ -20,8 +19,8 @@ public class GradientImageView extends MorphView {
     private final String TAG = "GradientImageView";
 
     private LinearGradient linearGradient;
-    private Paint paint = new Paint();
-    private Path gradientPath = new Path();
+    private final Paint paint = new Paint();
+    private final Path gradientPath = new Path();
     private final float GRADIENT_HEIGHT_RATIO = .75F;
     private float width;
     private float height;

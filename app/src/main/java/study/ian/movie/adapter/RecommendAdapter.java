@@ -33,8 +33,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
 
     private final String TAG = "RecommendAdapter";
 
-    private Context context;
-    private List<Object> recommendResultList = new ArrayList<>();
+    private final Context context;
+    private final List<Object> recommendResultList = new ArrayList<>();
 
     public RecommendAdapter(Context context) {
         this.context = context;
@@ -116,10 +116,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
 
     class RecommendHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView recommendImage;
-        private TextView titleText;
-        private TextView releaseDateText;
+        private final CardView cardView;
+        private final ImageView recommendImage;
+        private final TextView titleText;
+        private final TextView releaseDateText;
 
         RecommendHolder(@NonNull View itemView) {
             super(itemView);

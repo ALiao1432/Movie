@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.R;
 import study.ian.movie.adapter.PeopleAdapter;
@@ -31,7 +30,7 @@ public class FragmentPeople extends Fragment {
 
     private RecyclerView peopleRecyclerView;
     private PeopleAdapter peopleAdapter;
-    private PeopleService peopleService = ServiceBuilder.getService(PeopleService.class);
+    private final PeopleService peopleService = ServiceBuilder.getService(PeopleService.class);
     private int currentPage = 0;
     private int totalPages = 0;
     private boolean isLoading = false;
@@ -87,10 +86,5 @@ public class FragmentPeople extends Fragment {
                 })
                 .doOnError(throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
                 .subscribe();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 }

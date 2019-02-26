@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
 
-public class GenreResult {
+class GenreResult {
 
     @SerializedName("id")
     private int id;

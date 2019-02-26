@@ -36,7 +36,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
     private RecyclerView tvShowRecyclerView;
     private RecyclerView tvShowSortRecyclerView;
     private TvShowAdapter tvShowAdapter;
-    private TvShowService tvShowService = ServiceBuilder.getService(TvShowService.class);
+    private final TvShowService tvShowService = ServiceBuilder.getService(TvShowService.class);
     private List<String> tvShowSortOptionList;
     private String sortBy;
     private int currentPage = 0;

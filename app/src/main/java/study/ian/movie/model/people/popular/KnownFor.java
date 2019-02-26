@@ -27,7 +27,7 @@ public class KnownFor {
     private String original_title;
 
     @SerializedName("genre_ids")
-    private List<Integer> genre_ids = null;
+    private final List<Integer> genre_ids = null;
 
     @SerializedName("id")
     private int id;
@@ -60,7 +60,7 @@ public class KnownFor {
     private String first_air_date;
 
     @SerializedName("original_country")
-    private List<String> original_country = null;
+    private final List<String> original_country = null;
 
     @SerializedName("name")
     private String name;

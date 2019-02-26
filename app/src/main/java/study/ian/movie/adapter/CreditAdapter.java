@@ -34,8 +34,8 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
     private final String TAG = "CreditAdapter";
 
-    private Context context;
-    private Object credit;
+    private final Context context;
+    private final Object credit;
 
     public CreditAdapter(Context context, Object credit) {
         this.context = context;
@@ -157,10 +157,10 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
 
     class CreditHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView creditImage;
-        private TextView creditText;
-        private TextView charText;
+        private final CardView cardView;
+        private final ImageView creditImage;
+        private final TextView creditText;
+        private final TextView charText;
 
         CreditHolder(@NonNull View itemView) {
             super(itemView);

@@ -95,7 +95,7 @@ public class MovieDetailActivity extends DetailActivity {
                     loadBackdropImage(backdropImage, detail.getBackdrop_path());
                     titleText.setText(detail.getTitle());
                     releaseDateText.setText(detail.getRelease_date());
-                    runTimeText.setText(detail.getRuntime() + " mins");
+                    runTimeText.setText(detail.getRuntime() + getString(R.string.mins));
                     overviewText.setText(detail.getOverview());
 
                     if (overviewText.isExpandable()) {
@@ -107,7 +107,7 @@ public class MovieDetailActivity extends DetailActivity {
                         expandHintView.setPaintStyle(Paint.Style.FILL);
                         expandHintView.setSize(75, 75);
                     }
-                    
+
                     genreRecyclerView.setAdapter(new GenreAdapter(this, detail.getGenres()));
                 })
                 .doOnError(throwable -> Log.d(TAG, "onCreate: get movie detail error : " + throwable))

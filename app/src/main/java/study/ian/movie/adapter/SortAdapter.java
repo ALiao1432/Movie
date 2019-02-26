@@ -22,7 +22,7 @@ public class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHolder> {
 
     private final String TAG = "SortAdapter";
 
-    private Context context;
+    private final Context context;
     private List<String> optionList;
     private String currentSelected;
     private OnOptionSelectedListener optionSelectedListener;
@@ -79,7 +79,7 @@ public class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHolder> {
 
     class SortHolder extends RecyclerView.ViewHolder {
 
-        TextView sortText;
+        final TextView sortText;
 
         SortHolder(@NonNull View itemView) {
             super(itemView);

@@ -11,7 +11,6 @@
         android:roundIcon="@drawable/vd_movie"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PersonImageActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.Launcher">
@@ -22,9 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SeasonDetailActivity" />
         <activity android:name=".MovieDetailActivity" />
         <activity android:name=".TvShowDetailActivity" />
+        <activity android:name=".SeasonDetailActivity" />
+        <activity android:name=".PersonImageActivity" />
         <activity android:name=".PersonDetailActivity" />
     </application>
 

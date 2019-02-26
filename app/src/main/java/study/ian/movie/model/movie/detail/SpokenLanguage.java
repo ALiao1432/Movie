@@ -2,7 +2,7 @@ package study.ian.movie.model.movie.detail;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SpokenLanguage {
+class SpokenLanguage {
 
     @SerializedName("iso_639_1")
     private String iso_639_1;

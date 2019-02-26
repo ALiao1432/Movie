@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import study.ian.movie.fragment.FragmentDiscover;
 import study.ian.movie.fragment.FragmentMovies;
@@ -28,16 +27,16 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
 
-    private FragmentDiscover fragmentDiscover = new FragmentDiscover();
-    private FragmentMovies fragmentMovies = new FragmentMovies();
-    private FragmentTvShows fragmentTvShows = new FragmentTvShows();
-    private FragmentPeople fragmentPeople = new FragmentPeople();
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentDiscover fragmentDiscover = new FragmentDiscover();
+    private final FragmentMovies fragmentMovies = new FragmentMovies();
+    private final FragmentTvShows fragmentTvShows = new FragmentTvShows();
+    private final FragmentPeople fragmentPeople = new FragmentPeople();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
 
     private BottomNavigationView bottomNavView;
     private Fragment activeFragment;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = menuItem -> {
+    private final BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = menuItem -> {
 
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction().setCustomAnimations(R.anim.fading_in, R.anim.fading_out);

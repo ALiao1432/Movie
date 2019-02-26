@@ -31,9 +31,9 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonHold
 
     private final String TAG = "SeasonAdapter";
 
-    private Context context;
-    private List<Season> seasonList;
-    private int tvShowId;
+    private final Context context;
+    private final List<Season> seasonList;
+    private final int tvShowId;
 
     public SeasonAdapter(Context context, List<Season> seasonList, int tvShowId) {
         this.context = context;
@@ -85,10 +85,10 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.SeasonHold
 
     class SeasonHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView seasonImage;
-        private TextView titleText;
-        private TextView airDateText;
+        private final CardView cardView;
+        private final ImageView seasonImage;
+        private final TextView titleText;
+        private final TextView airDateText;
 
         SeasonHolder(@NonNull View itemView) {
             super(itemView);

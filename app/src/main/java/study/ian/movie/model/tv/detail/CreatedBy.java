@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CreatedBy {
+class CreatedBy {
 
     @SerializedName("id")
     private int id;

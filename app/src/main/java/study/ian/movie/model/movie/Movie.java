@@ -16,7 +16,7 @@ public class Movie {
     private int total_pages;
 
     @SerializedName("results")
-    private List<MovieResult> movieResults = null;
+    private final List<MovieResult> movieResults = null;
 
     public int getPage() {
         return page;

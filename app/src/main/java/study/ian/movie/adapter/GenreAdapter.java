@@ -22,8 +22,8 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
 
     private final String TAG = "GenreAdapter";
 
-    private Context context;
-    private List<Object> genreList = new ArrayList<>();
+    private final Context context;
+    private final List<Object> genreList = new ArrayList<>();
 
     public <T> GenreAdapter(Context context, List<T> genreList) {
         this.context = context;
@@ -68,7 +68,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreHolder>
 
     class GenreHolder extends RecyclerView.ViewHolder {
 
-        private Button genreBtn;
+        private final Button genreBtn;
 
         GenreHolder(@NonNull View itemView) {
             super(itemView);

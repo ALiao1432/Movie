@@ -33,8 +33,8 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
 
     private final String TAG = "PeopleAdapter";
 
-    private Context context;
-    private List<PopularResult> popularResultList = new ArrayList<>();
+    private final Context context;
+    private final List<PopularResult> popularResultList = new ArrayList<>();
 
     public PeopleAdapter(Context context) {
         this.context = context;
@@ -101,10 +101,10 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
 
     class PeopleHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView profileImage;
-        private TextView nameText;
-        private TextView knownForText;
+        private final CardView cardView;
+        private final ImageView profileImage;
+        private final TextView nameText;
+        private final TextView knownForText;
 
         PeopleHolder(@NonNull View itemView) {
             super(itemView);

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import study.ian.morphviewlib.MorphView;
 import study.ian.movie.MovieDetailActivity;
 import study.ian.movie.PersonDetailActivity;
 import study.ian.movie.R;
@@ -42,9 +41,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final String TAG = "SearchAdapter";
 
-    private Context context;
-    private List<Object> resultList = new ArrayList<>();
-    private RequestOptions requestOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
+    private final Context context;
+    private final List<Object> resultList = new ArrayList<>();
+    private final RequestOptions requestOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL);
     private boolean hasResult = false;
     private enum VIEW_TYPE {
         NORMAL,
@@ -89,9 +88,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setTvShowCard((TvShowResult) resultList.get(i), (SearchAdapter.ResultHolder) viewHolder);
         } else if (resultList.get(i) instanceof PopularResult) {
             setPersonCard((PopularResult) resultList.get(i), (SearchAdapter.ResultHolder) viewHolder);
-        } else {
+        } else if (viewHolder instanceof NoResultHolder) {
             setNoResult((SearchAdapter.NoResultHolder) viewHolder);
         }
+    }
+
+    private void setNoResult(NoResultHolder viewHolder) {
+
     }
 
     @Override
@@ -175,10 +178,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .subscribe();
     }
 
-    private void setNoResult(NoResultHolder noResultHolder) {
-
-    }
-
     @Override
     public int getItemViewType(int position) {
         return hasResult ? VIEW_TYPE.NORMAL.ordinal() : VIEW_TYPE.NO_RESULT.ordinal();
@@ -186,10 +185,10 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class ResultHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView posterImage;
-        private TextView mainText;
-        private TextView subText;
+        private final CardView cardView;
+        private final ImageView posterImage;
+        private final TextView mainText;
+        private final TextView subText;
 
         ResultHolder(@NonNull View itemView) {
             super(itemView);
@@ -203,7 +202,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class NoResultHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
+        private final ImageView imageView;
 
         NoResultHolder(@NonNull View itemView) {
             super(itemView);

@@ -18,8 +18,8 @@ public class SeasonDetailAdapter extends RecyclerView.Adapter<SeasonDetailAdapte
 
     private final String TAG = "SeasonDetailAdapter";
 
-    private Context context;
-    private List<Episode> episodeList;
+    private final Context context;
+    private final List<Episode> episodeList;
 
     public SeasonDetailAdapter(Context context, List<Episode> episodeList) {
         this.context = context;
@@ -40,7 +40,7 @@ public class SeasonDetailAdapter extends RecyclerView.Adapter<SeasonDetailAdapte
         holder.episodeNumText.setText(String.valueOf(episode.getEpisode_number()));
         holder.episodeNameText.setText(episode.getName());
         holder.episodeAirDateTExt.setText(episode.getAir_date());
-        holder.episodeOverviewText.setText(episode.getOvewview());
+        holder.episodeOverviewText.setText(episode.getOverview());
     }
 
     @Override
@@ -50,10 +50,10 @@ public class SeasonDetailAdapter extends RecyclerView.Adapter<SeasonDetailAdapte
 
     class SeasonDetailHolder extends RecyclerView.ViewHolder {
 
-        private TextView episodeNumText;
-        private TextView episodeNameText;
-        private TextView episodeAirDateTExt;
-        private TextView episodeOverviewText;
+        private final TextView episodeNumText;
+        private final TextView episodeNameText;
+        private final TextView episodeAirDateTExt;
+        private final TextView episodeOverviewText;
 
         SeasonDetailHolder(@NonNull View itemView) {
             super(itemView);

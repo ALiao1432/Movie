@@ -26,7 +26,7 @@ public class Episode {
     private String name;
 
     @SerializedName("overview")
-    private String ovewview;
+    private String overview;
 
     @SerializedName("id")
     private int id;
@@ -68,8 +68,8 @@ public class Episode {
         return name;
     }
 
-    public String getOvewview() {
-        return ovewview;
+    public String getOverview() {
+        return overview;
     }
 
     public int getId() {
@@ -107,7 +107,7 @@ public class Episode {
                 ", episode_number=" + episode_number +
                 ", guest_stars=" + guest_stars +
                 ", name='" + name + '\'' +
-                ", ovewview='" + ovewview + '\'' +
+                ", overview='" + overview + '\'' +
                 ", id=" + id +
                 ", production_code='" + production_code + '\'' +
                 ", season_number=" + season_number +

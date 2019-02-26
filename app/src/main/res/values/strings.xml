@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Movie</string>
 
+    <!-- MovieDetailActivity.java -->
+    <string name="mins">mins</string>
+
     <!-- bottom_menu.xml -->
     <string name="discover">Discover</string>
     <string name="movies">Movies</string>

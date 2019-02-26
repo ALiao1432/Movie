@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observable;
 import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.PublishSubject;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,7 +28,7 @@ public class ServiceBuilder {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
-    private static PublishProcessor<ConnectionType> connectionTypeProcessor = PublishProcessor.create();
+    private static final PublishProcessor<ConnectionType> connectionTypeProcessor = PublishProcessor.create();
 
     private ServiceBuilder() {
     }

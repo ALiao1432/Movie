@@ -76,7 +76,7 @@ public class Detail {
     private double popularity;
 
     @SerializedName("poster_path")
-    private String poster_paht;
+    private String poster_path;
 
     @SerializedName("production_companies")
     private List<ProductionCompany> production_companies;
@@ -182,8 +182,8 @@ public class Detail {
         return popularity;
     }
 
-    public String getPoster_paht() {
-        return poster_paht;
+    public String getPoster_path() {
+        return poster_path;
     }
 
     public List<ProductionCompany> getProduction_companies() {
@@ -235,7 +235,7 @@ public class Detail {
                 ", original_name='" + original_name + '\'' +
                 ", overview='" + overview + '\'' +
                 ", popularity=" + popularity +
-                ", poster_paht='" + poster_paht + '\'' +
+                ", poster_path='" + poster_path + '\'' +
                 ", production_companies=" + production_companies +
                 ", seasons=" + seasons +
                 ", status='" + status + '\'' +

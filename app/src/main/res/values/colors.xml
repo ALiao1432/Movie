@@ -25,7 +25,6 @@
     <color name="mainContent">#E2E2E2</color>
 
     <!-- shape_genre_keyword_btn.xml -->
-    <color name="genreBtnBackground">#00796b</color>
     <color name="genreKeywordBtnText">#b4b4b4</color>
 
     <!-- shape_db_search_edt_focus_focus.xml -->

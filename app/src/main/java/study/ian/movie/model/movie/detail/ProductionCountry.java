@@ -2,7 +2,7 @@ package study.ian.movie.model.movie.detail;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ProductionCountry {
+class ProductionCountry {
 
     @SerializedName("iso_3166_1")
     private String iso_3166_1;

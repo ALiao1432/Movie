@@ -27,8 +27,8 @@ public class PersonDetailImageAdapter extends PagerAdapter {
 
     private final String TAG = "PersonDetailImageAdapter";
 
-    private List<Profile> profileList;
-    private Context context;
+    private final List<Profile> profileList;
+    private final Context context;
 
     public PersonDetailImageAdapter(Context context, List<Profile> profileList) {
         this.context = context;

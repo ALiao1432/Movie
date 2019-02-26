@@ -2,7 +2,7 @@ package study.ian.movie.model.movie.detail;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ProductionCompany {
+class ProductionCompany {
 
     @SerializedName("name")
     private String name;

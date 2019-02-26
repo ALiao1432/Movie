@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import study.ian.morphviewlib.MorphView;
 import study.ian.movie.adapter.CreditAdapter;
 import study.ian.movie.adapter.PersonDetailImageAdapter;

@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">영화</string>
 
+    <!-- MovieDetailActivity.java -->
+    <string name="mins">분</string>
+
     <!-- bottom_menu.xml -->
     <string name="discover">발견하다</string>
     <string name="movies">영화</string>

@@ -28,8 +28,6 @@
 
     <!-- shape_genre_keyword_btn.xml -->
     <dimen name="genre_keyword_btn_height">28dp</dimen>
-    <dimen name="genre_keyword_btn_shape_radius">30dp</dimen>
-    <dimen name="genre_keyword_btn_stroke_width">2dp</dimen>
     <dimen name="genre_keyword_btn_text_size">12sp</dimen>
 
     <!-- db_search_edt_dark.xml & db_search_edt_light.xml -->

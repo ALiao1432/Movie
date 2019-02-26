@@ -32,8 +32,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
 
     private final String TAG = "TvShowAdapter";
 
-    private Context context;
-    private List<TvShowResult> tvShowResultList = new ArrayList<>();
+    private final Context context;
+    private final List<TvShowResult> tvShowResultList = new ArrayList<>();
 
     public TvShowAdapter(Context context) {
         this.context = context;
@@ -89,10 +89,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.TvShowHold
 
     class TvShowHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView posterImage;
-        private TextView titleText;
-        private TextView releaseDateText;
+        private final CardView cardView;
+        private final ImageView posterImage;
+        private final TextView titleText;
+        private final TextView releaseDateText;
 
         TvShowHolder(@NonNull View itemView) {
             super(itemView);

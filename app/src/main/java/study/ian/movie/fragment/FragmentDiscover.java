@@ -35,7 +35,6 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnYearSelectedListener;
-import study.ian.networkstateutil.ConnectionType;
 import study.ian.networkstateutil.NetworkStateUtil;
 
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
@@ -58,7 +57,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private int totalSearchPages = 0;
     private int page = 1;
 
-    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {

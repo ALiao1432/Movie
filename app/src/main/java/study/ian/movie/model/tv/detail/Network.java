@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Network {
+class Network {
 
     @SerializedName("name")
     private String name;

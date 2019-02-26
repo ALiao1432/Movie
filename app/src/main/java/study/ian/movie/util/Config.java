@@ -15,7 +15,7 @@ public class Config {
     private final String TAG = "Config";
 
     public static String REQUEST_LANGUAGE = "en-US";
-    public static boolean INCLUDE_ADULT = true;
+    public static final boolean INCLUDE_ADULT = true;
     public static final int VISIBLE_THRESHOLD = 20;
 
     public Config(Context context) {

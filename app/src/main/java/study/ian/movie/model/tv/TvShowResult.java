@@ -81,6 +81,7 @@ public class TvShowResult {
         return popularity;
     }
 
+    @org.jetbrains.annotations.Nullable
     public String getPoster_path() {
         return poster_path;
     }
@@ -93,6 +94,7 @@ public class TvShowResult {
         return genre_ids;
     }
 
+    @org.jetbrains.annotations.Nullable
     public String getBackdrop_path() {
         return backdrop_path;
     }

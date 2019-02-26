@@ -36,7 +36,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
     private RecyclerView movieRecyclerView;
     private RecyclerView movieSortRecyclerView;
     private MovieAdapter movieAdapter;
-    private MovieService movieService = ServiceBuilder.getService(MovieService.class);
+    private final MovieService movieService = ServiceBuilder.getService(MovieService.class);
     private List<String> movieSortOptionList;
     private String sortBy;
     private int currentPage = 0;

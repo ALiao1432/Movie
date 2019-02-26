@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Crew {
+class Crew {
 
     @SerializedName("id")
     private int id;

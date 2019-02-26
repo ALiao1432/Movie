@@ -25,9 +25,9 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
 
     private final String TAG = "YearAdapter";
 
-    private Context context;
-    private List<String> yearList = new ArrayList<>();
-    private List<String> tempList = new ArrayList<>();
+    private final Context context;
+    private final List<String> yearList = new ArrayList<>();
+    private final List<String> tempList = new ArrayList<>();
     private String currentSelected;
     private OnYearSelectedListener yearSelectedListener;
 
@@ -104,7 +104,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.YearHolder> {
 
     class YearHolder extends RecyclerView.ViewHolder {
 
-        private TextView yearText;
+        private final TextView yearText;
 
         YearHolder(@NonNull View itemView) {
             super(itemView);

@@ -32,8 +32,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     private final String TAG = "MovieAdapter";
 
-    private Context context;
-    private List<MovieResult> movieResultList = new ArrayList<>();
+    private final Context context;
+    private final List<MovieResult> movieResultList = new ArrayList<>();
 
     public MovieAdapter(Context context) {
         this.context = context;
@@ -89,10 +89,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     class MovieHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
-        private ImageView posterImage;
-        private TextView titleText;
-        private TextView releaseDateText;
+        private final CardView cardView;
+        private final ImageView posterImage;
+        private final TextView titleText;
+        private final TextView releaseDateText;
 
         MovieHolder(@NonNull View itemView) {
             super(itemView);
