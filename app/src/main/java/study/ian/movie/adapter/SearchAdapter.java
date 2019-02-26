@@ -18,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,7 +99,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return resultList.size();
     }
 
-    private void setMovieCard(MovieResult movieResult, SearchAdapter.ResultHolder viewHolder) {
+    private void setMovieCard(@NotNull MovieResult movieResult, @NotNull SearchAdapter.ResultHolder viewHolder) {
         Glide.with(viewHolder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + movieResult.getPoster_path())
@@ -119,7 +121,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .subscribe();
     }
 
-    private void setTvShowCard(TvShowResult tvShowResult, SearchAdapter.ResultHolder viewHolder) {
+    private void setTvShowCard(@NotNull TvShowResult tvShowResult, @NotNull SearchAdapter.ResultHolder viewHolder) {
         Glide.with(viewHolder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + tvShowResult.getPoster_path())
@@ -141,7 +143,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .subscribe();
     }
 
-    private void setPersonCard(PopularResult popularResult, ResultHolder viewHolder) {
+    private void setPersonCard(@NotNull PopularResult popularResult, @NotNull ResultHolder viewHolder) {
         Glide.with(viewHolder.posterImage)
                 .asBitmap()
                 .load(ServiceBuilder.POSTER_BASE_URL + popularResult.getProfile_path())

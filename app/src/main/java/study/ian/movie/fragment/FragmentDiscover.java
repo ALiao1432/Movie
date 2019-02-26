@@ -19,10 +19,13 @@ import android.widget.Spinner;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import study.ian.morphviewlib.MorphView;
 import study.ian.movie.R;
 import study.ian.movie.adapter.SearchAdapter;
@@ -32,6 +35,8 @@ import study.ian.movie.service.ServiceBuilder;
 import study.ian.movie.util.Config;
 import study.ian.movie.util.ObserverHelper;
 import study.ian.movie.util.OnYearSelectedListener;
+import study.ian.networkstateutil.ConnectionType;
+import study.ian.networkstateutil.NetworkStateUtil;
 
 public class FragmentDiscover extends Fragment implements OnYearSelectedListener {
 
@@ -47,6 +52,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
     private YearAdapter yearAdapter;
     private SearchAdapter searchAdapter;
     private String lastQuery = "";
+    private Disposable disposable;
     private boolean isSearching = false;
     private int lastSearchType;
     private int totalSearchPages = 0;
@@ -102,7 +108,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         super.onDetach();
     }
 
-    private void findViews(View view) {
+    private void findViews(@NotNull View view) {
         yearRecyclerView = view.findViewById(R.id.recyclerViewYear);
         searchResultRecyclerView = view.findViewById(R.id.recyclerViewSearchResult);
         searchHintView = view.findViewById(R.id.searchHintView);
@@ -158,12 +164,17 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(charSequence -> charSequence.length() > 0)
                 .doOnEach(charSequenceNotification -> startSearchAnim())
-                .doOnNext(charSequence -> search(optionSpinner.getSelectedItemPosition(), charSequence.toString(), yearAdapter.getSelectedYear()))
+                .doOnNext(charSequence -> {
+                    if (disposable != null) {
+                        disposable.dispose();
+                    }
+                    search(optionSpinner.getSelectedItemPosition(), charSequence.toString(), yearAdapter.getSelectedYear());
+                })
                 .doOnError(throwable -> Log.d(TAG, "setViews: dbSearchEdt error : " + throwable))
                 .subscribe();
     }
 
-    private void search(int searchType, String query, @Nullable Integer year) {
+    private void search(int searchType, @NotNull String query, @Nullable Integer year) {
         if (query.equals("")) {
             // if query is empty, then just return
             return;
@@ -179,7 +190,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
         switch (searchType) {
             case 0:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
@@ -191,7 +202,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case 1:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
@@ -203,7 +214,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case 2:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {
@@ -220,7 +231,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
         lastSearchType = searchType;
     }
 
-    private void searchByYear(int searchType, String query, @Nullable Integer year) {
+    private void searchByYear(int searchType, @NotNull String query, @Nullable Integer year) {
         if (query.equals("")) {
             // if query is empty, then just return
             return;
@@ -231,7 +242,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
 
         switch (searchType) {
             case 0:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchMovie(ServiceBuilder.API_KEY, query, page, year, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(movie -> {
@@ -243,7 +254,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case 1:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchTvShow(ServiceBuilder.API_KEY, query, page, year, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(tvShow -> {
@@ -255,7 +266,7 @@ public class FragmentDiscover extends Fragment implements OnYearSelectedListener
                         .subscribe();
                 break;
             case 2:
-                ServiceBuilder.getService(DiscoverService.class)
+                disposable = ServiceBuilder.getService(DiscoverService.class)
                         .searchPerson(ServiceBuilder.API_KEY, query, page, Config.INCLUDE_ADULT, Config.REQUEST_LANGUAGE)
                         .compose(ObserverHelper.applyHelper())
                         .doOnNext(popular -> {

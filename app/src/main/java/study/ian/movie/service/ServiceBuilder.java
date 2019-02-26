@@ -2,6 +2,8 @@ package study.ian.movie.service;
 
 import android.content.Context;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.Observable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.subjects.PublishSubject;
@@ -46,6 +48,7 @@ public class ServiceBuilder {
         });
     }
 
+    @NotNull
     public static <T> T getService(Class<T> tClass) {
         return retrofit.create(tClass);
     }

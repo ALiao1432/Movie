@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -45,7 +47,7 @@ public class FragmentPeople extends Fragment {
         return view;
     }
 
-    private void findViews(View parent) {
+    private void findViews(@NotNull View parent) {
         peopleRecyclerView = parent.findViewById(R.id.recyclerViewPeople);
     }
 
@@ -76,16 +78,14 @@ public class FragmentPeople extends Fragment {
         subscribeForData(peopleService.getPopular(ServiceBuilder.API_KEY, currentPage, Config.REQUEST_LANGUAGE));
     }
 
-    private void subscribeForData(Observable<Popular> observable) {
+    private void subscribeForData(@NotNull Observable<Popular> observable) {
         observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(popular -> {
                     peopleAdapter.addResults(popular.getResults());
                     totalPages = popular.getTotal_pages();
                     isLoading = false;
                 })
-                .doOnError(
-                        // TODO: 2019-01-15 retry when network is not work out...
-                        throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
+                .doOnError(throwable -> Log.d(TAG, "onCreateView: t : " + throwable))
                 .subscribe();
     }
 

@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
         return view;
     }
 
-    private void findViews(View parent) {
+    private void findViews(@NotNull View parent) {
         movieRecyclerView = parent.findViewById(R.id.recyclerViewMovie);
         movieSortRecyclerView = parent.findViewById(R.id.recyclerViewMovieSort);
     }
@@ -98,7 +100,7 @@ public class FragmentMovies extends Fragment implements OnOptionSelectedListener
         subscribeForData(movieService.getMovie(ServiceBuilder.API_KEY, sortBy, currentPage, true, false, Config.REQUEST_LANGUAGE));
     }
 
-    private void subscribeForData(Observable<Movie> observable) {
+    private void subscribeForData(@NotNull Observable<Movie> observable) {
         observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(movie -> {
                     movieAdapter.addResults(movie.getMovieResults());

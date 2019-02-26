@@ -2,6 +2,8 @@ package study.ian.movie.util;
 
 import android.content.Context;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
@@ -21,7 +23,7 @@ public class Config {
         configLanguage(context);
     }
 
-    private void configLanguage(Context context) {
+    private void configLanguage(@NotNull Context context) {
         String[] languages = context.getResources().getStringArray(R.array.language_config);
 
         Optional<String> stringOptional = Arrays.stream(languages)

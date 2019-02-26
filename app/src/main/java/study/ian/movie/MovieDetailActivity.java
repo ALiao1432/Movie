@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding3.view.RxView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -212,7 +214,7 @@ public class MovieDetailActivity extends DetailActivity {
         }
     }
 
-    private <T> void loadMorePage(Observable<T> observable) {
+    private <T> void loadMorePage(@NotNull Observable<T> observable) {
         isRecommendLoading = true;
 
         observable.compose(ObserverHelper.applyHelper())

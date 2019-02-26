@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.seamas.colorhintbarlibrary.ColorHintBar;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -166,6 +169,8 @@ public class PersonDetailActivity extends DetailActivity {
         hintBar.setViewConnectedPager(personImagePager);
     }
 
+    @NotNull
+    @Contract(pure = true)
     private String getGender(int gender) {
         switch (gender) {
             case 1:

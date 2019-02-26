@@ -22,11 +22,9 @@ public class GradientImageView extends MorphView {
     private LinearGradient linearGradient;
     private Paint paint = new Paint();
     private Path gradientPath = new Path();
-    private Path trailerHintPath = new Path();
     private final float GRADIENT_HEIGHT_RATIO = .75F;
     private float width;
     private float height;
-    private boolean hasTrailer = false;
 
     public GradientImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

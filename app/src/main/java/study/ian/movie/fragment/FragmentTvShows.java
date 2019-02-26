@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
         return view;
     }
 
-    private void findViews(View parent) {
+    private void findViews(@NotNull View parent) {
         tvShowRecyclerView = parent.findViewById(R.id.recyclerViewTvShow);
         tvShowSortRecyclerView = parent.findViewById(R.id.recyclerViewTvShowSort);
     }
@@ -98,7 +100,7 @@ public class FragmentTvShows extends Fragment implements OnOptionSelectedListene
         subscribeForData(tvShowService.getTvShow(ServiceBuilder.API_KEY, sortBy, currentPage, Config.REQUEST_LANGUAGE));
     }
 
-    private void subscribeForData(Observable<TvShow> observable) {
+    private void subscribeForData(@NotNull Observable<TvShow> observable) {
         observable.compose(ObserverHelper.applyHelper())
                 .doOnNext(tvShow -> {
                     tvShowAdapter.addResults(tvShow.getTvShowResults());

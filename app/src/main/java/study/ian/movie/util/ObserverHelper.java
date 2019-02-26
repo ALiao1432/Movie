@@ -1,5 +1,7 @@
 package study.ian.movie.util;
 
+import org.jetbrains.annotations.Contract;
+
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -12,6 +14,7 @@ public class ObserverHelper {
                     .observeOn(AndroidSchedulers.mainThread())
                     .retryWhen(t -> ServiceBuilder.getConnectStateObservable());
 
+    @Contract(pure = true)
     public static <T> ObservableTransformer<T, T> applyHelper() {
         return (ObservableTransformer<T, T>) observableHelper;
     }
