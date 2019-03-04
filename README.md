@@ -8,8 +8,8 @@ using libraries
 * [NetworkState](https://github.com/ALiao1432/NetworkState) : the library for monitoring if the network is connecting via Wifi, Mobile or not connecting. It provide the ability for app to reload the data when reconnection to valid network
 * [ColorHintBar](https://github.com/SeamasShih/ColorHintBarLibrary) : the library built from my friend to work with ViewPager to indicate the current page of ViewPager
 * [MorphView](https://github.com/ALiao1432/MorphView) : the library can perform animation defined by svg files
-# Demo gif link
-[demo](https://photos.app.goo.gl/15vsfJmJJp2gVVbJ7)
+# Demo link
+[demo](https://photos.app.goo.gl/6ZXQQnLXXFW6az5E7)
 
 # Architecture
 ![architecture](https://i.imgur.com/YumBjOW.jpg)
