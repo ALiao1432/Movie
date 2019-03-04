@@ -33,7 +33,7 @@
     <!-- db_search_edt_dark.xml & db_search_edt_light.xml -->
     <dimen name="db_search_edt_radius">36dp</dimen>
     <dimen name="db_search_edt_stroke_width">4dp</dimen>
-    <dimen name="db_search_edt_padding_left_right">8dp</dimen>
+    <dimen name="db_search_edt_padding_left_right">16dp</dimen>
     <dimen name="db_search_edt_padding_top_bottom">8dp</dimen>
 
     <!-- holder_detail_card.xml -->

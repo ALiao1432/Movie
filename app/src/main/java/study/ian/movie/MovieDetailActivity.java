@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding3.view.RxView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -218,17 +219,17 @@ public class MovieDetailActivity extends DetailActivity {
         isRecommendLoading = true;
 
         observable.compose(ObserverHelper.applyHelper())
-                .doOnNext(o -> {
-                    if (o instanceof Recommend) {
-                        List<RecommendResult> resultList = ((Recommend) o).getResults();
-                        if (resultList.size() == 0) {
-                            recommendText.setText(getString(R.string.no_recommend_movie));
-                        } else {
-                            recommendText.setText(getString(R.string.recommend));
-                            recommendAdapter.addResults(resultList);
-                            totalRecommendPages = ((Recommend) o).getTotal_pages();
-                            isRecommendLoading = false;
-                        }
+                .ofType(Recommend.class)
+                .filter(Objects::nonNull)
+                .doOnNext(recommend -> {
+                    List<RecommendResult> resultList = recommend.getResults();
+                    if (resultList.size() == 0) {
+                        recommendText.setText(getString(R.string.no_recommend_movie));
+                    } else {
+                        recommendText.setText(getString(R.string.recommend));
+                        recommendAdapter.addResults(resultList);
+                        totalRecommendPages = recommend.getTotal_pages();
+                        isRecommendLoading = false;
                     }
                 })
                 .doOnError(throwable -> Log.d(TAG, "loadMorePage: error : " + throwable))
