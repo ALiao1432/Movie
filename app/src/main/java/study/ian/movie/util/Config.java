@@ -23,7 +23,7 @@ public class Config {
         configLanguage(context);
     }
 
-    private void configLanguage(@NotNull Context context) {
+    private static void configLanguage(@NotNull Context context) {
         String[] languages = context.getResources().getStringArray(R.array.language_config);
 
         Optional<String> stringOptional = Arrays.stream(languages)
@@ -31,5 +31,10 @@ public class Config {
                 .findFirst();
 
         stringOptional.ifPresent(s -> REQUEST_LANGUAGE = s);
+    }
+
+    public static String getLanguage(@NotNull Context context) {
+        configLanguage(context);
+        return REQUEST_LANGUAGE;
     }
 }

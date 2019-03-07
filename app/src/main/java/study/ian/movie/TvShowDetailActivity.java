@@ -90,7 +90,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(TvShowService.class)
-                .getDetail(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getDetail(tvShowId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     ((TextView) findViewById(R.id.overviewTitleText)).setText(getString(R.string.overview));
@@ -134,7 +134,7 @@ public class TvShowDetailActivity extends DetailActivity {
         Observable<Unit> clickObservable = RxView.clicks(backdropImage)
                 .throttleFirst(1500, TimeUnit.MILLISECONDS);
         ServiceBuilder.getService(TvShowService.class)
-                .getVideo(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getVideo(tvShowId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .flatMap(video -> Observable.fromIterable(video.getResults()))
                 .map(videoResult -> {
@@ -154,7 +154,7 @@ public class TvShowDetailActivity extends DetailActivity {
 
         // get credit
         ServiceBuilder.getService(PeopleService.class)
-                .getTvCredit(tvShowId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getTvCredit(tvShowId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> {
                     ((TextView) findViewById(R.id.creditTitleText)).setText(getString(R.string.credit));
@@ -215,13 +215,13 @@ public class TvShowDetailActivity extends DetailActivity {
 
             if (!isRecommendLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
+                loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.getLanguage(this)));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
+            loadMorePage(ServiceBuilder.getService(TvShowService.class).getRecommend(tvShowId, ServiceBuilder.API_KEY, currentRecommendPage, Config.getLanguage(this)));
         }
     }
 

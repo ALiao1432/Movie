@@ -42,7 +42,7 @@ public class SeasonDetailActivity extends DetailActivity {
         seasonDetailRecyclerView.setLayoutManager(seasonDetailLayoutManager);
 
         ServiceBuilder.getService(TvShowService.class)
-                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getSeasonDetails(seasonId, seasonNum, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(season ->
                         seasonDetailRecyclerView.setAdapter(new SeasonDetailAdapter(this, season.getEpisodes())))

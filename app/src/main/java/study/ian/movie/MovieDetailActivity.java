@@ -87,7 +87,7 @@ public class MovieDetailActivity extends DetailActivity {
 
         // get detail
         ServiceBuilder.getService(MovieService.class)
-                .getDetail(movieId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getDetail(movieId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     ((TextView) findViewById(R.id.overviewTitleText)).setText(getString(R.string.overview));
@@ -205,13 +205,13 @@ public class MovieDetailActivity extends DetailActivity {
 
             if (!isRecommendLoading && (lastVisibleItem + Config.VISIBLE_THRESHOLD) >= totalItemCount && currentRecommendPage < totalRecommendPages) {
                 currentRecommendPage++;
-                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
+                loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.getLanguage(this)));
             }
         });
 
         if (currentRecommendPage == 0) {
             currentRecommendPage++;
-            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.REQUEST_LANGUAGE));
+            loadMorePage(ServiceBuilder.getService(MovieService.class).getRecommend(movieId, ServiceBuilder.API_KEY, currentRecommendPage, Config.getLanguage(this)));
         }
     }
 

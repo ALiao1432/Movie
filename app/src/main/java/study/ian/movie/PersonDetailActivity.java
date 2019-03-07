@@ -70,7 +70,7 @@ public class PersonDetailActivity extends DetailActivity {
 
     private void setViews() {
         ServiceBuilder.getService(PeopleService.class)
-                .getDetail(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getDetail(personId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(detail -> {
                     nameText.setText(detail.getName());
@@ -121,7 +121,7 @@ public class PersonDetailActivity extends DetailActivity {
                 .subscribe();
 
         ServiceBuilder.getService(PeopleService.class)
-                .getMovieCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getMovieCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> {
                     if (credit.getCast().size() != 0) {
@@ -141,7 +141,7 @@ public class PersonDetailActivity extends DetailActivity {
                 .subscribe();
 
         ServiceBuilder.getService(PeopleService.class)
-                .getTvCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.REQUEST_LANGUAGE)
+                .getTvCreditFromPerson(personId, ServiceBuilder.API_KEY, Config.getLanguage(this))
                 .compose(ObserverHelper.applyHelper())
                 .doOnNext(credit -> {
                     if (credit.getCast().size() != 0) {
