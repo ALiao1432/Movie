@@ -2,7 +2,8 @@
 A android version of [The Movie DB](https://www.themoviedb.org/). This project is aim to create an app that can access the  movie, tv show, actor and actress database from source  in an easy way.
 
 # Screenshot
-![initial screen](https://i.imgur.com/D09pj3a.png) ![FragmentSearch](https://i.imgur.com/F9O83s6.png)  ![FragmentMovie](https://i.imgur.com/Yn6tVHa.png) ![MovieDetailActivity](https://i.imgur.com/WlCMhuK.png)
+![initial screen](https://i.imgur.com/D09pj3a.png) ![FragmentSearch](https://i.imgur.com/F9O83s6.png)  
+![FragmentMovie](https://i.imgur.com/Yn6tVHa.png) ![MovieDetailActivity](https://i.imgur.com/WlCMhuK.png)
 
 # Used libraries
 * [RxBinding](https://github.com/JakeWharton/RxBinding) : let us to interact with UI in reactive way, also include RxJava2 and RxAndroid
