@@ -10,18 +10,13 @@ A android version of [The Movie DB](https://www.themoviedb.org/). This project i
 
 * [Retrofit](https://square.github.io/retrofit/) : building service based on the RESTful API defined by THe Movie DB, we also need [GsonConverterFactory](https://github.com/square/retrofit/blob/master/retrofit-converters/gson/src/main/java/retrofit2/converter/gson/GsonConverterFactory.java) and [RxJava2CallAdapterFactory](https://github.com/square/retrofit/blob/master/retrofit-adapters/rxjava2/src/main/java/retrofit2/adapter/rxjava2/RxJava2CallAdapterFactory.java) to convert JSON type result to java object and make it observable
 
-
 * [GSON](https://github.com/google/gson) : for converting JSON data to java objects easily
-
 
 * [Glide](https://github.com/bumptech/glide) : for loading image
 
-
 * [NetworkState](https://github.com/ALiao1432/NetworkState) : the library for monitoring if the network is connecting via Wifi, Mobile or not connecting. It provide the ability for app to reload the data when reconnection to valid network
 
-
 * [ColorHintBar](https://github.com/SeamasShih/ColorHintBarLibrary) : the library built from my friend to work with ViewPager to indicate the current page of ViewPager
-
 
 * [MorphView](https://github.com/ALiao1432/MorphView) : the library can perform animation defined by svg files
 
@@ -44,10 +39,14 @@ App architecture
 
 - - -
 
+![Navigation architecture](https://i.imgur.com/5UCLhuX.png)
+
+- - -
+
 ![Overall working flow](https://i.imgur.com/3sfo1vb.png)
 
 - - -
 
-![Imgur](https://i.imgur.com/mnFz4wu.png)
+![Strategy for no network connection](https://i.imgur.com/mnFz4wu.png)
 
 [demo](https://photos.app.goo.gl/6ZXQQnLXXFW6az5E7)
