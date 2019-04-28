@@ -49,4 +49,4 @@ App architecture
 
 ![Strategy for no network connection](https://i.imgur.com/mnFz4wu.png)
 
-[demo](https://photos.app.goo.gl/6ZXQQnLXXFW6az5E7)
+# [demo](https://photos.app.goo.gl/6ZXQQnLXXFW6az5E7)
