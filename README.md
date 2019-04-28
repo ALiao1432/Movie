@@ -8,7 +8,7 @@ A android version of [The Movie DB](https://www.themoviedb.org/). This project i
 # Used libraries
 * [RxBinding](https://github.com/JakeWharton/RxBinding) : let us to interact with UI in reactive way, also include RxJava2 and RxAndroid
 
-* [Retrofit](https://square.github.io/retrofit/) : building service based on the RESTful API from THe Movie DB, we also need [GsonConverterFactory](https://github.com/square/retrofit/blob/master/retrofit-converters/gson/src/main/java/retrofit2/converter/gson/GsonConverterFactory.java) and [RxJava2CallAdapterFactory](https://github.com/square/retrofit/blob/master/retrofit-adapters/rxjava2/src/main/java/retrofit2/adapter/rxjava2/RxJava2CallAdapterFactory.java) to convert JSON type result to java object and make it observable
+* [Retrofit](https://square.github.io/retrofit/) : building service based on the RESTful API defined by THe Movie DB, we also need [GsonConverterFactory](https://github.com/square/retrofit/blob/master/retrofit-converters/gson/src/main/java/retrofit2/converter/gson/GsonConverterFactory.java) and [RxJava2CallAdapterFactory](https://github.com/square/retrofit/blob/master/retrofit-adapters/rxjava2/src/main/java/retrofit2/adapter/rxjava2/RxJava2CallAdapterFactory.java) to convert JSON type result to java object and make it observable
 
 
 * [GSON](https://github.com/google/gson) : for converting JSON data to java objects easily
@@ -29,11 +29,17 @@ A android version of [The Movie DB](https://www.themoviedb.org/). This project i
 ![architecture](https://i.imgur.com/YumBjOW.jpg)
 App architecture
 * adapter : for configuring data returned by asynchronized request
+
 * fragment : the main page for Discover, Movies, Tv Shows and people
+
 * model : Plain Old Java Object(POJO) for JSON data
+
 * service : define available service for this app
+
 * util : helper class like listener and config
+
 * view : custom view for the expandable text and gradient effect for movie poster
+
 * activity : show the detail information for movie, tv show or person
 
 - - -
